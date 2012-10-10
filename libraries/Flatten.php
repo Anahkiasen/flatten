@@ -38,14 +38,12 @@ class Flatten
     $ignored = Config::get('ignore');
     $cache   = false;
 
-    // Pages to cache
-    if($only and static::matches($only)) $cache = true;
-
-    // Pages to ignore
-    if($ignored and !static::matches($ignored)) $cache = true;
-
-    // If normal case
-    if(!$ignored and $only) $cache = true;
+    // Ignore and only
+    if(!$ignored and !$only) $cache = true;
+    else {
+      if($only and static::matches($only)) $cache = true;
+      if($ignored and !static::matches($ignored)) $cache = true;
+    }
 
     if ($cache) {
       static::load();
