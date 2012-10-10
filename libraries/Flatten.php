@@ -55,6 +55,35 @@ class Flatten
     return false;
   }
 
+  // Caching functions --------------------------------------------- /
+
+  /*
+  public static function cache_route($route, $parameters = array())
+  {
+    // Get the controller's render
+    $render = \Route::forward('GET', $route);
+
+    // Create file hash from action
+    $url = $route;
+    if($parameters) $url .= '/'.implode('/', $parameters);
+
+    // Cache render
+    Cache::forever(static::hash($url), $render->call());
+  }
+
+  public static function cache_action($action, $parameters = array())
+  {
+    // Create file hash from action
+    $url = str_replace('@', '/', $action);
+    if($parameters) $url .= '/'.implode('/', $parameters);
+
+    // Queue the content to cache
+    static::$queue['controller'][$url] = array($action, $parameters);
+  }
+  */
+
+  // Flushing functions -------------------------------------------- /
+
   /**
    * Empties the pages in cache
    *
@@ -173,13 +202,13 @@ class Flatten
    *
    * @return string A page hash
    */
-  private static function hash($localize = true)
+  private static function hash($page = null, $localize = true)
   {
     if (!static::$hash) {
 
       // Get folder and current page
       $folder = Config::get('folder');
-      $page = \URI::current();
+      if(!$page) $page = \URI::current();
 
       // Localize the cache or not
       if ($localize) {
@@ -208,6 +237,7 @@ class Flatten
   {
     if(!$pages) return false;
 
+    // Implode all pages into one single pattern
     $page = static::$hash;
     if(!$page) $page = \URI::current();
     $pages = implode('|', $pages);
