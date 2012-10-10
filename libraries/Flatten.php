@@ -6,15 +6,22 @@ use \Event;
 
 class Flatten
 {
+  private static $lang = null;
+
   /**
    * Hook Flatten to Laravel's events
    */
   public static function hook()
   {
+    // Set cache language
+    preg_match_all("#^([a-z]{2})/.+#i", \URI::current(), $language);
+    static::$lang = $language[1][0];
+
+    // Get ignored pages
     $ignored = Config::get('ignore');
 
     // Don't hook if the current page is to be ignored
-    if(!static::matches($ignored)) {
+    if(($ignored and !static::matches($ignored)) or !$ignored) {
       static::load();
       static::save();
     }
@@ -95,8 +102,7 @@ class Flatten
 
     // Localize the cache or not
     if($localize) {
-      $lang = \Config::get('application.language').'/';
-      if(!starts_with($page, $lang)) $page = $lang.$page;
+      if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
     }
 
     // Slugify and prepend folder
@@ -118,7 +124,7 @@ class Flatten
 
     $page = \URI::current();
     $pages = implode('|', $pages);
-
+    var_dump('#' .$pages. '#', $page);
     return preg_match('#' .$pages. '#', $page);
   }
 
