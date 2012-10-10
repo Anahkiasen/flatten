@@ -15,7 +15,7 @@ class Flatten
   {
     // Set cache language
     preg_match_all("#^([a-z]{2})/.+#i", \URI::current(), $language);
-    static::$lang = $language[1][0];
+    static::$lang = array_get($language, '1.0', Config::get('application.language'));
 
     // Get ignored pages
     $ignored = Config::get('ignore');
@@ -124,7 +124,6 @@ class Flatten
 
     $page = \URI::current();
     $pages = implode('|', $pages);
-    var_dump('#' .$pages. '#', $page);
     return preg_match('#' .$pages. '#', $page);
   }
 
