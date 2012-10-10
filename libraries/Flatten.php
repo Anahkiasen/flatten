@@ -44,6 +44,7 @@ class Flatten
       if ($only    and static::matches($only))     $cache = true;
       if ($ignored and !static::matches($ignored)) $cache = true;
     }
+    if(\Request::cli()) $cache = false;
 
     if ($cache) {
       static::load();
