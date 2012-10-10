@@ -245,8 +245,6 @@ class Flatten
     // Replace laravel patterns
     $pages = strtr($pages, \Router::$patterns);
 
-    var_dump($pages);
-
     return preg_match('#' .$pages. '#', $page);
   }
 
