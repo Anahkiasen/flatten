@@ -48,6 +48,40 @@ class Flatten
     return \File::cleandir($folder);
   }
 
+  /**
+   * Flush a specific action
+   *
+   * @param  string  $action     An action
+   * @param  array   $parameters Parameters to pass it
+   * @return boolean             Success or not
+   */
+  public static function flush_action($action, $parameters = array())
+  {
+    // Get matching URL
+    $url = action($action, $parameters);
+    $url = static::urlToPattern($url);
+
+    // Flush any cache found with that pattern
+    return static::flush($url);
+  }
+
+  /**
+   * Flush a specific route
+   *
+   * @param  string  $route      A route
+   * @param  array   $parameters Parameters to pass it
+   * @return boolean             Success or not
+   */
+  public static function flush_route($route, $parameters = array())
+  {
+    // Get matching URL
+    $url = route($route, $parameters);
+    $url = static::urlToPattern($url);
+
+    // Flush any cache found with that pattern
+    return static::flush($url);
+  }
+
   ////////////////////////////////////////////////////////////////////
   ///////////////////////////// CORE METHODS /////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -88,6 +122,23 @@ class Flatten
   ////////////////////////////////////////////////////////////////////
   ///////////////////////////// HELPERS //////////////////////////////
   ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Transforms an URL into a Regex pattern
+   *
+   * @param  string $url An url to transform
+   * @return string      A transformed URL
+   */
+  private static function urlToPattern($url)
+  {
+    // Remove the base from the URL
+    $url = str_replace(\URL::base().'/', null, $url);
+
+    // Remove language-specific pattern if any
+    $url = preg_replace('#[a-z]{2}/(.+)#', '$1', $url);
+
+    return $url;
+  }
 
   /**
    * Get the current page's hash
