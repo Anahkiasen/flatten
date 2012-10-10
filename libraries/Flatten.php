@@ -39,10 +39,10 @@ class Flatten
     $cache   = false;
 
     // Ignore and only
-    if(!$ignored and !$only) $cache = true;
+    if (!$ignored and !$only) $cache = true;
     else {
-      if($only and static::matches($only)) $cache = true;
-      if($ignored and !static::matches($ignored)) $cache = true;
+      if ($only    and static::matches($only))     $cache = true;
+      if ($ignored and !static::matches($ignored)) $cache = true;
     }
 
     if ($cache) {
@@ -65,7 +65,7 @@ class Flatten
     $folder = path('storage').'cache'.DS.Config::get('folder');
 
     // Delete only certain files
-    if($pattern) {
+    if ($pattern) {
       $pattern = str_replace('/', '_', $pattern);
       $files = glob($folder.DS.'*'.$pattern.'*');
       foreach($files as $file) \File::delete($file);
@@ -175,14 +175,14 @@ class Flatten
    */
   private static function hash($localize = true)
   {
-    if(!static::$hash) {
+    if (!static::$hash) {
 
       // Get folder and current page
       $folder = Config::get('folder');
       $page = \URI::current();
 
       // Localize the cache or not
-      if($localize) {
+      if ($localize) {
         if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
       }
 
