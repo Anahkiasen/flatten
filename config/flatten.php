@@ -11,4 +11,15 @@
   'ignore' => array(
   ),
 
+  // List only specific pages to cache, useful if you have a lot of
+  // pages you don't want to see cached
+  // The ignored pages will still be substracted from this array
+  'only' => array(
+  ),
+
+  // The environments in which Flatten should not run
+  'environments' => array(
+    'test',
+  ),
+
 );

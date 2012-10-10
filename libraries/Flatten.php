@@ -6,25 +6,55 @@ use \Event;
 
 class Flatten
 {
+  /**
+   * The current URL
+   * @var string
+   */
+  private static $hash = null;
+
+  /**
+   * The current language
+   * @var string
+   */
   private static $lang = null;
 
   /**
    * Hook Flatten to Laravel's events
+   *
+   * @return boolean Whether Flatten started caching or not
    */
   public static function hook()
   {
+    // Check if we're in an allowed environment
+    $environments = (array) Config::get('environments');
+    if(in_array(\Request::env(), $environments)) return false;
+
     // Set cache language
     preg_match_all("#^([a-z]{2})/.+#i", \URI::current(), $language);
     static::$lang = array_get($language, '1.0', Config::get('application.language'));
 
-    // Get ignored pages
+    // Get pages to cache
+    $only    = Config::get('only');
     $ignored = Config::get('ignore');
+    $cache   = false;
 
-    // Don't hook if the current page is to be ignored
-    if(($ignored and !static::matches($ignored)) or !$ignored) {
+    // Pages to cache
+    if($only and static::matches($only)) $cache = true;
+
+    // Pages to ignore
+    if($ignored and !static::matches($ignored)) $cache = true;
+
+    // If normal case
+    if(!$ignored and $only) $cache = true;
+
+    if ($cache) {
       static::load();
       static::save();
+
+      return true;
     }
+
+    return false;
   }
 
   /**
@@ -120,7 +150,7 @@ class Flatten
   }
 
   ////////////////////////////////////////////////////////////////////
-  ///////////////////////////// HELPERS //////////////////////////////
+  /////////////////////////////// HELPERS ////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
   /**
@@ -147,20 +177,27 @@ class Flatten
    */
   private static function hash($localize = true)
   {
-    // Get folder and current page
-    $folder = Config::get('folder');
-    $page = \URI::current();
+    if(!static::$hash) {
 
-    // Localize the cache or not
-    if($localize) {
-      if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
+      // Get folder and current page
+      $folder = Config::get('folder');
+      $page = \URI::current();
+
+      // Localize the cache or not
+      if($localize) {
+        if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
+      }
+
+      // Slugify and prepend folder
+      $page = str_replace('/', '_', $page);
+      if($folder) $page = $folder . DS . $page;
+
+      // Cache the current page to avoid repetition
+      // static::$hash = $page;
+      return $page;
     }
 
-    // Slugify and prepend folder
-    $page = str_replace('/', '_', $page);
-    if($folder) $page = $folder . DS . $page;
-
-    return $page;
+    return static::$hash;
   }
 
   /**
@@ -173,8 +210,10 @@ class Flatten
   {
     if(!$pages) return false;
 
-    $page = \URI::current();
+    $page = static::$hash;
+    if(!$page) $page = \URI::current();
     $pages = implode('|', $pages);
+
     return preg_match('#' .$pages. '#', $page);
   }
 
@@ -192,4 +231,17 @@ class Flatten
     exit($content);
   }
 
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// TESTERS ////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Set the current URL for testing purposes
+   *
+   * @param string $hash The current hash to use
+   */
+  public static function setHash($hash)
+  {
+    static::$hash = $hash;
+  }
 }
