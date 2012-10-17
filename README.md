@@ -29,6 +29,34 @@ And in **bundles.php**
 
 All the options are explained in the **flatten.php** configuration file found in `bundles/flatten/config/flatten.php`. If you don't want to touch anything in there, just create your own **flatten.php** file in `application/config/flatten.php` and any default setting set by Flatten will be overwritten by your custom configuration.
 
+Here is a preview of the configuration options available in said file :
+
+```php
+// The environments in which Flatten should not run
+'environments' => array('local'),
+
+// The folder inside storage/cache where the pages will be stored
+'folder'       => 'pages',
+
+// The Laravel Flatten will start caching from
+'hook'         => 'laravel.started: application',
+
+// The different pages to ignored when caching
+// They're all regexes so go crazy
+'ignore'       => array(),
+
+// List only specific pages to cache, useful if you have a lot of
+// pages you don't want to see cached
+// The ignored pages will still be substracted from this array
+'only'         => array(),
+
+// Strings or variables to append/prepend the cache hash
+// Like 'prepend' => Auth::user()->level.Session::get('something').Config::get('application.language')
+// OR 'prepend' => array(Auth::user()->level, Session::get('something'), ...)
+'prepend' => null,
+'apprend' => null,
+```
+
 <a name='flushing'></a>
 ## Flushing
 
