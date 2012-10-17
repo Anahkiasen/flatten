@@ -38,7 +38,7 @@ Here is a preview of the configuration options available in said file :
 // The folder inside storage/cache where the pages will be stored
 'folder'       => 'pages',
 
-// The Laravel Flatten will start caching from
+// The Laravel event from which Flatten will start caching from
 'hook'         => 'laravel.started: application',
 
 // The different pages to ignored when caching
