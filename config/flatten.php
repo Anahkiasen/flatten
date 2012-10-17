@@ -9,7 +9,7 @@
   // The Laravel event from which Flatten will start caching from
   'hook'         => 'laravel.started: application',
 
-  // The different pages to ignored when caching
+  // The different pages to be ignored when caching
   // They're all regexes so go crazy
   'ignore'       => array(),
 

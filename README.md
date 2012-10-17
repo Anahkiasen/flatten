@@ -41,7 +41,7 @@ Here is a preview of the configuration options available in said file :
 // The Laravel event from which Flatten will start caching from
 'hook'         => 'laravel.started: application',
 
-// The different pages to ignored when caching
+// The different pages to be ignored when caching
 // They're all regexes so go crazy
 'ignore'       => array(),
 
@@ -50,7 +50,7 @@ Here is a preview of the configuration options available in said file :
 // The ignored pages will still be substracted from this array
 'only'         => array(),
 
-// Strings or variables to append/prepend the cache hash
+// Strings or variables to prepend/append to the caching salt
 // Like 'prepend' => Auth::user()->level.Session::get('something').Config::get('application.language')
 // OR 'prepend' => array(Auth::user()->level, Session::get('something'), ...)
 'prepend' => null,
@@ -70,7 +70,8 @@ class Users_Controller
   {
     parent::__construct();
 
-    // This will flush on all POST methods of ther Users controller, excepted the post_login one
+    // This will flush on all POST methods of
+    // the Users controller, excepted the post_login one
     $this->filter('after', 'flush')->on('post')->except(array('login'));
   }
 }
