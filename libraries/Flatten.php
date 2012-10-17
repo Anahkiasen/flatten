@@ -149,10 +149,11 @@ class Flatten
    */
   private static function load()
   {
-    Event::listen(Config::get('hook'), function() {
+    $hash = static::hash();
+    Event::listen(Config::get('hook'), function() use ($hash) {
 
       // Get page from cache if any
-      $cache = Cache::get(static::hash());
+      $cache = Cache::get($hash);
 
       // Render page
       if ($cache) static::render($cache);
