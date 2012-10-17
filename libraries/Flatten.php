@@ -217,6 +217,14 @@ class Flatten
         if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
       }
 
+      // Add prepend/append config options
+      $prepend = Config::get('prepend');
+      $append  = Config::get('append');
+      if(is_array($prepend)) $prepend = implode('_', $prepend);
+      if(is_array($append))  $append = implode('_', $append);
+      if($prepend) $page = $prepend.'_'.$page;
+      if($append)  $page .= '_'.$append;
+
       // Slugify and prepend folder
       $page = str_replace('/', '_', $page);
       if($folder) $page = $folder . DS . $page;
