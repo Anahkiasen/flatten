@@ -165,13 +165,18 @@ class Flatten
    */
   private static function save()
   {
-    Event::listen('laravel.done', function() {
+    // Get static variables
+    $hash = static::hash();
+    $cachetime = Config::get('cachetime');
+
+    Event::listen('laravel.done', function() use ($cachetime, $hash) {
 
       // Get content from buffer
       $content = ob_get_clean();
 
-      // Cache it
-      Cache::forever(static::hash(), $content);
+      // Cache page forever or for X minutes
+      if($cachetime == 0) Cache::forever($hash, $content);
+      else Cache::remember($hash, $content, $cachetime);
 
       // Render page
       static::render($content);
