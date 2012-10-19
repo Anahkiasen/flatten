@@ -156,7 +156,7 @@ class Flatten
       $cache = Cache::get($hash);
 
       // Render page
-      if ($cache) static::render($cache);
+      if ($cache) \Flatten\Flatten::render($cache);
     });
   }
 
@@ -179,7 +179,7 @@ class Flatten
       else Cache::remember($hash, $content, $cachetime);
 
       // Render page
-      static::render($content);
+      \Flatten\Flatten::render($content);
     });
   }
 
@@ -268,7 +268,7 @@ class Flatten
    *
    * @param  string $content A content to render
    */
-  private static function render($content)
+  public static function render($content)
   {
     // Set correct header
     header('Content-Type: text/html; charset=utf-8');
