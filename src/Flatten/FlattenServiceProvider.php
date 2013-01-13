@@ -15,9 +15,10 @@ class FlattenServiceProvider extends ServiceProvider
     // Register config file
     $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
 
-    $this->app['flatten'] = $this->app->share(function($app) {
-      return new Flatten($app);
-    });
+    $this->app['flatten'] = new Flatten($this->app);
+
+    // Bind Flatten events to Illuminate
+    $this->app['events']->subscribe(new EventHandler($this->app));
   }
 
   /**

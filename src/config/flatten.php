@@ -7,7 +7,7 @@
   'folder'       => 'pages',
 
   // The Laravel event from which Flatten will start caching from
-  'hook'         => 'laravel.started: application',
+  'hook'         => 'application.boot',
 
   // The default period during which a cached page should be kept (in minutes)
   // 0 means the page never gets refreshed by itself
