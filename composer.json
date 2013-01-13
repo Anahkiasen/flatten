@@ -1,0 +1,27 @@
+{
+  "name": "anahkiasen/flatten",
+  "description": "A package for the Illuminate framework that flattens pages to plain HTML",
+  "license": "MIT",
+  "keywords": [
+    "cache",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
+  ],
+  "require": {
+    "illuminate/container": "dev-master"
+  },
+  "require-dev": {
+    "mockery/mockery": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Flatten": "src"
+    }
+  },
+  "minimum-stability": "dev"
+}

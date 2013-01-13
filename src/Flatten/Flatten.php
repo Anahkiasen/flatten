@@ -10,32 +10,32 @@ class Flatten
    * The current URL
    * @var string
    */
-  private static $hash = null;
+  private $hash = null;
 
   /**
    * The current language
    * @var string
    */
-  private static $lang = null;
+  private $lang = null;
 
   /**
    * Hook Flatten to Laravel's events
    *
    * @return boolean Whether Flatten started caching or not
    */
-  public static function hook()
+  public function hook()
   {
     // Check if we're in an allowed environment
-    $environments = (array) Config::get('environments');
-    if(in_array(\Request::env(), $environments)) return false;
+    $environments = (array) $this->app['config']->get('flatten::environments');
+    if(in_array($this->app['request']->env(), $environments)) return false;
 
     // Set cache language
-    preg_match_all("#^([a-z]{2})/.+#i", \URI::current(), $language);
-    static::$lang = array_get($language, '1.0', Config::get('application.language'));
+    preg_match_all("#^([a-z]{2})/.+#i", $this->app['uri']->current(), $language);
+    $this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::application.language'));
 
     // Get pages to cache
-    $only    = Config::get('only');
-    $ignored = Config::get('ignore');
+    $only    = $this->app['config']->get('flatten::only');
+    $ignored = $this->app['config']->get('flatten::ignore');
     $cache   = false;
 
     // Ignore and only
@@ -44,7 +44,7 @@ class Flatten
       if ($only    and static::matches($only))     $cache = true;
       if ($ignored and !static::matches($ignored)) $cache = true;
     }
-    if(\Request::cli()) $cache = false;
+    if($this->app['request']->cli()) $cache = false;
 
     if ($cache) {
       static::load();
@@ -59,7 +59,7 @@ class Flatten
   // Caching functions --------------------------------------------- /
 
   /*
-  public static function cache_route($route, $parameters = array())
+  public function cache_route($route, $parameters = array())
   {
     // Get the controller's render
     $render = \Route::forward('GET', $route);
@@ -69,17 +69,17 @@ class Flatten
     if($parameters) $url .= '/'.implode('/', $parameters);
 
     // Cache render
-    Cache::forever(static::hash($url), $render->call());
+    $this->app['cache']->forever(static::hash($url), $render->call());
   }
 
-  public static function cache_action($action, $parameters = array())
+  public function cache_action($action, $parameters = array())
   {
     // Create file hash from action
     $url = str_replace('@', '/', $action);
     if($parameters) $url .= '/'.implode('/', $parameters);
 
     // Queue the content to cache
-    static::$queue['controller'][$url] = array($action, $parameters);
+    $this->queue['controller'][$url] = array($action, $parameters);
   }
   */
 
@@ -90,20 +90,20 @@ class Flatten
    *
    * @return boolean Whether the operation succeeded or not
    */
-  public static function flush($pattern = null)
+  public function flush($pattern = null)
   {
-    $folder = path('storage').'cache'.DS.Config::get('folder');
+    $folder = path('storage').'cache'.DS.$this->app['config']->get('flatten::folder');
 
     // Delete only certain files
     if ($pattern) {
       $pattern = str_replace('/', '_', $pattern);
       $files = glob($folder.DS.'*'.$pattern.'*');
-      foreach($files as $file) \File::delete($file);
+      foreach($files as $file) $this->app['file']->delete($file);
 
       return sizeof($files);
     }
 
-    return \File::cleandir($folder);
+    return $this->app['file']->cleandir($folder);
   }
 
   /**
@@ -113,7 +113,7 @@ class Flatten
    * @param  array   $parameters Parameters to pass it
    * @return boolean             Success or not
    */
-  public static function flush_action($action, $parameters = array())
+  public function flush_action($action, $parameters = array())
   {
     // Get matching URL
     $url = action($action, $parameters);
@@ -130,7 +130,7 @@ class Flatten
    * @param  array   $parameters Parameters to pass it
    * @return boolean             Success or not
    */
-  public static function flush_route($route, $parameters = array())
+  public function flush_route($route, $parameters = array())
   {
     // Get matching URL
     $url = route($route, $parameters);
@@ -147,13 +147,13 @@ class Flatten
   /**
    * Load a page from the cache
    */
-  private static function load()
+  private function load()
   {
     $hash = static::hash();
-    Event::listen(Config::get('hook'), function() use ($hash) {
+    $this->app['event']->listen($this->app['config']->get('flatten::hook'), function() use ($hash) {
 
       // Get page from cache if any
-      $cache = Cache::get($hash);
+      $cache = $this->app['cache']->get($hash);
 
       // Render page
       if ($cache) \Flatten\Flatten::render($cache);
@@ -163,20 +163,20 @@ class Flatten
   /**
    * Save the current page in the cache
    */
-  private static function save()
+  private function save()
   {
     // Get static variables
     $hash = static::hash();
-    $cachetime = Config::get('cachetime');
+    $cachetime = $this->app['config']->get('flatten::cachetime');
 
-    Event::listen('laravel.done', function() use ($cachetime, $hash) {
+    $this->app['event']->listen('laravel.done', function() use ($cachetime, $hash) {
 
       // Get content from buffer
       $content = ob_get_clean();
 
       // Cache page forever or for X minutes
-      if($cachetime == 0) Cache::forever($hash, $content);
-      else Cache::remember($hash, $content, $cachetime);
+      if($cachetime == 0) $this->app['cache']->forever($hash, $content);
+      else $this->app['cache']->remember($hash, $content, $cachetime);
 
       // Render page
       \Flatten\Flatten::render($content);
@@ -193,10 +193,10 @@ class Flatten
    * @param  string $url An url to transform
    * @return string      A transformed URL
    */
-  private static function urlToPattern($url)
+  private function urlToPattern($url)
   {
     // Remove the base from the URL
-    $url = str_replace(\URL::base().'/', null, $url);
+    $url = str_replace($this->app['url']->base().'/', null, $url);
 
     // Remove language-specific pattern if any
     $url = preg_replace('#[a-z]{2}/(.+)#', '$1', $url);
@@ -209,22 +209,22 @@ class Flatten
    *
    * @return string A page hash
    */
-  private static function hash($page = null, $localize = true)
+  private function hash($page = null, $localize = true)
   {
-    if (!static::$hash) {
+    if (!$this->hash) {
 
       // Get folder and current page
-      $folder = Config::get('folder');
-      if(!$page) $page = \URI::current();
+      $folder = $this->app['config']->get('flatten::folder');
+      if(!$page) $page = $this->app['uri']->current();
 
       // Localize the cache or not
       if ($localize) {
-        if(!starts_with($page, static::$lang)) $page = static::$lang.'/'.$page;
+        if(!starts_with($page, $this->lang)) $page = $this->lang.'/'.$page;
       }
 
       // Add prepend/append config options
-      $prepend = Config::get('prepend');
-      $append  = Config::get('append');
+      $prepend = $this->app['config']->get('flatten::prepend');
+      $append  = $this->app['config']->get('flatten::append');
       if(is_array($prepend)) $prepend = implode('_', $prepend);
       if(is_array($append))  $append = implode('_', $append);
       if($prepend) $page = $prepend.'_'.$page;
@@ -235,11 +235,11 @@ class Flatten
       if($folder) $page = $folder . DS . $page;
 
       // Cache the current page to avoid repetition
-      // static::$hash = $page;
+      // $this->hash = $page;
       return $page;
     }
 
-    return static::$hash;
+    return $this->hash;
   }
 
   /**
@@ -248,17 +248,17 @@ class Flatten
    * @param  array $ignored   An array of pages regex
    * @return boolean          Matches or not
    */
-  private static function matches($pages)
+  private function matches($pages)
   {
     if(!$pages) return false;
 
     // Implode all pages into one single pattern
-    $page = static::$hash;
-    if(!$page) $page = \URI::current();
+    $page = $this->hash;
+    if(!$page) $page = $this->app['uri']->current();
     $pages = implode('|', $pages);
 
     // Replace laravel patterns
-    $pages = strtr($pages, \Router::$patterns);
+    $pages = strtr($pages, $this->app['router']->patterns);
 
     return preg_match('#' .$pages. '#', $page);
   }
@@ -268,7 +268,7 @@ class Flatten
    *
    * @param  string $content A content to render
    */
-  public static function render($content)
+  public function render($content)
   {
     // Set correct header
     header('Content-Type: text/html; charset=utf-8');
@@ -286,8 +286,8 @@ class Flatten
    *
    * @param string $hash The current hash to use
    */
-  public static function setHash($hash)
+  public function setHash($hash)
   {
-    static::$hash = $hash;
+    $this->hash = $hash;
   }
 }
