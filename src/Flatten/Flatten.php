@@ -18,6 +18,13 @@ class Flatten
    */
   private $lang = null;
 
+  public function __construct($app)
+  {
+    $this->app = $app;
+
+    $this->hook();
+  }
+
   /**
    * Hook Flatten to Laravel's events
    *
@@ -26,12 +33,12 @@ class Flatten
   public function hook()
   {
     // Check if we're in an allowed environment
-    $environments = (array) $this->app['config']->get('flatten::environments');
-    if(in_array($this->app['request']->env(), $environments)) return false;
+    if (!$this->isInAllowedEnvironment()) return false;
+    var_dump($this->app);
 
     // Set cache language
     preg_match_all("#^([a-z]{2})/.+#i", $this->app['uri']->current(), $language);
-    $this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::application.language'));
+    $this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::app.language'));
 
     // Get pages to cache
     $only    = $this->app['config']->get('flatten::only');
@@ -186,6 +193,23 @@ class Flatten
   ////////////////////////////////////////////////////////////////////
   /////////////////////////////// HELPERS ////////////////////////////
   ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Check if the current environment is allowed to be cached
+   *
+   * @return boolean
+   */
+  private function isInAllowedEnvironment()
+  {
+    // Get allowed environments
+    $environment = $this->app['request']->env();
+    $allowed = (array) $this->app['config']->get('flatten::environments');
+
+    // Check if the current one is allowed
+    if(in_array($environment, $allowed)) return false;
+
+    return true;
+  }
 
   /**
    * Transforms an URL into a Regex pattern
