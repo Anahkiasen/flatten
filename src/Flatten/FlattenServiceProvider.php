@@ -1,24 +1,39 @@
 <?php
-/**
- * FlattenServiceProvider
- *
- * Register the Flatten package with the Laravel framework
- */
 namespace Flatten;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Register the Flatten package with the Laravel framework
+ */
 class FlattenServiceProvider extends ServiceProvider
 {
+
   public function register()
   {
-    // Register config file
-    $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
+    $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../../config');
 
-    $this->app['flatten'] = new Flatten($this->app);
+    $this->app->bind('flatten', function($app) {
+       return new Flatten($app);
+    });
 
-    // Bind Flatten events to Illuminate
-    $this->app['events']->subscribe(new EventHandler($this->app));
+    $this->app->bind('flatten.events', function($app) {
+      return new EventHandler($app);
+    });
+  }
+
+  /**
+   * Boot Flatten
+   */
+  public function boot()
+  {
+    $app = $this->app;
+
+    $this->app['flatten.events']->onApplicationBoot();
+
+    $this->app->finish(function() use ($app) {
+      return $app['flatten.events']->onApplicationDone();
+    });
   }
 
   /**
@@ -30,4 +45,5 @@ class FlattenServiceProvider extends ServiceProvider
   {
     return array('flatten');
   }
+
 }

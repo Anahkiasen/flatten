@@ -1,9 +1,4 @@
 <?php
-use \Flatten\Flatten;
-use \Flatten\Config;
-
-include 'start.php';
-
 class FlattenTest extends FlattenTests
 {
   public function testIgnore()
