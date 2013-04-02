@@ -22,9 +22,7 @@
   // The ignored pages will still be substracted from this array
   'only'         => array(),
 
-  // Strings or variables to append/prepend the cache hash
-  // Like 'prepend' => Auth::user()->level.Session::get('something').Config::get('application.language')
-  // OR 'prepend' => array(Auth::user()->level, Session::get('something'), ...)
-  'prepend' => null,
-  'apprend' => null,
+  // An array of string or variables to add to the salt being used
+  // to differentiate pages
+  'saltshaker' => array(),
 );

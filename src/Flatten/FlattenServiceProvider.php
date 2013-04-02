@@ -9,6 +9,9 @@ use Illuminate\Support\ServiceProvider;
 class FlattenServiceProvider extends ServiceProvider
 {
 
+  /**
+   * Register Flatten's classes with Laravel
+   */
   public function register()
   {
     $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../../config');

@@ -8,12 +8,14 @@ class Flatten
 {
   /**
    * The current URL
+   *
    * @var string
    */
   protected $hash = null;
 
   /**
    * The current language
+   *
    * @var string
    */
   protected $lang = null;
@@ -49,8 +51,7 @@ class Flatten
    */
   public function shouldCache()
   {
-    // If we're in the console, cancel
-    // Check if we're in an allowed environment
+    // If we're in the console or in a disallowed environment
     if($this->app->runningInConsole() or
       !$this->isInAllowedEnvironment()) {
       return false;
@@ -114,8 +115,9 @@ class Flatten
   /**
    * Whether the current page matches against an array of pages
    *
-   * @param  array $ignored   An array of pages regex
-   * @return boolean          Matches or not
+   * @param array $pages An array of pages to match against
+   *
+   * @return boolean
    */
   private function matches($pages)
   {
@@ -143,21 +145,19 @@ class Flatten
    */
   protected function computeHash($page = null, $localize = true)
   {
-    // Get folder and current page
-    if(!$page) $page = $this->app['request']->path();
-
-    // Localize the cache or not
-    if ($localize) {
-      if(!Str::startsWith($page, $this->lang)) $page = $this->lang.'/'.$page;
+    // Get current page URI
+    if(!$page) {
+      $page = $this->app['request']->path();
     }
 
-    // Add prepend/append config options
-    $prepend = $this->app['config']->get('flatten::prepend');
-    $append  = $this->app['config']->get('flatten::append');
-    if(is_array($prepend)) $prepend = implode('_', $prepend);
-    if(is_array($append))  $append  = implode('_', $append);
-    if($prepend) $page  = $prepend.'_'.$page;
-    if($append)  $page .= '_'.$append;
+    // Localize the cache or not
+    if ($localize and !Str::startsWith($page, $this->lang)) {
+      $page = $this->lang. '/' .$page;
+    }
+
+    // Add additional salts
+    $salts = $this->app['config']->get('flatten::saltshaker');
+    foreach ($salts as $salt) $page .= $salt;
 
     return $page;
   }
