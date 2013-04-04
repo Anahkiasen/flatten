@@ -82,8 +82,6 @@ class Flatten
    */
   protected function matches($pages)
   {
-    if(!$pages) return false;
-
     // Implode all pages into one single pattern
     $page = $this->app['flatten.cache']->getHash();
     if(!$page) $page = $this->getCurrentUrl();
