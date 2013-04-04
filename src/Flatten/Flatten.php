@@ -86,10 +86,10 @@ class Flatten
 
     // Implode all pages into one single pattern
     $page = $this->app['flatten.cache']->getHash();
-    if(!$page) $page = $this->app['request']->path();
-    $pages = implode('|', $pages);
+    if(!$page) $page = $this->getCurrentUrl();
 
     // Replace laravel patterns
+    $pages = implode('|', $pages);
     $pages = strtr($pages, $this->app['router']->patterns);
 
     return preg_match('#' .$pages. '#', $page);
@@ -121,6 +121,16 @@ class Flatten
   ////////////////////////////////////////////////////////////////////
 
   /**
+   * Get the current page URL
+   *
+   * @return string
+   */
+  protected function getCurrentUrl()
+  {
+    return $this->app['request']->path();
+  }
+
+  /**
    * Transforms an URL into a Regex pattern
    *
    * @param  string $url An url to transform
@@ -146,7 +156,7 @@ class Flatten
   {
     // Get current page URI
     if(!$page) {
-      $page = $this->app['request']->path();
+      $page = $this->getCurrentUrl();
     }
 
     // Localize the cache or not
@@ -158,7 +168,7 @@ class Flatten
     $salts = $this->app['config']->get('flatten::saltshaker');
     foreach ($salts as $salt) $page .= $salt;
 
-    return $page;
+    return md5($page);
   }
 
 }
