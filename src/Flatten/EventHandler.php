@@ -44,8 +44,6 @@ class EventHandler
    */
   public function onApplicationDone()
   {
-    if (!$this->app['flatten']->shouldCache()) return false;
-
     // Get static variables
     $hash = $this->app['flatten']->getHash();
     $cachetime = $this->app['config']->get('flatten::cachetime');
