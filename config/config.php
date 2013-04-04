@@ -8,7 +8,7 @@
 
   // The default period during which a cached page should be kept (in minutes)
   // 0 means the page never gets refreshed by itself
-  'cachetime' => 0,
+  'lifetime' => 0,
 
   // The different pages to be ignored when caching
   // They're all regexes so go crazy
