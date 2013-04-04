@@ -49,7 +49,7 @@ class Flatten
    *
    * @return boolean Whether Flatten started caching or not
    */
-  public function shouldCache()
+  public function shouldRun()
   {
     // If we're in the console or in a disallowed environment
     if($this->app->runningInConsole() or
@@ -88,6 +88,7 @@ class Flatten
   private function isInAllowedEnvironment()
   {
     return true;
+
     // Get allowed environments
     $applicationEnvironment = $this->app['env'];
     $allowedEnvironnements  = (array) $this->app['config']->get('flatten::environments');
@@ -119,10 +120,8 @@ class Flatten
    *
    * @return boolean
    */
-  private function matches($pages)
+  private function matches(array $pages)
   {
-    if(!$pages) return false;
-
     // Implode all pages into one single pattern
     $page = $this->hash;
     if(!$page) $page = $this->app['request']->path();

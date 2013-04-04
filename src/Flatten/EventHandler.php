@@ -44,18 +44,16 @@ class EventHandler
    */
   public function onApplicationDone()
   {
-    if (!$this->app['flatten']->shouldCache()) return false;
-
     // Get static variables
     $hash = $this->app['flatten']->getHash();
-    $cachetime = $this->app['config']->get('flatten::cachetime');
+    $cacheTime = $this->app['config']->get('flatten::cachetime');
 
     // Get content from buffer
     $content = ob_get_clean();
 
     // Cache page forever or for X minutes
-    if($cachetime == 0) $this->app['cache']->forever($hash, $content);
-    else $this->app['cache']->remember($hash, $cachetime, $content);
+    if($cacheTime == 0) $this->app['cache']->forever($hash, $content);
+    else $this->app['cache']->remember($hash, $cacheTime, $content);
 
     // Render page
     $this->app['flatten']->render($content);

@@ -1,39 +1,7 @@
 <?php
-class FlattenTest extends FlattenTests
+class FlattenTest extends PHPUnit_Framework_TestCase
 {
-  public function testIgnore()
-  {
-    Config::set('ignore', array('foo'));
-    Flatten::setHash('foo');
-    $hook = Flatten::hook();
 
-    $this->assertFalse($hook);
-  }
 
-  public function testIgnoreFail()
-  {
-    Config::set('ignore', array('bar'));
-    Flatten::setHash('foo');
-    $hook = Flatten::hook();
 
-    $this->assertTrue($hook);
-  }
-
-  public function testOnly()
-  {
-    Config::set('only', array('foo'));
-    Flatten::setHash('foo');
-    $hook = Flatten::hook();
-
-    $this->assertTrue($hook);
-  }
-
-  public function testOnlyFail()
-  {
-    Config::set('only', array('foo'));
-    Flatten::setHash('bar');
-    $hook = Flatten::hook();
-
-    $this->assertFalse($hook);
-  }
 }

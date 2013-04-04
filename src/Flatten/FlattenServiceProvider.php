@@ -30,10 +30,14 @@ class FlattenServiceProvider extends ServiceProvider
    */
   public function boot()
   {
-    $app = $this->app;
+    // Cancel if Flatten shouldn't run here
+    if (!$this->app['flatten']->shouldRun()) {
+      return false;
+    }
 
     $this->app['flatten.events']->onApplicationBoot();
 
+    $app = $this->app;
     $this->app->finish(function() use ($app) {
       return $app['flatten.events']->onApplicationDone();
     });
