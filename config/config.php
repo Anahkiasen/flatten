@@ -1,7 +1,7 @@
 <?php return array(
 
   // The environments in which Flatten should not run
-  'environments' => array('local'),
+  'environments' => array(),
 
   // The folder inside storage/cache where the pages will be stored
   'folder'       => 'pages',

@@ -6,12 +6,6 @@ use Illuminate\Support\Str;
 
 class Flatten
 {
-  /**
-   * The current URL
-   *
-   * @var string
-   */
-  protected $hash = null;
 
   /**
    * The current language
@@ -27,22 +21,12 @@ class Flatten
    */
   public function __construct($app)
   {
-    $this->app  = $app;
-    $this->hash = $this->computeHash();
+    $this->app = $app;
   }
 
-  /**
-   * Render a content
-   *
-   * @param  string $content A content to render
-   */
-  public function render($content)
-  {
-    $response = new Response($content, 200);
-    $response->send();
-
-    exit();
-  }
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// CHECKS /////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
   /**
    * Hook Flatten to Laravel's events
@@ -76,24 +60,65 @@ class Flatten
     return (bool) $cache;
   }
 
-  ////////////////////////////////////////////////////////////////////
-  /////////////////////////////// HELPERS ////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
   /**
    * Check if the current environment is allowed to be cached
    *
    * @return boolean
    */
-  private function isInAllowedEnvironment()
+  protected function isInAllowedEnvironment()
   {
-    return true;
     // Get allowed environments
-    $applicationEnvironment = $this->app['env'];
-    $allowedEnvironnements  = (array) $this->app['config']->get('flatten::environments');
+    $allowedEnvironnements = (array) $this->app['config']->get('flatten::environments');
 
-    return !in_array($applicationEnvironment, $allowedEnvironnements);
+    return !in_array($this->app['env'], $allowedEnvironnements);
   }
+
+  /**
+   * Whether the current page matches against an array of pages
+   *
+   * @param array $pages An array of pages to match against
+   *
+   * @return boolean
+   */
+  protected function matches($pages)
+  {
+    if(!$pages) return false;
+
+    // Implode all pages into one single pattern
+    $page = $this->app['flatten.cache']->getHash();
+    if(!$page) $page = $this->app['request']->path();
+    $pages = implode('|', $pages);
+
+    // Replace laravel patterns
+    $pages = strtr($pages, $this->app['router']->patterns);
+
+    return preg_match('#' .$pages. '#', $page);
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////// RENDERING ///////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Render a content
+   *
+   * @param  string $content A content to render
+   */
+  public function render($content = null)
+  {
+    if (!$content) {
+      $content = $this->app['flatten.cache']->getCache();
+    }
+
+    $response = new Response($content, 200);
+    $response->send();
+
+    exit();
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////////// HELPERS ////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
   /**
    * Transforms an URL into a Regex pattern
@@ -113,37 +138,11 @@ class Flatten
   }
 
   /**
-   * Whether the current page matches against an array of pages
-   *
-   * @param array $pages An array of pages to match against
-   *
-   * @return boolean
-   */
-  private function matches($pages)
-  {
-    if(!$pages) return false;
-
-    // Implode all pages into one single pattern
-    $page = $this->hash;
-    if(!$page) $page = $this->app['request']->path();
-    $pages = implode('|', $pages);
-
-    // Replace laravel patterns
-    $pages = strtr($pages, $this->app['router']->patterns);
-
-    return preg_match('#' .$pages. '#', $page);
-  }
-
-  ////////////////////////////////////////////////////////////////////
-  ///////////////////////////// PAGE HASH ////////////////////////////
-  ////////////////////////////////////////////////////////////////////
-
-  /**
    * Get the current page's hash
    *
    * @return string A page hash
    */
-  protected function computeHash($page = null, $localize = true)
+  public function computeHash($page = null, $localize = true)
   {
     // Get current page URI
     if(!$page) {
@@ -160,16 +159,6 @@ class Flatten
     foreach ($salts as $salt) $page .= $salt;
 
     return $page;
-  }
-
-  /**
-   * Get the URL hash
-   *
-   * @return string
-   */
-  public function getHash()
-  {
-    return $this->hash;
   }
 
 }

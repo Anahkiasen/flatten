@@ -26,16 +26,12 @@ class EventHandler
    */
   public function onApplicationBoot()
   {
-    // Get page from cache if any
-    $hash  = $this->app['flatten']->getHash();
-    $cache = $this->app['cache']->get($hash);
-
     // Start buffer
     ob_start();
 
     // Render page if it's available in the cache
-    if ($cache) {
-      return $this->app['flatten']->render($cache);
+    if ($this->app['flatten.cache']->hasCache()) {
+      return $this->app['flatten']->render();
     }
   }
 
@@ -44,16 +40,11 @@ class EventHandler
    */
   public function onApplicationDone()
   {
-    // Get static variables
-    $hash = $this->app['flatten']->getHash();
-    $cachetime = $this->app['config']->get('flatten::cachetime');
-
     // Get content from buffer
     $content = ob_get_clean();
 
     // Cache page forever or for X minutes
-    if($cachetime == 0) $this->app['cache']->forever($hash, $content);
-    else $this->app['cache']->remember($hash, $cachetime, $content);
+    $this->app['flatten.cache']->storeCache($content);
 
     // Render page
     $this->app['flatten']->render($content);

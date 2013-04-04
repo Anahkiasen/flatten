@@ -23,6 +23,10 @@ class FlattenServiceProvider extends ServiceProvider
     $this->app->bind('flatten.events', function($app) {
       return new EventHandler($app);
     });
+
+    $this->app->bind('flatten.cache', function($app) {
+      return new CacheHandler($app, $app['flatten']->computeHash());
+    });
   }
 
   /**
@@ -34,8 +38,10 @@ class FlattenServiceProvider extends ServiceProvider
       return false;
     }
 
+    // Launch startup event
     $this->app['flatten.events']->onApplicationBoot();
 
+    // Bind closing event
     $app = $this->app;
     $this->app->finish(function() use ($app) {
       return $app['flatten.events']->onApplicationDone();
