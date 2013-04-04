@@ -49,7 +49,7 @@ class Flatten
    *
    * @return boolean Whether Flatten started caching or not
    */
-  public function shouldCache()
+  public function shouldRun()
   {
     // If we're in the console or in a disallowed environment
     if($this->app->runningInConsole() or
