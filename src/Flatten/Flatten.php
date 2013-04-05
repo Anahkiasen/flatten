@@ -108,10 +108,12 @@ class Flatten
       $content = $this->app['flatten.cache']->getCache();
     }
 
-    $response = new Response($content, 200);
-    $response->send();
+    if ($content) {
+      $response = new Response($content, 200);
+      $response->send();
 
-    exit();
+      exit();
+    }
   }
 
   ////////////////////////////////////////////////////////////////////
