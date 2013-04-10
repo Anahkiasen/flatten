@@ -1,6 +1,7 @@
 <?php
 namespace Flatten;
 
+use Illuminate\Container\Container;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
@@ -19,9 +20,37 @@ class Flatten
    *
    * @param Illuminate\Container\Container $app
    */
-  public function __construct($app)
+  public function __construct(Container $app)
   {
     $this->app = $app;
+  }
+
+  /**
+   * Bind Flatten's classes to an IoC Container
+   *
+   * @param Container $app
+   *
+   * @return Container
+   */
+  public static function bind(Container $app)
+  {
+    $app->bind('flatten', function($app) {
+       return new Flatten($app);
+    });
+
+    $app->bind('flatten.commands.build', function($app) {
+      return new Crawler\BuildCommand;
+    });
+
+    $app->bind('flatten.events', function($app) {
+      return new EventHandler($app);
+    });
+
+    $app->bind('flatten.cache', function($app) {
+      return new CacheHandler($app, $app['flatten']->computeHash());
+    });
+
+    return $app;
   }
 
   ////////////////////////////////////////////////////////////////////

@@ -31,7 +31,7 @@ class Crawler
    *
    * @var array
    */
-  protected $pages = array(
+  protected $queue = array(
     '/' => false,
   );
 
@@ -64,17 +64,17 @@ class Crawler
     $this->root   = $root ?: $this->app['request']->root();
   }
 
-  //////////////////////////////////////////////////////////////////////
-  ///////////////////////////// CRAWLER /////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////// CRAWLER /////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
   /**
    * Crawl the pages in the queue
    */
   public function crawlPages()
   {
-    $pages = array_keys($this->pages);
-    $this->pages = array();
+    $pages = array_keys($this->queue);
+    $this->queue = array();
 
     foreach ($pages as $page) {
       if (in_array($page, $this->crawled)) continue;
@@ -119,11 +119,11 @@ class Crawler
    */
   protected function hasPagesToCrawl()
   {
-    return !empty($this->pages);
+    return !empty($this->queue);
   }
 
   ////////////////////////////////////////////////////////////////////
-  ///////////////////////////// LINKS /////////////////////////
+  /////////////////////////////// LINKS //////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
   /**
@@ -135,12 +135,10 @@ class Crawler
    */
   protected function extractLinks(DomCrawler $crawler)
   {
-    $_links = $crawler->filter('a');
-    $links  = array();
-
-    foreach ($_links as $link) {
-      if ($this->isExternal($link)) continue;
-      else $this->addLink($link);
+    foreach ($crawler->filter('a') as $link) {
+      if (!$this->isExternal($link)) {
+        $this->queueLink($link);
+      }
     }
   }
 
@@ -149,13 +147,13 @@ class Crawler
    *
    * @param DOMElement $link
    */
-  protected function addLink(DOMElement $link)
+  protected function queueLink(DOMElement $link)
   {
     $link = $link->getAttribute('href');
 
     // If the page wasn't crawled yet, crawl it
     if (!in_array($link, $this->crawled)) {
-      $this->pages[$link] = false;
+      $this->queue[$link] = false;
     }
   }
 
@@ -210,7 +208,7 @@ class Crawler
   }
 
   ////////////////////////////////////////////////////////////////////
-  //////////////////////////////// OUTPUT ////////////////////////////
+  ////////////////////////////// OUTPUT //////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
   /**
