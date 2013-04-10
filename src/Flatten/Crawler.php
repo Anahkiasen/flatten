@@ -58,17 +58,7 @@ class Crawler
   {
     $this->app    = $app;
     $this->client = new Client($app, array());
-    $this->root   = $root ?: $this->app['request']->path();
-  }
-
-  /**
-   * Change the Crawler's root URL
-   *
-   * @param string $root
-   */
-  public function setRoot($root)
-  {
-    $this->root = $root;
+    $this->root   = $root ?: $this->app['request']->root();
   }
 
   //////////////////////////////////////////////////////////////////////
@@ -93,6 +83,7 @@ class Crawler
         $crawler = $this->getPage($page);
       }
       catch (NotFoundHttpException $e) {
+        print $e->getMessage().PHP_EOL;
         continue;
       }
 
@@ -180,6 +171,7 @@ class Crawler
     // Call page
     $this->client->request('GET', $url);
     $response = $this->client->getResponse();
+    if (!$response->isOk()) return false;
 
     // Format content
     $content = $response->getContent();
