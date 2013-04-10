@@ -20,6 +20,10 @@ class FlattenServiceProvider extends ServiceProvider
        return new Flatten($app);
     });
 
+    $this->app->bind('flatten.commands.build', function($app) {
+      return new Commands\Build;
+    });
+
     $this->app->bind('flatten.events', function($app) {
       return new EventHandler($app);
     });
@@ -27,6 +31,8 @@ class FlattenServiceProvider extends ServiceProvider
     $this->app->bind('flatten.cache', function($app) {
       return new CacheHandler($app, $app['flatten']->computeHash());
     });
+
+    $this->commands('flatten.commands.build');
   }
 
   /**

@@ -64,6 +64,9 @@ class CacheHandler
    */
   public function storeCache($content)
   {
+    $this->app['log']->info('Caching page '.$this->hash);
+    $content = utf8_decode($content);
+
     // If we set a lifetime of 0, cache forever
     if($this->getLifetime() == 0) {
       return $this->app['cache']->forever(

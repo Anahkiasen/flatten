@@ -168,7 +168,7 @@ class Flatten
     $salts = $this->app['config']->get('flatten::saltshaker');
     foreach ($salts as $salt) $page .= $salt;
 
-    return md5($page);
+    return $page;
   }
 
 }

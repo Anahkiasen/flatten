@@ -3,9 +3,6 @@
   // The environments in which Flatten should not run
   'environments' => array(),
 
-  // The folder inside storage/cache where the pages will be stored
-  'folder'       => 'pages',
-
   // The default period during which a cached page should be kept (in minutes)
   // 0 means the page never gets refreshed by itself
   'lifetime' => 0,
