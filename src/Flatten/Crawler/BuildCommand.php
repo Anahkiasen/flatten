@@ -1,12 +1,11 @@
 <?php
-namespace Flatten\Commands;
+namespace Flatten\Crawler;
 
-use Flatten\Crawler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class Build extends Command
+class BuildCommand extends Command
 {
 
   /**

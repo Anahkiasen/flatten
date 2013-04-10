@@ -1,5 +1,5 @@
 <?php
-namespace Flatten;
+namespace Flatten\Crawler;
 
 use DOMElement;
 use Illuminate\Container\Container;

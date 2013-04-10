@@ -21,7 +21,7 @@ class FlattenServiceProvider extends ServiceProvider
     });
 
     $this->app->bind('flatten.commands.build', function($app) {
-      return new Commands\Build;
+      return new Crawler\BuildCommand;
     });
 
     $this->app->bind('flatten.events', function($app) {
