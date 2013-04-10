@@ -6,40 +6,32 @@ This will provide an essential boost to your application's speed, as your page's
 <a name='installation'></a>
 ## Installation
 
-Flatten installs just like any other Laravel bundle
+Flatten installs just like any other package, via Composer
 
-```bash
-php artisan bundle:install flatten
+```json
+"anahkiasen/flatten": "dev-develop",
 ```
 
-Add the following to your `bundles.php` file :
+Then add Flatten's Service Provider to you `config/app.php` file :
 
 ```php
-'flatten' => array('auto' => true),
-```
-
-And in **bundles.php**
-
-```php
-'Flatten' => 'Flatten\Flatten',
+'Flatten\FlattenServiceProvider',
 ```
 
 <a name='configuration'></a>
 ## Configuration
 
-All the options are explained in the **flatten.php** configuration file found in `bundles/flatten/config/flatten.php`. If you don't want to touch anything in there, just create your own **flatten.php** file in `application/config/flatten.php` and any default setting set by Flatten will be overwritten by your custom configuration.
+All the options are explained in the **config.php** configuration file. You can publish it via `artisan config:publish anahkiasen/flatten`.
 
 Here is a preview of the configuration options available in said file :
 
 ```php
 // The environments in which Flatten should not run
-'environments' => array('local'),
+'environments' => array(),
 
-// The folder inside storage/cache where the pages will be stored
-'folder'       => 'pages',
-
-// The Laravel event from which Flatten will start caching from
-'hook'         => 'laravel.started: application',
+// The default period during which a cached page should be kept (in minutes)
+// 0 means the page never gets refreshed by itself
+'lifetime' => 0,
 
 // The different pages to be ignored when caching
 // They're all regexes so go crazy
@@ -50,15 +42,20 @@ Here is a preview of the configuration options available in said file :
 // The ignored pages will still be substracted from this array
 'only'         => array(),
 
-// Strings or variables to prepend/append to the caching salt
-// Like 'prepend' => Auth::user()->level.Session::get('something').Config::get('application.language')
-// OR 'prepend' => array(Auth::user()->level, Session::get('something'), ...)
-'prepend' => null,
-'apprend' => null,
+// An array of string or variables to add to the salt being used
+// to differentiate pages
+'saltshaker' => array(),
 ```
+
+<a name='building'></a>
+## Building
+
+Flatten can cache all authorized pages in your application via the `artisan flatten:build` command. It will crawl your application and go from page to page, caching all the pages you allowed him to.
 
 <a name='flushing'></a>
 ## Flushing
+
+-- This part is not yet up to date for Laravel 4
 
 Flatten gracefully ties-in Laravel's system by providing both a public toolkit and a flushing filter.
 The filter will flush the whole cache, and can easily be binded to any method or rest request. You can per example do this :
