@@ -66,17 +66,13 @@ class CacheHandler
   {
     if (!$content) return false;
 
-    $this->app['log']->info('Caching page '.$this->hash);
-
-    // If we set a lifetime of 0, cache forever
-    if ($this->getLifetime() == 0) {
-      return $this->app['cache']->forever(
-        $this->hash, $content
-      );
+    // Log caching
+    if ($this->app->bound('log')) {
+      $this->app['log']->info('Caching page '.$this->hash);
     }
 
-    return $this->app['cache']->remember(
-      $this->hash, $this->getLifetime(), $content
+    return $this->app['cache']->put(
+      $this->hash, $content, $this->getLifetime()
     );
   }
 
@@ -87,7 +83,7 @@ class CacheHandler
    */
   public function getLifetime()
   {
-    return $this->app['config']->get('flatten::lifetime');
+    return (int) $this->app['config']->get('flatten::lifetime');
   }
 
   ////////////////////////////////////////////////////////////////////

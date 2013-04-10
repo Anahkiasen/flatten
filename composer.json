@@ -13,7 +13,10 @@
     }
   ],
   "require": {
+    "illuminate/container": "dev-master",
     "illuminate/support": "dev-master",
+    "illuminate/cache": "dev-master",
+    "illuminate/config": "dev-master",
     "symfony/http-foundation": "dev-master"
   },
   "require-dev": {

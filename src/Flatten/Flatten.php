@@ -1,29 +1,30 @@
 <?php
 namespace Flatten;
 
+use Illuminate\Cache\CacheManager;
+use Illuminate\Config\FileLoader as ConfigLoader;
+use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Flatten
 {
 
   /**
-   * The current language
-   *
-   * @var string
-   */
-  protected $lang = null;
-
-  /**
    * Setup Flatten and hook it to the application
    *
-   * @param Illuminate\Container\Container $app
+   * @param Container $app
    */
-  public function __construct(Container $app)
+  public function __construct(Container $app = null)
   {
-    $this->app = $app;
+    $this->app = $app ?: static::bind();
   }
+
+  ////////////////////////////////////////////////////////////////////
+  ///////////////////////// CACHING PROCESS //////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
   /**
    * Bind Flatten's classes to an IoC Container
@@ -32,8 +33,12 @@ class Flatten
    *
    * @return Container
    */
-  public static function bind(Container $app)
+  public static function bind(Container $app = null)
   {
+    if (!$app) $app = new Container;
+
+    // Flatten classes --------------------------------------------- /
+
     $app->bind('flatten', function($app) {
        return new Flatten($app);
     });
@@ -50,7 +55,52 @@ class Flatten
       return new CacheHandler($app, $app['flatten']->computeHash());
     });
 
+    // Helper classes ---------------------------------------------- /
+
+    $app->bindIf('request', function() {
+      return Request::createFromGlobals();
+    });
+
+    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+
+    $app->bindIf('config', function($app) {
+      $fileloader = new ConfigLoader($app['files'], __DIR__.'/../../');
+      $config = new Repository($fileloader, 'config');
+      $config->set('cache.driver', 'file');
+      $config->set('cache.path', __DIR__.'/../../cache');
+
+      return $config;
+    }, true);
+
+    $app->bindIf('cache', function($app) {
+      return new CacheManager($app);
+    });
+
     return $app;
+  }
+
+  /**
+   * Starts the caching system
+   *
+   * @return boolean
+   */
+  public function start()
+  {
+    if ($this->shouldRun()) {
+      $this->app['flatten.events']->onApplicationBoot();
+    }
+  }
+
+  /**
+   * Stops the caching system
+   *
+   * @return boolean
+   */
+  public function end()
+  {
+    if ($this->shouldRun()) {
+      return $this->app['flatten.events']->onApplicationDone();
+    }
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -69,9 +119,6 @@ class Flatten
       return false;
     }
 
-    // Set cache language
-    //preg_match_all("#^([a-z]{2})/.+#i", $this->app['uri']->current(), $language);
-    //$this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::app.language'));
     return $this->shouldCachePage();
   }
 
@@ -104,6 +151,8 @@ class Flatten
    */
   protected function isInAllowedEnvironment()
   {
+    if(!$this->app->bound('env')) return true;
+
     // Get allowed environments
     $allowedEnvironnements = (array) $this->app['config']->get('flatten::environments');
 
@@ -164,7 +213,9 @@ class Flatten
    */
   protected function getCurrentUrl()
   {
-    return $this->app['request']->path();
+    $pattern = trim($this->app['request']->getPathInfo(), '/');
+
+    return $pattern == '' ? '/' : $pattern;
   }
 
   /**
@@ -189,16 +240,11 @@ class Flatten
    *
    * @return string A page hash
    */
-  public function computeHash($page = null, $localize = true)
+  public function computeHash($page = null)
   {
     // Get current page URI
     if (!$page) {
       $page = $this->getCurrentUrl();
-    }
-
-    // Localize the cache or not
-    if ($localize and !Str::startsWith($page, $this->lang)) {
-      $page = $this->lang. '/' .$page;
     }
 
     // Add additional salts
