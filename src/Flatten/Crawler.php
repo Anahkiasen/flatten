@@ -188,7 +188,9 @@ class Crawler
     $content = utf8_decode($content);
 
     // Cache page
-    $this->app['flatten.cache']->storeCache($content);
+    if ($this->app['flatten']->shouldCachePage()) {
+      $this->app['flatten.cache']->storeCache($content);
+    }
 
     return new DomCrawler($content);
   }

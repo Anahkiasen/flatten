@@ -36,8 +36,7 @@ class Flatten
   public function shouldRun()
   {
     // If we're in the console or in a disallowed environment
-    if($this->app->runningInConsole() or
-      !$this->isInAllowedEnvironment()) {
+    if(!$this->isInAllowedEnvironment()) {
       return false;
     }
 
@@ -45,6 +44,16 @@ class Flatten
     //preg_match_all("#^([a-z]{2})/.+#i", $this->app['uri']->current(), $language);
     //$this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::app.language'));
 
+    return $this->shouldCachePage();
+  }
+
+  /**
+   * Whether the current page is authorized to be cached
+   *
+   * @return boolean
+   */
+  public function shouldCachePage()
+  {
     // Get pages to cache
     $only    = $this->app['config']->get('flatten::only');
     $ignored = $this->app['config']->get('flatten::ignore');
@@ -70,7 +79,7 @@ class Flatten
     // Get allowed environments
     $allowedEnvironnements = (array) $this->app['config']->get('flatten::environments');
 
-    return !in_array($this->app['env'], $allowedEnvironnements);
+    return !$this->app->runningInConsole() and !in_array($this->app['env'], $allowedEnvironnements);
   }
 
   /**
@@ -167,8 +176,10 @@ class Flatten
     // Add additional salts
     $salts = $this->app['config']->get('flatten::saltshaker');
     foreach ($salts as $salt) $page .= $salt;
+    $salts[] = $this->app['request']->getMethod();
+    $salts[] = $page;
 
-    return $page;
+    return implode('-', $salts);
   }
 
 }
