@@ -40,6 +40,10 @@ class Build extends Command
    */
   public function fire()
   {
+    if ($this->option('clear')) {
+      $this->laravel['cache']->flush();
+    }
+
     $crawler = new Crawler($this->laravel, $this->option('root'));
 
     $crawler->crawlPages();
@@ -64,7 +68,8 @@ class Build extends Command
   protected function getOptions()
   {
     return array(
-      array('root', 'r', InputOption::VALUE_REQUIRED, 'A root URL to be used when visiting'),
+      array('clear', 'c', InputOption::VALUE_NONE,     'Clear the cache before building'),
+      array('root',  'r', InputOption::VALUE_REQUIRED, 'A root URL to be used when visiting'),
     );
   }
 
