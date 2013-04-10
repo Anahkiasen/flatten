@@ -41,10 +41,11 @@ class Build extends Command
   public function fire()
   {
     if ($this->option('clear')) {
+      $this->comment('Clearing the cache');
       $this->laravel['cache']->flush();
     }
 
-    $crawler = new Crawler($this->laravel, $this->option('root'));
+    $crawler = new Crawler($this->laravel, $this->output, $this->option('root'));
 
     $crawler->crawlPages();
   }

@@ -2,9 +2,10 @@
 namespace Flatten;
 
 use DOMElement;
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Testing\Client;
+use Illuminate\Support\Str;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -54,9 +55,11 @@ class Crawler
    * @param Container $app
    * @param string    $root A root url to use
    */
-  public function __construct(Container $app, $root = null)
+  public function __construct(Container $app, OutputInterface $output, $root = null)
   {
     $this->app    = $app;
+    $this->output = $output;
+
     $this->client = new Client($app, array());
     $this->root   = $root ?: $this->app['request']->root();
   }
@@ -70,30 +73,43 @@ class Crawler
    */
   public function crawlPages()
   {
-    $pages = $this->pages;
+    $pages = array_keys($this->pages);
     $this->pages = array();
 
-    foreach ($pages as $page => $nope) {
+    foreach ($pages as $page) {
       if (in_array($page, $this->crawled)) continue;
 
       // Try to display the page
       // Cancel if not found
-      try {
-        $this->crawled[] = $page;
-        $crawler = $this->getPage($page);
-      }
-      catch (NotFoundHttpException $e) {
-        print $e->getMessage().PHP_EOL;
-        continue;
-      }
-
-      // Add the links to list of pages to crawl
-      $this->extractLinks($crawler);
+      $this->crawlPage($page);
     }
 
+    // Recursive call
     if ($this->hasPagesToCrawl()) {
       $this->crawlPages();
     }
+  }
+
+  /**
+   * Crawl an URL and extract its links
+   *
+   * @param string $page The page's URL
+   */
+  protected function crawlPage($page)
+  {
+    try {
+      $crawler = $this->getPage($page);
+      if (!$crawler) return false;
+    }
+
+    catch (NotFoundHttpException $e) {
+      $this->error('Page at "' .$page. '" returned a 404');
+      return false;
+    }
+
+    // Add the links to list of pages to crawl
+    $this->crawled[] = $page;
+    $this->extractLinks($crawler);
   }
 
   /**
@@ -166,12 +182,17 @@ class Crawler
    */
   protected function getPage($url)
   {
-    print 'Crawling page ' .$url.PHP_EOL;
+    $url = str_replace($this->root, null, $url);
+    $this->info('Crawling : ' .$url);
 
     // Call page
     $this->client->request('GET', $url);
     $response = $this->client->getResponse();
-    if (!$response->isOk()) return false;
+
+    if (!$response->isOk()) {
+      $this->error('Page at "' .$url. '" could not be reached');
+      return false;
+    }
 
     // Format content
     $content = $response->getContent();
@@ -181,10 +202,48 @@ class Crawler
 
     // Cache page
     if ($this->app['flatten']->shouldCachePage()) {
+      $this->comment('└─ Cached ✔');
       $this->app['flatten.cache']->storeCache($content);
-    }
+    } else $this->comment('└─ Left uncached ✘');
 
     return new DomCrawler($content);
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  //////////////////////////////// OUTPUT ////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Write a string as information output.
+   *
+   * @param  string  $string
+   * @return void
+   */
+  protected function info($string)
+  {
+    $this->output->writeln("<info>$string</info>");
+  }
+
+  /**
+   * Write a string as comment output.
+   *
+   * @param  string  $string
+   * @return void
+   */
+  public function comment($string)
+  {
+    $this->output->writeln("<comment>$string</comment>");
+  }
+
+  /**
+   * Write a string as error output.
+   *
+   * @param  string  $string
+   * @return void
+   */
+  protected function error($string)
+  {
+    $this->output->writeln("<error>$string</error>");
   }
 
 }

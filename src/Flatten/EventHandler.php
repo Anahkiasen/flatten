@@ -41,7 +41,7 @@ class EventHandler
   public function onApplicationDone()
   {
     // Get content from buffer
-    $content = ob_get_clean();
+    $content = ob_get_contents();
     if (!$content) return false;
 
     // Cache page forever or for X minutes
