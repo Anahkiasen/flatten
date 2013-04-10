@@ -13,7 +13,8 @@
     }
   ],
   "require": {
-    "illuminate/support": "4.0.x"
+    "illuminate/support": "dev-master",
+    "symfony/http-foundation": "dev-master"
   },
   "require-dev": {
     "mockery/mockery": "dev-master"

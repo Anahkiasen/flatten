@@ -2,8 +2,8 @@
 namespace Flatten;
 
 use Illuminate\Container\Container;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class Flatten
 {
@@ -65,14 +65,13 @@ class Flatten
   public function shouldRun()
   {
     // If we're in the console or in a disallowed environment
-    if(!$this->isInAllowedEnvironment()) {
+    if (!$this->isInAllowedEnvironment()) {
       return false;
     }
 
     // Set cache language
     //preg_match_all("#^([a-z]{2})/.+#i", $this->app['uri']->current(), $language);
     //$this->lang = array_get($language, '1.0', $this->app['config']->get('flatten::app.language'));
-
     return $this->shouldCachePage();
   }
 
@@ -193,7 +192,7 @@ class Flatten
   public function computeHash($page = null, $localize = true)
   {
     // Get current page URI
-    if(!$page) {
+    if (!$page) {
       $page = $this->getCurrentUrl();
     }
 

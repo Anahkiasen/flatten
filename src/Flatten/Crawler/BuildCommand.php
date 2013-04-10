@@ -2,7 +2,6 @@
 namespace Flatten\Crawler;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class BuildCommand extends Command

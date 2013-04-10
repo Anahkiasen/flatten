@@ -1,8 +1,6 @@
 <?php
 namespace Flatten;
 
-use App;
-
 class EventHandler
 {
 

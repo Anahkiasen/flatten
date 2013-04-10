@@ -100,10 +100,9 @@ class Crawler
     try {
       $crawler = $this->getPage($page);
       if (!$crawler) return false;
-    }
-
-    catch (NotFoundHttpException $e) {
+    } catch (NotFoundHttpException $e) {
       $this->error('Page at "' .$page. '" returned a 404');
+
       return false;
     }
 
@@ -189,6 +188,7 @@ class Crawler
 
     if (!$response->isOk()) {
       $this->error('Page at "' .$url. '" could not be reached');
+
       return false;
     }
 

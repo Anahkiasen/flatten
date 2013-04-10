@@ -69,7 +69,7 @@ class CacheHandler
     $this->app['log']->info('Caching page '.$this->hash);
 
     // If we set a lifetime of 0, cache forever
-    if($this->getLifetime() == 0) {
+    if ($this->getLifetime() == 0) {
       return $this->app['cache']->forever(
         $this->hash, $content
       );
