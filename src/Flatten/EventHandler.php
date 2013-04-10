@@ -42,6 +42,7 @@ class EventHandler
   {
     // Get content from buffer
     $content = ob_get_clean();
+    if (!$content) return false;
 
     // Cache page forever or for X minutes
     $this->app['flatten.cache']->storeCache($content);
