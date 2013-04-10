@@ -1,6 +1,8 @@
 <?php
 namespace Flatten;
 
+use App;
+
 class EventHandler
 {
 
@@ -26,7 +28,6 @@ class EventHandler
    */
   public function onApplicationBoot()
   {
-    // Start buffer
     ob_start();
 
     // Render page if it's available in the cache
@@ -41,13 +42,9 @@ class EventHandler
   public function onApplicationDone()
   {
     // Get content from buffer
-    $content = ob_get_contents();
-    if (!$content) return false;
+    $content = ob_get_flush();
 
-    // Cache page forever or for X minutes
+    // Cache content
     $this->app['flatten.cache']->storeCache($content);
-
-    // Render page
-    $this->app['flatten']->render($content);
   }
 }
