@@ -64,7 +64,7 @@ class Flatten
     $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
     $app->bindIf('config', function($app) {
-      $fileloader = new ConfigLoader($app['files'], __DIR__.'/../../');
+      $fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
       $config = new Repository($fileloader, 'config');
       $config->set('cache.driver', 'file');
       $config->set('cache.path', __DIR__.'/../../cache');
