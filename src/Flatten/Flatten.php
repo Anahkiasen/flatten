@@ -172,11 +172,7 @@ class Flatten
     $page = $this->app['flatten.cache']->getHash();
     if(!$page) $page = $this->getCurrentUrl();
 
-    // Replace laravel patterns
-    $pages = implode('|', $pages);
-    $pages = strtr($pages, $this->app['router']->patterns);
-
-    return preg_match('#' .$pages. '#', $page);
+    return preg_match('#' .implode('|', $pages). '#', $page);
   }
 
   ////////////////////////////////////////////////////////////////////
