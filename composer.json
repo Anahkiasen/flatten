@@ -13,10 +13,10 @@
     }
   ],
   "require": {
-    "illuminate/container": "dev-master",
-    "illuminate/support": "dev-master",
-    "illuminate/cache": "dev-master",
-    "illuminate/config": "dev-master",
+    "illuminate/container": "4.0.*",
+    "illuminate/support": "4.0.*",
+    "illuminate/cache": "4.0.*",
+    "illuminate/config": "4.0.*",
     "symfony/http-foundation": "dev-master"
   },
   "require-dev": {
@@ -26,6 +26,9 @@
     "psr-0": {
       "Flatten": "src"
     }
+  },
+  "config": {
+    "preferred-install": "dist"
   },
   "minimum-stability": "dev"
 }
