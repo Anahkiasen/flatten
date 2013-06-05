@@ -17,7 +17,7 @@
     "illuminate/support": "~4",
     "illuminate/cache": "~4",
     "illuminate/config": "~4",
-    "symfony/http-foundation": "dev-master"
+    "illuminate/http": "~4"
   },
   "require-dev": {
     "mockery/mockery": "dev-master"
