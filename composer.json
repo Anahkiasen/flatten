@@ -13,10 +13,10 @@
     }
   ],
   "require": {
-    "illuminate/container": "4.0.*",
-    "illuminate/support": "4.0.*",
-    "illuminate/cache": "4.0.*",
-    "illuminate/config": "4.0.*",
+    "illuminate/container": "~4",
+    "illuminate/support": "~4",
+    "illuminate/cache": "~4",
+    "illuminate/config": "~4",
     "symfony/http-foundation": "dev-master"
   },
   "require-dev": {
