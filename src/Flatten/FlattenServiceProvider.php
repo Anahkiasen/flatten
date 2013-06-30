@@ -1,7 +1,12 @@
 <?php
 namespace Flatten;
 
+use Illuminate\Cache\CacheManager;
+use Illuminate\Config\FileLoader as ConfigLoader;
+use Illuminate\Config\Repository;
+use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Register the Flatten package with the Laravel framework
@@ -16,7 +21,7 @@ class FlattenServiceProvider extends ServiceProvider
   {
     $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
 
-    $this->app = Flatten::bind($this->app);
+    $this->app = $this->bindClasses($this->app);
 
     $this->commands('flatten.commands.build');
   }
@@ -49,6 +54,61 @@ class FlattenServiceProvider extends ServiceProvider
   public function provides()
   {
     return array('flatten');
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////// CLASS BINDINGS /////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Bind Flatten's classes to the container
+   *
+   * @param  Container $app
+   *
+   * @return Container
+   */
+  public function bindClasses(Container $app)
+  {
+    // Flatten classes --------------------------------------------- /
+
+    $app->bind('flatten', function($app) {
+       return new Flatten($app);
+    });
+
+    $app->bind('flatten.commands.build', function($app) {
+      return new Crawler\BuildCommand;
+    });
+
+    $app->bind('flatten.events', function($app) {
+      return new EventHandler($app);
+    });
+
+    $app->bind('flatten.cache', function($app) {
+      return new CacheHandler($app, $app['flatten']->computeHash());
+    });
+
+    // Helper classes ---------------------------------------------- /
+
+    $app->bindIf('request', function() {
+      return Request::createFromGlobals();
+    });
+
+    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+
+    $app->bindIf('config', function($app) {
+      $fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
+      $config = new Repository($fileloader, 'config');
+      $config->set('cache.driver', 'file');
+      $config->set('cache.path', __DIR__.'/../../cache');
+
+      return $config;
+    }, true);
+
+    $app->bindIf('cache', function($app) {
+      return new CacheManager($app);
+    });
+
+    return $app;
   }
 
 }

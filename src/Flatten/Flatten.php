@@ -1,11 +1,7 @@
 <?php
 namespace Flatten;
 
-use Illuminate\Cache\CacheManager;
-use Illuminate\Config\FileLoader as ConfigLoader;
-use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,67 +13,17 @@ class Flatten
    *
    * @param Container $app
    */
-  public function __construct(Container $app = null)
+  public function __construct()
   {
-    $this->app = $app ?: static::bind();
+    $this->app = new Container;
+
+    $serviceProvider = new FlattenServiceProvider;
+    $this->app = $serviceProvider->bindClasses($this->app);
   }
 
   ////////////////////////////////////////////////////////////////////
   ///////////////////////// CACHING PROCESS //////////////////////////
   ////////////////////////////////////////////////////////////////////
-
-  /**
-   * Bind Flatten's classes to an IoC Container
-   *
-   * @param Container $app
-   *
-   * @return Container
-   */
-  public static function bind(Container $app = null)
-  {
-    if (!$app) $app = new Container;
-
-    // Flatten classes --------------------------------------------- /
-
-    $app->bind('flatten', function($app) {
-       return new Flatten($app);
-    });
-
-    $app->bind('flatten.commands.build', function($app) {
-      return new Crawler\BuildCommand;
-    });
-
-    $app->bind('flatten.events', function($app) {
-      return new EventHandler($app);
-    });
-
-    $app->bind('flatten.cache', function($app) {
-      return new CacheHandler($app, $app['flatten']->computeHash());
-    });
-
-    // Helper classes ---------------------------------------------- /
-
-    $app->bindIf('request', function() {
-      return Request::createFromGlobals();
-    });
-
-    $app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
-
-    $app->bindIf('config', function($app) {
-      $fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
-      $config = new Repository($fileloader, 'config');
-      $config->set('cache.driver', 'file');
-      $config->set('cache.path', __DIR__.'/../../cache');
-
-      return $config;
-    }, true);
-
-    $app->bindIf('cache', function($app) {
-      return new CacheManager($app);
-    });
-
-    return $app;
-  }
 
   /**
    * Starts the caching system
