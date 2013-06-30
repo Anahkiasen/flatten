@@ -64,7 +64,9 @@ class CacheHandler
    */
   public function storeCache($content)
   {
-    if (!$content) return false;
+    if (!$content) {
+      return false;
+    }
 
     // Log caching
     if ($this->app->bound('log')) {

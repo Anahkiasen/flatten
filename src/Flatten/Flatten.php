@@ -13,11 +13,18 @@ class Flatten
 {
 
   /**
+   * The IoC Container
+   *
+   * @var Container
+   */
+  protected $app;
+
+  /**
    * Setup Flatten and hook it to the application
    *
    * @param Container $app
    */
-  public function __construct($app)
+  public function __construct(Container $app)
   {
     $this->app = $app;
   }
