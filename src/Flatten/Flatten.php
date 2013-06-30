@@ -5,6 +5,10 @@ use Illuminate\Container\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Gets informations about the current page and delegates them
+ * to the other classes
+ */
 class Flatten
 {
 
@@ -97,7 +101,9 @@ class Flatten
    */
   protected function isInAllowedEnvironment()
   {
-    if(!$this->app->bound('env')) return true;
+    if(!$this->app->bound('env')) {
+      return true;
+    }
 
     // Get allowed environments
     $allowedEnvironnements = (array) $this->app['config']->get('flatten::environments');
@@ -132,10 +138,12 @@ class Flatten
    */
   public function render($content = null)
   {
+    // If no content, get from cache
     if (!$content) {
       $content = $this->app['flatten.cache']->getCache();
     }
 
+    // Else, send the response with the content
     if ($content) {
       $response = new Response($content, 200);
       $response->send();

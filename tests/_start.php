@@ -1,6 +1,4 @@
 <?php
-ini_set('memory_limit', '120M');
-
 use Flatten\Flatten;
 use Illuminate\Container\Container;
 

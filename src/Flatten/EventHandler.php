@@ -1,6 +1,9 @@
 <?php
 namespace Flatten;
 
+/**
+ * Hooks into the main events to execute actions
+ */
 class EventHandler
 {
 
@@ -23,6 +26,8 @@ class EventHandler
 
   /**
    * Load a page from the cache
+   *
+   * @return  string|null
    */
   public function onApplicationBoot()
   {
@@ -36,6 +41,8 @@ class EventHandler
 
   /**
    * Save the current page in the cache
+   *
+   * @return void
    */
   public function onApplicationDone()
   {

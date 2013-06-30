@@ -26,8 +26,8 @@ class CacheHandler
   /**
    * Build a new CacheHandler
    *
-   * @param Flatten $flatten
-   * @param Cache   $cache
+   * @param Container $app
+   * @param string    $hash
    */
   public function __construct(Container $app, $hash)
   {

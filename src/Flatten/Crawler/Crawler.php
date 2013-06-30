@@ -70,6 +70,8 @@ class Crawler
 
   /**
    * Crawl the pages in the queue
+   *
+   * @return  void
    */
   public function crawlPages()
   {
@@ -77,7 +79,9 @@ class Crawler
     $this->queue = array();
 
     foreach ($pages as $page) {
-      if (in_array($page, $this->crawled)) continue;
+      if (in_array($page, $this->crawled)) {
+        continue;
+      }
 
       // Try to display the page
       // Cancel if not found
