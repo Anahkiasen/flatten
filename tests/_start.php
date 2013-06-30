@@ -8,7 +8,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
   {
     $this->app = new Container;
 
-    $serviceProvider = new FlattenServiceProvider;
+    $serviceProvider = new FlattenServiceProvider($this->app);
     $this->app = $serviceProvider->bindClasses($this->app);
   }
 }

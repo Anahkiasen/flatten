@@ -17,12 +17,9 @@ class Flatten
    *
    * @param Container $app
    */
-  public function __construct()
+  public function __construct($app)
   {
-    $this->app = new Container;
-
-    $serviceProvider = new FlattenServiceProvider;
-    $this->app = $serviceProvider->bindClasses($this->app);
+    $this->app = $app;
   }
 
   ////////////////////////////////////////////////////////////////////
