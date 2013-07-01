@@ -214,7 +214,7 @@ class Crawler
     // Build message
     $status  = $this->app['flatten']->shouldCachePage() ? 'Cached' : 'Left uncached';
     $current = (sizeof($this->queue) - $this->current);
-    $padding = str_repeat(' ', 70 - strlen($url) - strlen($message));
+    $padding = str_repeat(' ', 70 - strlen($url) - strlen($status));
 
     // Display message
     $message = $status.' <info>%s</info>%s<comment>(%s in queue)</comment>';
