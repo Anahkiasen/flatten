@@ -43,9 +43,11 @@ class BuildCommand extends Command
       $this->laravel['cache']->flush();
     }
 
+    // Crawl pages
     $crawler = new Crawler($this->laravel, $this->output, $this->option('root'));
+    $crawled = $crawler->crawlPages();
 
-    $crawler->crawlPages();
+    $this->command->info('Successfully built '.$crawled. ' pages');
   }
 
   /**

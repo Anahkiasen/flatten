@@ -36,6 +36,13 @@ class Crawler
   );
 
   /**
+   * The current page being crawled
+   *
+   * @var integer
+   */
+  protected $current;
+
+  /**
    * An array of the pages already crawled
    *
    * @var array
@@ -78,13 +85,14 @@ class Crawler
     $pages = array_keys($this->queue);
     $this->queue = array();
 
-    foreach ($pages as $page) {
+    foreach ($pages as $key => $page) {
       if (in_array($page, $this->crawled)) {
         continue;
       }
 
       // Try to display the page
       // Cancel if not found
+      $this->current = $key;
       $this->crawlPage($page);
     }
 
@@ -92,6 +100,8 @@ class Crawler
     if ($this->hasPagesToCrawl()) {
       $this->crawlPages();
     }
+
+    return sizeof($this->queue);
   }
 
   /**
@@ -184,7 +194,6 @@ class Crawler
   protected function getPage($url)
   {
     $url = str_replace($this->root, null, $url);
-    $this->info('Crawling : ' .$url);
 
     // Call page
     $this->client->request('GET', $url);
@@ -202,11 +211,19 @@ class Crawler
     $content = str_replace($this->app['url']->to('/'), $this->root, $content);
     $content = utf8_decode($content);
 
+    // Build message
+    $status  = $this->app['flatten']->shouldCachePage() ? 'Cached' : 'Left uncached';
+    $current = (sizeof($this->queue) - $this->current);
+    $padding = str_repeat(' ', 70 - strlen($url) - strlen($message));
+
+    // Display message
+    $message = $status.' <info>%s</info>%s<comment>(%s in queue)</comment>';
+    $this->line(sprintf($message, $url, $padding, $current));
+
     // Cache page
     if ($this->app['flatten']->shouldCachePage()) {
-      $this->comment('└─ Cached ✔');
       $this->app['flatten.cache']->storeCache($content);
-    } else $this->comment('└─ Left uncached ✘');
+    }
 
     return new DomCrawler($content);
   }
@@ -216,25 +233,14 @@ class Crawler
   ////////////////////////////////////////////////////////////////////
 
   /**
-   * Write a string as information output.
+   * Write a string as output.
    *
    * @param  string  $string
    * @return void
    */
-  protected function info($string)
+  protected function line($string)
   {
-    $this->output->writeln("<info>$string</info>");
-  }
-
-  /**
-   * Write a string as comment output.
-   *
-   * @param  string  $string
-   * @return void
-   */
-  public function comment($string)
-  {
-    $this->output->writeln("<comment>$string</comment>");
+    $this->output->writeln($string);
   }
 
   /**
