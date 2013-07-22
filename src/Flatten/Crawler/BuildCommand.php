@@ -4,9 +4,12 @@ namespace Flatten\Crawler;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Calls the Flatten instance and runs it on
+ * all the pages
+ */
 class BuildCommand extends Command
 {
-
   /**
    * The console command name.
    *
@@ -20,16 +23,6 @@ class BuildCommand extends Command
    * @var string
    */
   protected $description = 'Will crawl your application and cache all pages authorized';
-
-  /**
-   * Create a new command instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-    parent::__construct();
-  }
 
   /**
    * Execute the console command.
@@ -47,18 +40,7 @@ class BuildCommand extends Command
     $crawler = new Crawler($this->laravel, $this->output, $this->option('root'));
     $crawled = $crawler->crawlPages();
 
-    $this->command->info('Successfully built '.$crawled. ' pages');
-  }
-
-  /**
-   * Get the console command arguments.
-   *
-   * @return array
-   */
-  protected function getArguments()
-  {
-    return array(
-    );
+    $this->info('Successfully built '.$crawled. ' pages');
   }
 
   /**

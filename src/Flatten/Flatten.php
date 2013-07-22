@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Flatten
 {
-
   /**
    * The IoC Container
    *
@@ -110,9 +109,9 @@ class Flatten
     }
 
     // Get allowed environments
-    $allowedEnvironnements = (array) $this->app['config']->get('flatten::environments');
+    $allowedEnvs = (array) $this->app['config']->get('flatten::environments');
 
-    return !$this->app->runningInConsole() and !in_array($this->app['env'], $allowedEnvironnements);
+    return !$this->app->runningInConsole() and !in_array($this->app['env'], $allowedEnvs);
   }
 
   /**
@@ -173,23 +172,6 @@ class Flatten
   }
 
   /**
-   * Transforms an URL into a Regex pattern
-   *
-   * @param  string $url An url to transform
-   * @return string      A transformed URL
-   */
-  private function urlToPattern($url)
-  {
-    // Remove the base from the URL
-    $url = str_replace($this->app['url']->base().'/', null, $url);
-
-    // Remove language-specific pattern if any
-    $url = preg_replace('#[a-z]{2}/(.+)#', '$1', $url);
-
-    return $url;
-  }
-
-  /**
    * Get the current page's hash
    *
    * @return string A page hash
@@ -209,5 +191,4 @@ class Flatten
 
     return implode('-', $salts);
   }
-
 }

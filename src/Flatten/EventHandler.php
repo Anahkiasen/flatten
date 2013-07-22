@@ -6,7 +6,6 @@ namespace Flatten;
  */
 class EventHandler
 {
-
   /**
    * The IoC Container
    *

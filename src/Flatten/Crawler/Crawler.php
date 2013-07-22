@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Crawler
 {
-
   /**
    * The IoC Container
    *
@@ -253,5 +252,4 @@ class Crawler
   {
     $this->output->writeln("<error>$string</error>");
   }
-
 }

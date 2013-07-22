@@ -3,7 +3,6 @@ namespace Flatten;
 
 class FlatHandler
 {
-
   ////////////////////////////////////////////////////////////////////
   ///////////////////////// FLUSHING METHODS /////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -92,4 +91,20 @@ class FlatHandler
     return $this->flush($url);
   }
 
+  /**
+   * Transforms an URL into a Regex pattern
+   *
+   * @param  string $url An url to transform
+   * @return string      A transformed URL
+   */
+  private function urlToPattern($url)
+  {
+    // Remove the base from the URL
+    $url = str_replace($this->app['url']->base().'/', null, $url);
+
+    // Remove language-specific pattern if any
+    $url = preg_replace('#[a-z]{2}/(.+)#', '$1', $url);
+
+    return $url;
+  }
 }

@@ -8,7 +8,6 @@ use Illuminate\Container\Container;
  */
 class CacheHandler
 {
-
   /**
    * The current cache hash
    *
@@ -101,5 +100,4 @@ class CacheHandler
   {
     return $this->hash;
   }
-
 }

@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class FlattenServiceProvider extends ServiceProvider
 {
-
   /**
    * Register Flatten's classes with Laravel
    */
@@ -21,7 +20,9 @@ class FlattenServiceProvider extends ServiceProvider
   {
     $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
 
-    $this->app = $this->bindClasses($this->app);
+    // Bind the classes
+    $this->app = $this->bindCoreClasses($this->app);
+    $this->app = $this->bindFlattenClasses($this->app);
 
     $this->commands('flatten.commands.build');
   }
@@ -61,33 +62,14 @@ class FlattenServiceProvider extends ServiceProvider
   ////////////////////////////////////////////////////////////////////
 
   /**
-   * Bind Flatten's classes to the container
+   * Bind the core classes to the container
    *
    * @param  Container $app
    *
    * @return Container
    */
-  public function bindClasses(Container $app)
+  public function bindCoreClasses(Container $app)
   {
-    // Flatten classes --------------------------------------------- /
-
-    $app->bind('flatten', function($app) {
-       return new Flatten($app);
-    });
-
-    $app->bind('flatten.commands.build', function($app) {
-      return new Crawler\BuildCommand;
-    });
-
-    $app->bind('flatten.events', function($app) {
-      return new EventHandler($app);
-    });
-
-    $app->bind('flatten.cache', function($app) {
-      return new CacheHandler($app, $app['flatten']->computeHash());
-    });
-
-    // Helper classes ---------------------------------------------- /
 
     $app->bindIf('request', function() {
       return Request::createFromGlobals();
@@ -111,4 +93,31 @@ class FlattenServiceProvider extends ServiceProvider
     return $app;
   }
 
+  /**
+   * Bind Flatten's classes to the container
+   *
+   * @param  Container $app
+   *
+   * @return Container
+   */
+  public function bindClasses(Container $app)
+  {
+    $app->bind('flatten', function($app) {
+       return new Flatten($app);
+    });
+
+    $app->bind('flatten.commands.build', function($app) {
+      return new Crawler\BuildCommand;
+    });
+
+    $app->bind('flatten.events', function($app) {
+      return new EventHandler($app);
+    });
+
+    $app->bind('flatten.cache', function($app) {
+      return new CacheHandler($app, $app['flatten']->computeHash());
+    });
+
+    return $app;
+  }
 }
