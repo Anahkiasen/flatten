@@ -100,7 +100,7 @@ class FlattenServiceProvider extends ServiceProvider
    *
    * @return Container
    */
-  public function bindClasses(Container $app)
+  public function bindFlattenClasses(Container $app)
   {
     $app->bind('flatten', function($app) {
        return new Flatten($app);
