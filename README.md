@@ -9,7 +9,7 @@ This will provide an essential boost to your application's speed, as your page's
 Flatten installs just like any other package, via Composer
 
 ```json
-"anahkiasen/flatten": "dev-develop",
+"anahkiasen/flatten": "dev-master",
 ```
 
 Then add Flatten's Service Provider to you `config/app.php` file :
