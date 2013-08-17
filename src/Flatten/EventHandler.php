@@ -30,8 +30,6 @@ class EventHandler
    */
   public function onApplicationBoot()
   {
-    ob_start();
-
     // Render page if it's available in the cache
     if ($this->app['flatten.cache']->hasCache()) {
       return $this->app['flatten']->render();
@@ -41,12 +39,13 @@ class EventHandler
   /**
    * Save the current page in the cache
    *
+   * @param Response $response
+   *
    * @return void
    */
-  public function onApplicationDone()
+  public function onApplicationDone($response = null)
   {
-    // Get content from buffer
-    $content = ob_get_flush();
+    $content = $response->getOriginalContent();
 
     // Cache content
     $this->app['flatten.cache']->storeCache($content);

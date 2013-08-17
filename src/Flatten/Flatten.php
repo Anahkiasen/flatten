@@ -125,7 +125,9 @@ class Flatten
   {
     // Implode all pages into one single pattern
     $page = $this->app['flatten.cache']->getHash();
-    if(!$page) $page = $this->getCurrentUrl();
+    if(!$page) {
+      $page = $this->getCurrentUrl();
+    }
 
     return preg_match('#' .implode('|', $pages). '#', $page);
   }

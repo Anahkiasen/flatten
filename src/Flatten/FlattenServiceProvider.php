@@ -42,8 +42,8 @@ class FlattenServiceProvider extends ServiceProvider
 
     // Bind closing event
     $app = $this->app;
-    $this->app->finish(function() use ($app) {
-      return $app['flatten.events']->onApplicationDone();
+    $this->app->finish(function($request, $response) use ($app) {
+      return $app['flatten.events']->onApplicationDone($response);
     });
   }
 
@@ -70,7 +70,6 @@ class FlattenServiceProvider extends ServiceProvider
    */
   public function bindCoreClasses(Container $app)
   {
-
     $app->bindIf('request', function() {
       return Request::createFromGlobals();
     });
