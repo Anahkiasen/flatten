@@ -8,15 +8,10 @@ class FlattenTest extends FlattenTests
 
 	public function testCanRenderResponses()
 	{
-		$response = $this->flatten->render('foobar');
+		$response = $this->flatten->getResponse('foobar');
 
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('foobar', $response->getContent());
-	}
-
-	public function testCancelsIfNoResponse()
-	{
-		$this->assertNull($this->flatten->render());
 	}
 
 	public function testCanCheckIfPageMatchesPattern()

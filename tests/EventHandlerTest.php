@@ -3,7 +3,7 @@ class EventHandlerTest extends FlattenTests
 {
 	public function testReturnsNothingIfNoCache()
 	{
-		$empty = $this->app['flatten.events']->onApplicationBoot();
+		$empty = $this->events->onApplicationBoot();
 
 		$this->assertNull($empty);
 	}
@@ -14,10 +14,10 @@ class EventHandlerTest extends FlattenTests
 		$response->shouldReceive('getContent')->once()->andReturn('foobar');
 
 		// Pass the response
-		$this->app['flatten.events']->onApplicationDone($response);
+		$this->events->onApplicationDone($response);
 
 		// Assert response
-		$response = $this->app['flatten.events']->onApplicationBoot();
+		$response = $this->flatten->getResponse();
 		$this->assertEquals('foobar', $response->getContent());
 	}
 }

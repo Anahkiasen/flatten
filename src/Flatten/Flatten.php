@@ -143,11 +143,13 @@ class Flatten
   ////////////////////////////////////////////////////////////////////
 
   /**
-   * Render a content
+   * Create a response to send from content
    *
-   * @param  string $content A content to render
+   * @param  string $content
+   *
+   * @return Response
    */
-  public function render($content = null)
+  public function getResponse($content = null)
   {
     // If no content, get from cache
     if (!$content) {
@@ -156,12 +158,22 @@ class Flatten
 
     // Else, send the response with the content
     if ($content) {
-      $response = new Response($content, 200);
-
-      return $response->send();
+      return new Response($content, 200);
     }
 
-    return null;
+    return new Response;
+  }
+
+  /**
+   * Render a content
+   *
+   * @param  string $content A content to render
+   */
+  public function render($content = null)
+  {
+    $this->getResponse($content)->send();
+
+    exit;
   }
 
   ////////////////////////////////////////////////////////////////////
