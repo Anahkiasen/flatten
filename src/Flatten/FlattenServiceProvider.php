@@ -21,8 +21,7 @@ class FlattenServiceProvider extends ServiceProvider
     $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
 
     // Bind the classes
-    $this->app = $this->bindCoreClasses($this->app);
-    $this->app = $this->bindFlattenClasses($this->app);
+    $this->app = static::make($this->app);
 
     $this->commands('flatten.commands.build');
   }
@@ -60,6 +59,26 @@ class FlattenServiceProvider extends ServiceProvider
   ////////////////////////////////////////////////////////////////////
   /////////////////////////// CLASS BINDINGS /////////////////////////
   ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Create the Flatten Container
+   *
+   * @param  Container $app
+   *
+   * @return Container
+   */
+  public static function make(Container $app = null)
+  {
+    if (!$app) {
+      $app = new Container;
+    }
+
+    $provider = new static($app);
+    $app = $provider->bindCoreClasses($app);
+    $app = $provider->bindFlattenClasses($app);
+
+    return $app;
+  }
 
   /**
    * Bind the core classes to the container

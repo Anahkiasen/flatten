@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "334847a253a422c0e8d4e1fb175e716f",
+    "hash": "fae806cd50bcfdfa617ba8d278bee336",
     "packages": [
         {
             "name": "illuminate/cache",
@@ -12,23 +12,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
-                "reference": "8830444bdc2b54effc96921eb105374a9dbb6871"
+                "reference": "2059a5ec41ca1d074f3ac4346d25d8f9a48e9301"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/cache/zipball/8830444bdc2b54effc96921eb105374a9dbb6871",
-                "reference": "8830444bdc2b54effc96921eb105374a9dbb6871",
+                "url": "https://api.github.com/repos/illuminate/cache/zipball/2059a5ec41ca1d074f3ac4346d25d8f9a48e9301",
+                "reference": "2059a5ec41ca1d074f3ac4346d25d8f9a48e9301",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "4.1.x",
-                "illuminate/encryption": "4.1.x",
-                "illuminate/filesystem": "4.1.x",
-                "illuminate/redis": "4.1.x",
                 "illuminate/support": "4.1.x",
                 "php": ">=5.3.0"
             },
             "require-dev": {
+                "illuminate/database": "4.1.x",
+                "illuminate/encryption": "4.1.x",
+                "illuminate/filesystem": "4.1.x",
+                "illuminate/redis": "4.1.x",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
@@ -49,10 +49,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-06-24 03:05:07"
+            "time": "2013-08-10 17:47:18"
         },
         {
             "name": "illuminate/config",
@@ -61,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
-                "reference": "5c943c06e817be915d2eb45f9b34fdd6b38bc44c"
+                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/config/zipball/5c943c06e817be915d2eb45f9b34fdd6b38bc44c",
-                "reference": "5c943c06e817be915d2eb45f9b34fdd6b38bc44c",
+                "url": "https://api.github.com/repos/illuminate/config/zipball/70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
+                "reference": "70e05b02ed6f1ff0df447a0da0a2421cf95f6fce",
                 "shasum": ""
             },
             "require": {
@@ -95,10 +97,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-05-28 20:37:43"
+            "time": "2013-08-10 17:47:18"
         },
         {
             "name": "illuminate/container",
@@ -107,12 +111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "908a2e4ac315c58317b2197c3f057e94bcbf869a"
+                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/908a2e4ac315c58317b2197c3f057e94bcbf869a",
-                "reference": "908a2e4ac315c58317b2197c3f057e94bcbf869a",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
+                "reference": "b9ecfb12b5d45f06e6eb0c9db82fcde6cb5c705e",
                 "shasum": ""
             },
             "require": {
@@ -139,10 +143,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-05-28 18:31:39"
+            "time": "2013-07-31 15:34:38"
         },
         {
             "name": "illuminate/cookie",
@@ -151,12 +157,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cookie.git",
-                "reference": "bffad04a1b06be3f4652fe257f7f010e43810c2f"
+                "reference": "d3b6f35572444b20e3d2d02006a84e70a6687be3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/cookie/zipball/bffad04a1b06be3f4652fe257f7f010e43810c2f",
-                "reference": "bffad04a1b06be3f4652fe257f7f010e43810c2f",
+                "url": "https://api.github.com/repos/illuminate/cookie/zipball/d3b6f35572444b20e3d2d02006a84e70a6687be3",
+                "reference": "d3b6f35572444b20e3d2d02006a84e70a6687be3",
                 "shasum": ""
             },
             "require": {
@@ -187,70 +193,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-05-28 20:37:43"
-        },
-        {
-            "name": "illuminate/database",
-            "version": "dev-master",
-            "target-dir": "Illuminate/Database",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/illuminate/database.git",
-                "reference": "bd344a4c74b7ab29cd1501d8f39bb7041612b352"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/bd344a4c74b7ab29cd1501d8f39bb7041612b352",
-                "reference": "bd344a4c74b7ab29cd1501d8f39bb7041612b352",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/container": "4.1.x",
-                "illuminate/events": "4.1.x",
-                "illuminate/support": "4.1.x",
-                "nesbot/carbon": "1.*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "illuminate/cache": "4.1.x",
-                "illuminate/console": "4.1.x",
-                "illuminate/filesystem": "4.1.x",
-                "illuminate/pagination": "4.1.x",
-                "illuminate/support": "4.1.x",
-                "mockery/mockery": "0.7.2",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Illuminate\\Database": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "keywords": [
-                "database",
-                "laravel",
-                "orm",
-                "sql"
-            ],
-            "time": "2013-07-09 13:05:22"
+            "time": "2013-07-23 06:29:59"
         },
         {
             "name": "illuminate/encryption",
@@ -292,57 +240,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-06-02 19:23:05"
-        },
-        {
-            "name": "illuminate/events",
-            "version": "dev-master",
-            "target-dir": "Illuminate/Events",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/illuminate/events.git",
-                "reference": "f3b3356f49c00b110f58c2b255e1cc46ec4f6f76"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/f3b3356f49c00b110f58c2b255e1cc46ec4f6f76",
-                "reference": "f3b3356f49c00b110f58c2b255e1cc46ec4f6f76",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/container": "4.1.x",
-                "illuminate/support": "4.1.x",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.7.2",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Illuminate\\Events": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "time": "2013-05-28 20:37:43"
         },
         {
             "name": "illuminate/filesystem",
@@ -385,7 +288,9 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
             "time": "2013-07-02 17:46:50"
@@ -397,12 +302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
-                "reference": "0e1471a4264f684ce5b9cf2f3c0f1d581d24e23a"
+                "reference": "9d2eed0e9d6af09317d3de68a1922e9ee5ee2ca7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/http/zipball/0e1471a4264f684ce5b9cf2f3c0f1d581d24e23a",
-                "reference": "0e1471a4264f684ce5b9cf2f3c0f1d581d24e23a",
+                "url": "https://api.github.com/repos/illuminate/http/zipball/9d2eed0e9d6af09317d3de68a1922e9ee5ee2ca7",
+                "reference": "9d2eed0e9d6af09317d3de68a1922e9ee5ee2ca7",
                 "shasum": ""
             },
             "require": {
@@ -432,57 +337,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-05-28 20:37:43"
-        },
-        {
-            "name": "illuminate/redis",
-            "version": "dev-master",
-            "target-dir": "Illuminate/Redis",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/illuminate/redis.git",
-                "reference": "7cf3593e3eb5533168eb1c529a4fb6c4bfe88ace"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/redis/zipball/7cf3593e3eb5533168eb1c529a4fb6c4bfe88ace",
-                "reference": "7cf3593e3eb5533168eb1c529a4fb6c4bfe88ace",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "4.1.x",
-                "php": ">=5.3.0",
-                "predis/predis": "0.*"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.7.2",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Illuminate\\Redis": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "time": "2013-05-28 20:37:43"
+            "time": "2013-08-05 13:28:56"
         },
         {
             "name": "illuminate/session",
@@ -491,12 +351,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
-                "reference": "1c6e8c13b4c7869d0c19af15813288d75b5a7be1"
+                "reference": "b9746023b51add02c86aba3eab6b6f330db8f863"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/session/zipball/1c6e8c13b4c7869d0c19af15813288d75b5a7be1",
-                "reference": "1c6e8c13b4c7869d0c19af15813288d75b5a7be1",
+                "url": "https://api.github.com/repos/illuminate/session/zipball/b9746023b51add02c86aba3eab6b6f330db8f863",
+                "reference": "b9746023b51add02c86aba3eab6b6f330db8f863",
                 "shasum": ""
             },
             "require": {
@@ -530,10 +390,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-06-11 01:02:17"
+            "time": "2013-07-19 10:47:48"
         },
         {
             "name": "illuminate/support",
@@ -542,12 +404,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb"
+                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/c5175eabb5e992096d8853d438aed072fca1e7bb",
-                "reference": "c5175eabb5e992096d8853d438aed072fca1e7bb",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
+                "reference": "9507e57aa5b237993e2bdb82d8534fc89d5dac6c",
                 "shasum": ""
             },
             "require": {
@@ -579,100 +441,12 @@
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
                 }
             ],
-            "time": "2013-07-09 13:05:22"
-        },
-        {
-            "name": "nesbot/carbon",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/briannesbitt/Carbon.git",
-                "reference": "1.2.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/briannesbitt/Carbon/zipball/1.2.0",
-                "reference": "1.2.0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Carbon": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Brian Nesbitt",
-                    "email": "brian@nesbot.com",
-                    "homepage": "http://nesbot.com"
-                }
-            ],
-            "description": "A simple API extension for DateTime.",
-            "homepage": "https://github.com/briannesbitt/Carbon",
-            "keywords": [
-                "date",
-                "datetime",
-                "time"
-            ],
-            "time": "2012-10-14 17:41:18"
-        },
-        {
-            "name": "predis/predis",
-            "version": "0.8.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nrk/predis.git",
-                "reference": "4576dc029f04f25438521065aa4d29419a19bf2a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/4576dc029f04f25438521065aa4d29419a19bf2a",
-                "reference": "4576dc029f04f25438521065aa4d29419a19bf2a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2"
-            },
-            "suggest": {
-                "ext-curl": "Allows access to Webdis when paired with phpiredis",
-                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Predis": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Daniele Alessandri",
-                    "email": "suppakilla@gmail.com",
-                    "homepage": "http://clorophilla.net"
-                }
-            ],
-            "description": "Flexible and feature-complete PHP client library for Redis",
-            "homepage": "http://github.com/nrk/predis",
-            "keywords": [
-                "nosql",
-                "predis",
-                "redis"
-            ],
-            "time": "2013-06-17 09:16:07"
+            "time": "2013-08-05 13:28:56"
         },
         {
             "name": "symfony/finder",
@@ -681,12 +455,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371"
+                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/b251476db261edb54bb1d7c6b8be6ae49ff9a371",
-                "reference": "b251476db261edb54bb1d7c6b8be6ae49ff9a371",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
+                "reference": "4a0fee5b86f5bbd9dfdc11ec124eba2915737ce1",
                 "shasum": ""
             },
             "require": {
@@ -719,7 +493,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-08-13 20:18:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -728,12 +502,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "b4b8939d76345ea07d528fc725ce6e1caa0d4553"
+                "reference": "ad778df4e7af3cfb9151eeeeb8b9823d47a2d72f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/b4b8939d76345ea07d528fc725ce6e1caa0d4553",
-                "reference": "b4b8939d76345ea07d528fc725ce6e1caa0d4553",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/ad778df4e7af3cfb9151eeeeb8b9823d47a2d72f",
+                "reference": "ad778df4e7af3cfb9151eeeeb8b9823d47a2d72f",
                 "shasum": ""
             },
             "require": {
@@ -769,7 +543,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-08-17 16:34:49"
         }
     ],
     "packages-dev": [
@@ -779,12 +553,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "7c53b7a6d1d1538f8180927247c96dd1df900248"
+                "reference": "9d2460275665f4506d359f4e2037705d07833173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/7c53b7a6d1d1538f8180927247c96dd1df900248",
-                "reference": "7c53b7a6d1d1538f8180927247c96dd1df900248",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/9d2460275665f4506d359f4e2037705d07833173",
+                "reference": "9d2460275665f4506d359f4e2037705d07833173",
                 "shasum": ""
             },
             "require": {
@@ -825,7 +599,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-07-10 22:15:03"
+            "time": "2013-08-16 09:45:12"
         }
     ],
     "aliases": [
