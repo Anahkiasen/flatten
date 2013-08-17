@@ -2,12 +2,12 @@
 namespace Flatten\Crawler;
 
 use DOMElement;
+use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
-use Symfony\Component\HttpKernel\Client;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Foundation\Testing\Client;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Crawler
@@ -59,17 +59,21 @@ class Crawler
   /**
    * Build a new Crawler
    *
-   * @param Container $app
+   * @param Container           $app
    * @param HttpKernelInterface $kernel
-   * @param string    $root A root url to use
+   * @param OutputInterface     $output
+   * @param string              $root
    */
   public function __construct(Container $app, HttpKernelInterface $kernel, OutputInterface $output, $root = null)
   {
-    $this->app    = $app;
+    $this->app = $app;
+
+    // Prepare output
     $this->output = $output;
 
-    $this->client = new Client($kernel, array());
-    $this->root   = $root ?: $this->app['request']->root();
+    // Create Client
+    $this->client = new Client($kernel);
+    $this->root   = $root ?: $this->app['config']->get('app.url');
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -84,7 +88,6 @@ class Crawler
   public function crawlPages()
   {
     $pages = array_keys($this->queue);
-    $this->queue = array();
 
     foreach ($pages as $key => $page) {
       if (in_array($page, $this->crawled)) {
@@ -112,17 +115,18 @@ class Crawler
    */
   protected function crawlPage($page)
   {
-    try {
-      $crawler = $this->getPage($page);
-      if (!$crawler) return false;
-    } catch (NotFoundHttpException $e) {
-      $this->error('Page at "' .$page. '" returned a 404');
+    // Mark page as crawled
+    $this->crawled[] = $page;
 
-      return false;
+    try {
+      if (!$crawler = $this->getPage($page)) {
+        return false;
+      }
+    } catch (Exception $e) {
+      return $this->error('Page "' .$page. '" errored : '.$e->getMessage());
     }
 
-    // Add the links to list of pages to crawl
-    $this->crawled[] = $page;
+    // Extract new links
     $this->extractLinks($crawler);
   }
 
@@ -201,9 +205,7 @@ class Crawler
     $response = $this->client->getResponse();
 
     if (!$response->isOk()) {
-      $this->error('Page at "' .$url. '" could not be reached');
-
-      return false;
+      return $this->error('Page at "' .$url. '" could not be reached');
     }
 
     // Format content
@@ -219,7 +221,7 @@ class Crawler
 
     // Display message
     $message = $status.' <info>%s</info>%s<comment>(%s in queue)</comment>';
-    $this->line(sprintf($message, $url, $padding, $current));
+    $this->output->writeln(sprintf($message, $url, $padding, $current));
 
     // Cache page
     if ($this->app['flatten']->shouldCachePage()) {
@@ -232,17 +234,6 @@ class Crawler
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////// OUTPUT //////////////////////////////
   ////////////////////////////////////////////////////////////////////
-
-  /**
-   * Write a string as output.
-   *
-   * @param  string  $string
-   * @return void
-   */
-  protected function line($string)
-  {
-    $this->output->writeln($string);
-  }
 
   /**
    * Write a string as error output.

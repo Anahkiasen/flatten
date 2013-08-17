@@ -5,7 +5,6 @@ class CrawlerTest extends FlattenTests
 {
 	public function testCanCreateCrawler()
 	{
-		$crawler = $this->getCrawler();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -19,6 +18,7 @@ class CrawlerTest extends FlattenTests
 	 */
 	protected function getCrawler()
 	{
+    $client = Mockery::mock('Illuminate\Foundation\Testing\Application');
     $output = Mockery::mock('Symfony\Component\Console\Output\OutputInterface');
 		$kernel = Mockery::mock('Symfony\Component\HttpKernel\HttpKernelInterface');
 
