@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Facade;
  */
 class Flatten extends Facade
 {
-  /**
-   * Get the registered component.
-   *
-   * @return object
-   */
-  protected static function getFacadeAccessor()
-  {
-    if (!static::$app) {
-      static::$app = FlattenServiceProvider::make();
-    }
+	/**
+	 * Get the registered component.
+	 *
+	 * @return object
+	 */
+	protected static function getFacadeAccessor()
+	{
+		if (!static::$app) {
+			static::$app = FlattenServiceProvider::make();
+		}
 
-    return 'flatten';
-  }
+		return 'flatten';
+	}
 }
