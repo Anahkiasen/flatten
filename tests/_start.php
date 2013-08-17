@@ -18,7 +18,11 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
   public function setUp()
   {
+    // Create Container
     $this->app = FlattenServiceProvider::make();
+
+    // Empty the cache
+    $this->app['cache']->flush();
   }
 
   /**
@@ -40,5 +44,42 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
   	}
 
   	return $this->app[$key];
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  /////////////////////////// MOCKED INSTANCES ///////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  /**
+   * Mock the Config repository
+   *
+   * @param array $options
+   *
+   * @return Mockery
+   */
+  protected function mockConfig($options = array())
+  {
+    $config = Mockery::mock('Config');
+    foreach ($options as $option => $value) {
+      $config->shouldReceive('get')->with($option)->andReturn($value);
+    }
+
+    return $config;
+  }
+
+  /**
+   * Mock the Request component
+   *
+   * @param  string $url          Current URL
+   *
+   * @return Mockery
+   */
+  protected function mockRequest($url = null)
+  {
+    $request = Mockery::mock('Request');
+    $request->shouldReceive('getMethod')->andReturn('GET');
+    $request->shouldReceive('getPathInfo')->andReturn($url);
+
+    return $request;
   }
 }

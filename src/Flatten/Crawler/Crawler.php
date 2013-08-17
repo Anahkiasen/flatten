@@ -3,11 +3,12 @@ namespace Flatten\Crawler;
 
 use DOMElement;
 use Illuminate\Container\Container;
-use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
+use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Crawler
 {
@@ -59,14 +60,15 @@ class Crawler
    * Build a new Crawler
    *
    * @param Container $app
+   * @param HttpKernelInterface $kernel
    * @param string    $root A root url to use
    */
-  public function __construct(Container $app, OutputInterface $output, $root = null)
+  public function __construct(Container $app, HttpKernelInterface $kernel, OutputInterface $output, $root = null)
   {
     $this->app    = $app;
     $this->output = $output;
 
-    $this->client = new Client($app, array());
+    $this->client = new Client($kernel, array());
     $this->root   = $root ?: $this->app['request']->root();
   }
 

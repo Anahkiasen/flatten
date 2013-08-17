@@ -21,6 +21,9 @@
     <whitelist>
       <directory>src/Flatten</directory>
       <exclude>
+      	<directory>src/Flatten/Facades</directory>
+      	<file>src/Flatten/Crawler/BuildCommand.php</file>
+      	<file>src/Flatten/FlatHandler.php</file>
       	<file>src/Flatten/FlattenServiceProvider.php</file>
       </exclude>
     </whitelist>

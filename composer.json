@@ -21,7 +21,9 @@
     "illuminate/http": "~4"
   },
   "require-dev": {
-    "mockery/mockery": "dev-master"
+    "mockery/mockery": "dev-master",
+    "symfony/browser-kit": "dev-master",
+    "symfony/http-kernel": "dev-master"
   },
   "autoload": {
     "psr-0": {

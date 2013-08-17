@@ -2,6 +2,7 @@
 namespace Flatten;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -102,7 +103,7 @@ class Flatten
    *
    * @return boolean
    */
-  protected function isInAllowedEnvironment()
+  public function isInAllowedEnvironment()
   {
     if(!$this->app->bound('env')) {
       return true;
@@ -111,7 +112,14 @@ class Flatten
     // Get allowed environments
     $allowedEnvs = (array) $this->app['config']->get('flatten::environments');
 
-    return !$this->app->runningInConsole() and !in_array($this->app['env'], $allowedEnvs);
+    // Check if in console
+    if (method_exists($this->app, 'runningInConsole')) {
+      $inConsole = $this->app->runningInConsole();
+    } else {
+      $inConsole = false;
+    }
+
+    return !$inConsole and !in_array($this->app['env'], $allowedEnvs);
   }
 
   /**
@@ -121,15 +129,13 @@ class Flatten
    *
    * @return boolean
    */
-  protected function matches($pages)
+  public function matches($pages)
   {
     // Implode all pages into one single pattern
-    $page = $this->app['flatten.cache']->getHash();
-    if(!$page) {
-      $page = $this->getCurrentUrl();
-    }
+    $page    = $this->getCurrentUrl();
+    $pattern = '#' .implode('|', $pages). '#';
 
-    return preg_match('#' .implode('|', $pages). '#', $page);
+    return (bool) preg_match($pattern, $page);
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -151,10 +157,11 @@ class Flatten
     // Else, send the response with the content
     if ($content) {
       $response = new Response($content, 200);
-      $response->send();
 
-      exit();
+      return $response->send();
     }
+
+    return null;
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -168,9 +175,7 @@ class Flatten
    */
   protected function getCurrentUrl()
   {
-    $pattern = trim($this->app['request']->getPathInfo(), '/');
-
-    return $pattern == '' ? '/' : $pattern;
+    return Str::finish($this->app['request']->getPathInfo(), '/');
   }
 
   /**

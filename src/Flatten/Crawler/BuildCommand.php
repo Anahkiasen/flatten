@@ -38,7 +38,7 @@ class BuildCommand extends Command
     }
 
     // Crawl pages
-    $crawler = new Crawler($this->laravel, $this->output, $this->option('root'));
+    $crawler = new Crawler($this->laravel, $this->laravel, $this->output, $this->option('root'));
     $crawled = $crawler->crawlPages();
 
     $this->info('Successfully built '.$crawled. ' pages');

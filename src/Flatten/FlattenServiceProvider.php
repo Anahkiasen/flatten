@@ -6,7 +6,7 @@ use Illuminate\Config\FileLoader as ConfigLoader;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 /**
  * Register the Flatten package with the Laravel framework
