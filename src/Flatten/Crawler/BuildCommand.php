@@ -31,6 +31,7 @@ class BuildCommand extends Command
    */
   public function fire()
   {
+    // Clear cache beforehand
     if ($this->option('clear')) {
       $this->comment('Clearing the cache');
       $this->laravel['cache']->flush();

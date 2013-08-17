@@ -1,6 +1,8 @@
 <?php
 namespace Flatten;
 
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Hooks into the main events to execute actions
  */
@@ -30,6 +32,9 @@ class EventHandler
    */
   public function onApplicationBoot()
   {
+    // Start buffer
+    ob_start();
+
     // Render page if it's available in the cache
     if ($this->app['flatten.cache']->hasCache()) {
       return $this->app['flatten']->render();
@@ -43,9 +48,10 @@ class EventHandler
    *
    * @return void
    */
-  public function onApplicationDone($response = null)
+  public function onApplicationDone(Response $response = null)
   {
-    $content = $response->getOriginalContent();
+    // Get the Response's or the buffer's contents
+    $content = $response ? $response->getContent() : ob_end_flush();
 
     // Cache content
     $this->app['flatten.cache']->storeCache($content);
