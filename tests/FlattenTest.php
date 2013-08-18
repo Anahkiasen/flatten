@@ -19,7 +19,7 @@ class FlattenTest extends FlattenTests
 		$this->app['request'] = $this->mockRequest('/');
 		$this->assertTrue($this->flatten->matches(array('^/$')));
 
-		$this->app['request'] = $this->mockRequest('maintainer/foobar');
+		$this->app['request'] = $this->mockRequest('/maintainer/foobar');
 		$this->assertFalse($this->flatten->matches(array('^/$')));
 		$this->assertTrue($this->flatten->matches(array('maintainer/.+')));
 	}
@@ -27,20 +27,20 @@ class FlattenTest extends FlattenTests
 	public function testCanCheckIfPageShouldBeCached()
 	{
 		$this->app['config']  = $this->mockConfig(array(
-			'flatten::ignore' => array('^maintainer/anahkiasen', 'admin/.+'),
-			'flatten::only'   => array('^maintainers/.+', 'package/.+'),
+			'flatten::ignore' => array('^/maintainer/anahkiasen', 'admin/.+'),
+			'flatten::only'   => array('^/maintainers/.+', 'package/.+'),
 		));
 
 		$this->app['request'] = $this->mockRequest('/');
 		$this->assertTrue($this->flatten->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('maintainer/jasonlewis');
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
 		$this->assertTrue($this->flatten->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('maintainer/anahkiasen');
+		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
 		$this->assertFalse($this->flatten->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('admin/maintainers/5/edit');
+		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
 		$this->assertFalse($this->flatten->shouldCachePage());
 
 		$this->app['config'] = $this->mockConfig()->shouldReceive('get')->andReturn(null)->mock();
@@ -65,16 +65,16 @@ class FlattenTest extends FlattenTests
 	{
 		$this->app['config']  = $this->mockConfig(array(
 			'flatten::environments' => array('local'),
-			'flatten::ignore'       => array('^maintainer/anahkiasen', 'admin/.+'),
-			'flatten::only'         => array('^maintainers/.+', 'package/.+'),
+			'flatten::ignore'       => array('^/maintainer/anahkiasen', 'admin/.+'),
+			'flatten::only'         => array('^/maintainers/.+', 'package/.+'),
 		));
 
 		$this->app['env'] = 'local';
-		$this->app['request'] = $this->mockRequest('maintainer/jasonlewis');
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
 		$this->assertFalse($this->flatten->shouldRun());
 
 		$this->app['env'] = 'production';
-		$this->app['request'] = $this->mockRequest('maintainer/jasonlewis');
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
 		$this->assertTrue($this->flatten->shouldRun());
 	}
 }
