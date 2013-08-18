@@ -40,6 +40,46 @@ class ContextTest extends FlattenTests
 		$this->assertTrue($this->context->shouldCachePage());
 	}
 
+	public function testCanUncacheAllPagesWithOnly()
+	{
+		$this->app['config']  = $this->mockConfig(array(
+			'flatten::only'   => array('foobar'),
+			'flatten::ignore' => array(),
+		));
+
+		$this->app['request'] = $this->mockRequest('/');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
+		$this->assertFalse($this->context->shouldCachePage());
+	}
+
+	public function testCanUncacheAllPagesWithIgnore()
+	{
+		$this->app['config']  = $this->mockConfig(array(
+			'flatten::only'   => array(),
+			'flatten::ignore' => array('.+'),
+		));
+
+		$this->app['request'] = $this->mockRequest('/');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->assertFalse($this->context->shouldCachePage());
+
+		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
+		$this->assertFalse($this->context->shouldCachePage());
+	}
+
 	public function testCanCheckIfInAllowedEnvironment()
 	{
 		$this->app['config'] = $this->mockConfig();

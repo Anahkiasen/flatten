@@ -60,15 +60,15 @@ class Context
 	public function shouldCachePage()
 	{
 		// Get pages to cache
-		$only    = $this->app['config']->get('flatten::only');
-		$ignored = $this->app['config']->get('flatten::ignore');
+		$only    = (array) $this->app['config']->get('flatten::only');
+		$ignored = (array) $this->app['config']->get('flatten::ignore');
 		$cache   = false;
 
 		// Ignore and only
-		if (!$ignored and !$only) $cache = true;
+		if (empty($ignored) and empty($only)) $cache = true;
 		else {
-			if ($only    and  $this->matches($only))    $cache = true;
-			if ($ignored and !$this->matches($ignored)) $cache = true;
+			if (!empty($only)    and  $this->matches($only))    $cache = true;
+			if (!empty($ignored) and !$this->matches($ignored)) $cache = true;
 		}
 
 		return (bool) $cache;
