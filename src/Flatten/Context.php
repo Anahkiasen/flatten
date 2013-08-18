@@ -30,7 +30,7 @@ class Context
 	public function __construct(Container $app)
 	{
 		$this->app = $app;
-		$this->inConsole = php_sapi_name() !== 'cli';
+		$this->inConsole = php_sapi_name() == 'cli';
 	}
 
 	////////////////////////////////////////////////////////////////////

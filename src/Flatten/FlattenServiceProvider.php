@@ -132,7 +132,7 @@ class FlattenServiceProvider extends ServiceProvider
 			return new Crawler\BuildCommand;
 		});
 
-		$app->bind('flatten.context', function($app) {
+		$app->singleton('flatten.context', function($app) {
 			return new Context($app);
 		});
 
