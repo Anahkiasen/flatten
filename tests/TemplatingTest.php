@@ -20,6 +20,24 @@ class TemplatingTest extends FlattenTests
 			?><h1>NewHeader</h1><?php
 		});
 		$this->assertEquals('<h1>NewHeader</h1>', $section);
+		$this->assertTrue($this->app['cache']->has('flatten-section-foobar'));
+	}
+
+	public function testCanFlushSection()
+	{
+		$section = $this->templating->section('foo', function() {
+			?><h1>foo</h1><?php
+		});
+
+		$section = $this->templating->section('bar', function() {
+			?><h1>bar</h1><?php
+		});
+
+		$this->assertTrue($this->app['cache']->has('flatten-section-foo'));
+		$this->assertTrue($this->app['cache']->has('flatten-section-bar'));
+		$this->templating->flushSection('foo');
+		$this->assertFalse($this->app['cache']->has('flatten-section-foo'));
+		$this->assertTrue($this->app['cache']->has('flatten-section-bar'));
 	}
 
 	public function testCanCompileBladeTags()

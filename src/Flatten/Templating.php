@@ -84,10 +84,38 @@ class Templating
 			$lifetime = $this->app['flatten.cache']->getLifetime();
 		}
 
-		return $this->app['cache']->remember($name, $lifetime, function() use ($contents) {
+		return $this->app['cache']->remember($this->formatSectionName($name), $lifetime, function() use ($contents) {
 			ob_start();
 				print $contents();
 			return ob_get_clean();
 		});
+	}
+
+	/**
+	 * Flush a section in particular
+	 *
+	 * @param  string $name
+	 *
+	 * @return void
+	 */
+	public function flushSection($name)
+	{
+		return $this->app['cache']->forget($this->formatSectionName($name));
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Format a section name
+	 *
+	 * @param  string $name
+	 *
+	 * @return string
+	 */
+	protected function formatSectionName($name)
+	{
+		return 'flatten-section-'.$name;
 	}
 }
