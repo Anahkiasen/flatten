@@ -173,12 +173,6 @@ class FlattenServiceProvider extends ServiceProvider
 			$app['path.storage'] = $storage;
 		}
 
-		// Create meta directory
-		$storage = $app['path.storage'].'/meta';
-		if (!$app['files']->isDirectory($storage)) {
-			$app['files']->makeDirectory($storage, 0755, true);
-		}
-
 		return $app;
 	}
 }

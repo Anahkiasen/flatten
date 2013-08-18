@@ -454,16 +454,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-F/Setting.git",
-                "reference": "2fa11fc48b5ed799597c91b79bb093f6626a6ab7"
+                "reference": "9c1d7cb4bf75b23934e605807d291f9988c650d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/2fa11fc48b5ed799597c91b79bb093f6626a6ab7",
-                "reference": "2fa11fc48b5ed799597c91b79bb093f6626a6ab7",
+                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/9c1d7cb4bf75b23934e605807d291f9988c650d9",
+                "reference": "9c1d7cb4bf75b23934e605807d291f9988c650d9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "dev-master",
+                "illuminate/support": "~4",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -490,7 +490,7 @@
                 "config",
                 "laravel"
             ],
-            "time": "2013-08-18 17:57:24"
+            "time": "2013-08-18 18:31:12"
         },
         {
             "name": "symfony/finder",
