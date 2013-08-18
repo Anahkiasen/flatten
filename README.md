@@ -52,14 +52,68 @@ The pages are cached according to two parameters : their path and their method. 
 
 Flatten can cache all authorized pages in your application via the `artisan flatten:build` command. It will crawl your application and go from page to page, caching all the pages you allowed him to.
 
+
 ### Flushing
 
 Sometimes you may want to flush a specific page or pattern. If per example you cache your users's profiles, you may want to flush those when the user edit its informations.
 You can do so via the following methods :
 
 ```php
+// Manual flushing
 Flatten::flushPattern('users/.+');
 Flatten::flushUrl('http://localhost/users/taylorotwell');
+
+// Flushing via an UrlGenerator
 Flatten::flushRoute('user', 'taylorotwell');
 Flatten::flushAction('UsersController@user', 'taylorotwell');
+
+// Flushing template sections (see below)
+Flatten::flushSection('articles');
+```
+
+### Runtime caching
+
+You don't have to cache all of a page, you can fine-tune your cache in smaller cached sections.
+
+In PHP you'd do it like this :
+
+```php
+<h1>This will always be dynamic</h1>
+<?php foreach ($articles as $article): ?>
+	<?= $article->name ?>
+<?php endforeach; ?>
+
+<h1>This will not</h1>
+<?php Flatten::section('articles', function () { ?>
+	<?php foreach ($articles as $article): ?>
+		<?= $article->name ?>
+	<?php endforeach; ?>
+<?php }); ?>
+```
+
+You can also specify for how long you want that section to be cached by adding an argument to `section` :
+
+```php
+<!-- This section will be cached for 10 minutes -->
+<?php Flatten::section('articles', 10, function () { ?>
+	<?php foreach ($articles as $article): ?>
+		<?= $article->name ?>
+	<?php endforeach; ?>
+<?php }); ?>
+```
+
+Flatten also hooks into the Blade templating engine for a leaner syntax. Let's rewrite our above example :
+
+```html
+<h1>This will always be dynamic</h1>
+@foreach($articles as $article)
+	{{ $article->name }}
+@endforeach
+
+<h1>This will not</h1>
+@cache('articles', 10)
+	@foreach($articles as $article)
+		{{ $article->name }}
+	@endforeach
+@endcache
 ```
