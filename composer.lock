@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6b963caef8835ade2ddd5ab3eb972f0f",
+    "hash": "10bedf2588c76f54fa0d29f6f392e758",
     "packages": [
         {
             "name": "illuminate/cache",
@@ -450,16 +450,16 @@
         },
         {
             "name": "philf/setting",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-F/Setting.git",
-                "reference": "14576de9503db0943041503bcc246ebbf703395d"
+                "reference": "4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/14576de9503db0943041503bcc246ebbf703395d",
-                "reference": "14576de9503db0943041503bcc246ebbf703395d",
+                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489",
+                "reference": "4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489",
                 "shasum": ""
             },
             "require": {
@@ -489,7 +489,7 @@
                 "config",
                 "laravel"
             ],
-            "time": "2013-08-09 00:45:01"
+            "time": "2013-08-18 15:14:55"
         },
         {
             "name": "symfony/finder",
