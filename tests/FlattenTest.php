@@ -15,9 +15,12 @@ class FlattenTest extends FlattenTests
 	public function testCanRenderResponses()
 	{
 		$response = $this->flatten->getResponse('foobar');
-
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('foobar', $response->getContent());
+
+		$response = $this->flatten->getResponse();
+		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
+		$this->assertEquals('', $response->getContent());
 	}
 
 	public function testCanCheckIfPageMatchesPattern()
@@ -58,13 +61,13 @@ class FlattenTest extends FlattenTests
 		$this->app['config'] = $this->mockConfig();
 		$this->app['config']->shouldReceive('get')->with('flatten::environments')->andReturn(array('local'));
 
-		$this->assertTrue($this->flatten->isInAllowedEnvironment());
+		$this->assertTrue($this->flatten->isInAllowedEnvironment(false));
 
 		$this->app['env'] = 'production';
-		$this->assertTrue($this->flatten->isInAllowedEnvironment());
+		$this->assertTrue($this->flatten->isInAllowedEnvironment(false));
 
 		$this->app['env'] = 'local';
-		$this->assertFalse($this->flatten->isInAllowedEnvironment());
+		$this->assertFalse($this->flatten->isInAllowedEnvironment(false));
 	}
 
 	public function testCanCheckIfShouldRun()

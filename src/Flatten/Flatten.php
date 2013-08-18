@@ -37,6 +37,8 @@ class Flatten
 	 * Starts the caching system
 	 *
 	 * @return boolean
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function start()
 	{
@@ -51,6 +53,8 @@ class Flatten
 	 * @param Response $response A response to render on end
 	 *
 	 * @return boolean
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function end($response = null)
 	{
@@ -103,9 +107,11 @@ class Flatten
 	/**
 	 * Check if the current environment is allowed to be cached
 	 *
+	 * @param boolean $disallowCli Whether CLI should prevent Flatten from running
+	 *
 	 * @return boolean
 	 */
-	public function isInAllowedEnvironment()
+	public function isInAllowedEnvironment($disallowCli = true)
 	{
 		if (!$this->app->bound('env')) {
 			return true;
@@ -113,15 +119,9 @@ class Flatten
 
 		// Get allowed environments
 		$allowedEnvs = (array) $this->app['config']->get('flatten::environments');
+		$inConsole = $disallowCli ? php_sapi_name() == 'cli' : true;
 
-		// Check if in console
-		if (method_exists($this->app, 'runningInConsole')) {
-			$inConsole = $this->app->runningInConsole();
-		} else {
-			$inConsole = false;
-		}
-
-		return !$inConsole and !in_array($this->app['env'], $allowedEnvs);
+		return $inConsole and !in_array($this->app['env'], $allowedEnvs);
 	}
 
 	/**
@@ -170,6 +170,8 @@ class Flatten
 	 * Render a content
 	 *
 	 * @param  string $content A content to render
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function render($content = null)
 	{
