@@ -184,7 +184,7 @@ class CacheHandler
 	 */
 	public function getLifetime()
 	{
-		return (int) $this->app['config']->get('flatten::lifetime');
+		return (int) $this->app['config']->get('flatten::lifetime') ?: 999 * 999;
 	}
 
 	/**
