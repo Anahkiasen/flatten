@@ -132,6 +132,10 @@ class FlattenServiceProvider extends ServiceProvider
 			return new Crawler\BuildCommand;
 		});
 
+		$app->bind('flatten.context', function($app) {
+			return new Context($app);
+		});
+
 		$app->bind('flatten.events', function($app) {
 			return new EventHandler($app);
 		});

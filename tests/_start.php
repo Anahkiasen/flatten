@@ -24,8 +24,8 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 
 		// Empty the cache
 		$this->app['cache']->flush();
-		$this->app['flatten.storage']->clear();
-		$this->app['flatten']->inConsole(false);
+		$this->storage->clear();
+		$this->context->inConsole(false);
 	}
 
 	/**
@@ -37,13 +37,9 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
 	public function __get($key)
 	{
-		$instances = array(
-			'cache'  => 'flatten.cache',
-			'events' => 'flatten.events',
-		);
-
-		if (isset($instances[$key])) {
-			$key = $instances[$key];
+		$aliases = array('cache', 'context', 'events', 'storage');
+		if (in_array($key, $aliases)) {
+			$key = 'flatten.'.$key;
 		}
 
 		return $this->app[$key];
