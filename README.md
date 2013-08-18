@@ -16,6 +16,12 @@ Then if you're using Laravel, add Flatten's Service Provider to you `config/app.
 'Flatten\FlattenServiceProvider',
 ```
 
+And its facade :
+
+```php
+'Flatten' => 'Flatten\Facades\Flatten',
+```
+
 ### Configuration
 
 All the options are explained in the **config.php** configuration file. You can publish it via `artisan config:publish anahkiasen/flatten`.
@@ -47,6 +53,7 @@ Here is a preview of the configuration options available in said file :
 ## Usage
 
 The pages are cached according to two parameters : their path and their method. Only GET requests get cached as all the other methods are dynamic by nature.
+All of the calls you'll make, will be to the `Flatten\Facades\Flatten` facade.
 
 ### Building
 
