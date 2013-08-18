@@ -1,25 +1,22 @@
 # Flatten
 
-Flatten is a powerful cache system for the Laravel framework. What it does is quite simple : you tell him which page are to be cached, when the cache is to be flushed, and from there Flatten handles it all. It will quietly flatten your pages to plain HTML and store them. That whay if an user visit a page that has already been flattened, all the Laravel-system and PHP is highjacked to instead display a simple HTML page.
+Flatten is a powerful cache system for caching pages at runtime.
+What it does is quite simple : you tell him which page are to be cached, when the cache is to be flushed, and from there Flatten handles it all. It will quietly flatten your pages to plain HTML and store them. That whay if an user visit a page that has already been flattened, all the PHP is highjacked to instead display a simple HTML page.
 This will provide an essential boost to your application's speed, as your page's cache only gets refreshed when a change is made to the data it displays.
 
-<a name='installation'></a>
-## Installation
+## Setup
 
-Flatten installs just like any other package, via Composer
+### Installation
 
-```json
-"anahkiasen/flatten": "dev-master",
-```
+Flatten installs just like any other package, via Composer : `composer require anahkiasen/flatten`.
 
-Then add Flatten's Service Provider to you `config/app.php` file :
+Then if you're using Laravel, add Flatten's Service Provider to you `config/app.php` file :
 
 ```php
 'Flatten\FlattenServiceProvider',
 ```
 
-<a name='configuration'></a>
-## Configuration
+### Configuration
 
 All the options are explained in the **config.php** configuration file. You can publish it via `artisan config:publish anahkiasen/flatten`.
 
@@ -47,45 +44,22 @@ Here is a preview of the configuration options available in said file :
 'saltshaker' => array(),
 ```
 
-<a name='building'></a>
-## Building
+## Usage
+
+The pages are cached according to two parameters : their path and their method. Only GET requests get cached as all the other methods are dynamic by nature.
+
+### Building
 
 Flatten can cache all authorized pages in your application via the `artisan flatten:build` command. It will crawl your application and go from page to page, caching all the pages you allowed him to.
 
-<a name='flushing'></a>
-## Flushing
+### Flushing
 
--- This part is not yet up to date for Laravel 4
-
-Flatten gracefully ties-in Laravel's system by providing both a public toolkit and a flushing filter.
-The filter will flush the whole cache, and can easily be binded to any method or rest request. You can per example do this :
+Sometimes you may want to flush a specific page or pattern. If per example you cache your users's profiles, you may want to flush those when the user edit its informations.
+You can do so via the following methods :
 
 ```php
-class Users_Controller
-{
-  public function __construct()
-  {
-    parent::__construct();
-
-    // This will flush on all POST methods of
-    // the Users controller, excepted the post_login one
-    $this->filter('after', 'flush')->on('post')->except(array('login'));
-  }
-}
+Flatten::flushPattern('users/.+');
+Flatten::flushUrl('http://localhost/users/taylorotwell');
+Flatten::flushRoute('user', 'taylorotwell');
+Flatten::flushAction('UsersController@user', 'taylorotwell');
 ```
-
-Flatten also provides several public methods to use directly in your code.
-
-```php
-// Flushes the whole cache
-Flatten::flush()
-
-// Flushes a certain pattern
-Flatten::flush('(users|documents)/(read|edit|.+)')
-
-// Flush an action or a custom route
-Flatten::flush_action('users@read', array($user->id))
-Flatten::flush_route('myroute',     array($user->id))
-```
-
-For any questions, bug or suggestions on Flatten I redirect you to [the Github's issues](https://github.com/Anahkiasen/flatten/issues) !
