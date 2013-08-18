@@ -41,19 +41,21 @@ class Flatten
 	public function start()
 	{
 		if ($this->shouldRun()) {
-			$this->app['flatten.events']->onApplicationBoot();
+			return $this->app['flatten.events']->onApplicationBoot();
 		}
 	}
 
 	/**
 	 * Stops the caching system
 	 *
+	 * @param Response $response A response to render on end
+	 *
 	 * @return boolean
 	 */
-	public function end()
+	public function end($response = null)
 	{
 		if ($this->shouldRun()) {
-			return $this->app['flatten.events']->onApplicationDone();
+			return $this->app['flatten.events']->onApplicationDone($response);
 		}
 	}
 

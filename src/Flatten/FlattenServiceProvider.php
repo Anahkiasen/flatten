@@ -37,12 +37,12 @@ class FlattenServiceProvider extends ServiceProvider
 		}
 
 		// Launch startup event
-		$this->app['flatten.events']->onApplicationBoot();
+		$this->app['flatten']->start();
 
 		// Bind closing event
 		$app = $this->app;
 		$this->app->finish(function($request, $response) use ($app) {
-			return $app['flatten.events']->onApplicationDone($response);
+			return $app['flatten']->end($response);
 		});
 	}
 
