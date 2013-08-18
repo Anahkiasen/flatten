@@ -37,7 +37,19 @@ class Flatten
 	 */
 	public function __call($method, $arguments)
 	{
-		return call_user_func_array(array($this->app['flatten.cache'], $method), $arguments);
+		$class = $this;
+
+		// Go through the class Flatten decorates
+		$decorators = array('cache', 'templating');
+		foreach ($decorators as $decorator) {
+			$decorator = $this->app['flatten.'.$decorator];
+			if (method_exists($decorator, $method)) {
+				$class = $decorator;
+				break;
+			}
+		}
+
+		return call_user_func_array(array($decorator, $method), $arguments);
 	}
 
 	////////////////////////////////////////////////////////////////////

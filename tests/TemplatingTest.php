@@ -54,8 +54,8 @@ class TemplatingTest extends FlattenTests
 		$this->app['flatten.templating']->registerTags();
 
 		$blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
-		$this->assertEquals("<?php echo Flatten\Facades\Template::section('section', 512, function() { ?>", $blade->compileString("@cache('section', 512)"));
-		$this->assertEquals("<?php echo Flatten\Facades\Template::section('section', function() { ?>", $blade->compileString("@cache('section')"));
+		$this->assertEquals("<?php echo Flatten\Facades\Flatten::section('section', 512, function() { ?>", $blade->compileString("@cache('section', 512)"));
+		$this->assertEquals("<?php echo Flatten\Facades\Flatten::section('section', function() { ?>", $blade->compileString("@cache('section')"));
 		$this->assertEquals("<?php }); ?>", $blade->compileString("@endcache"));
 	}
 }
