@@ -53,7 +53,7 @@ class Flatten
 	 */
 	public function start()
 	{
-		if ($this->shouldRun()) {
+		if ($this->app['flatten.context']->shouldRun()) {
 			return $this->app['flatten.events']->onApplicationBoot();
 		}
 	}
@@ -69,7 +69,7 @@ class Flatten
 	 */
 	public function end($response = null)
 	{
-		if ($this->shouldRun()) {
+		if ($this->app['flatten.context']->shouldRun()) {
 			return $this->app['flatten.events']->onApplicationDone($response);
 		}
 	}

@@ -215,7 +215,7 @@ class Crawler
 		$content = utf8_decode($content);
 
 		// Build message
-		$status  = $this->app['flatten']->shouldCachePage() ? 'Cached' : 'Left uncached';
+		$status  = $this->app['flatten.context']->shouldCachePage() ? 'Cached' : 'Left uncached';
 		$current = (sizeof($this->queue) - $this->current);
 		$padding = str_repeat(' ', 70 - strlen($url) - strlen($status));
 
@@ -224,7 +224,7 @@ class Crawler
 		$this->output->writeln(sprintf($message, $url, $padding, $current));
 
 		// Cache page
-		if ($this->app['flatten']->shouldCachePage()) {
+		if ($this->app['flatten.context']->shouldCachePage()) {
 			$this->app['flatten.cache']->storeCache($content);
 		}
 
