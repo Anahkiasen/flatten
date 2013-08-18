@@ -52,8 +52,8 @@ class Templating
 		$blade->extend(function($view, $blade) {
 
 			// Replace opener
-			$pattern = $blade->createMatcher('cache');
-			$replace = "<?php echo Flatten\Facades\Template::section('$1', function() { ?>";
+			$pattern = $blade->createOpenMatcher('cache');
+			$replace = "<?php echo Flatten\Facades\Template::section$2, function() { ?>";
 			$view    = preg_replace($pattern, $replace, $view);
 
 			// Replace closing tag
@@ -71,13 +71,18 @@ class Templating
 	 * Register a section to cache with Flatten
 	 *
 	 * @param  string  $name
+	 * @param  integer $lifetime
 	 * @param  Closure $contents
 	 *
 	 * @return void
 	 */
-	public function section($name, Closure $contents)
+	public function section($name, $lifetime, $contents = null)
 	{
-		$lifetime = $this->app['flatten.cache']->getLifetime();
+		// Variable arguments
+		if (!$contents) {
+			$contents = $lifetime;
+			$lifetime = $this->app['flatten.cache']->getLifetime();
+		}
 
 		return $this->app['cache']->remember($name, $lifetime, function() use ($contents) {
 			ob_start();
