@@ -32,6 +32,9 @@ class FlattenServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
+		// Register templating methods
+		$this->app['flatten.templating']->registerTags();
+
 		// Cancel if Flatten shouldn't run here
 		if (!$this->app['flatten.context']->shouldRun()) {
 			return false;
@@ -138,6 +141,10 @@ class FlattenServiceProvider extends ServiceProvider
 
 		$app->bind('flatten.events', function($app) {
 			return new EventHandler($app);
+		});
+
+		$app->bind('flatten.templating', function($app) {
+			return new Templating($app);
 		});
 
 		$app->singleton('flatten.cache', function($app) {

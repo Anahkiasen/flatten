@@ -1,10 +1,14 @@
 # Flatten
 
+## 0.3.0 (develop)
+
+- Added support for caching sections of pages
+
 ## 0.2.2 (stable)
 
 - Fix inverted inConsole variable
 
-## 0.2.1 (stable)
+## 0.2.1
 
 - Small bugfixes
 

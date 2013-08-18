@@ -1,12 +1,12 @@
 
 
 Code Coverage Report:     
-  2013-08-18 18:35:26     
+  2013-08-18 19:35:53     
                           
  Summary:                 
-  Classes: 40.00% (2/5)   
-  Methods: 68.57% (24/35) 
-  Lines:   47.56% (78/164)
+  Classes: 33.33% (2/6)   
+  Methods: 67.50% (27/40) 
+  Lines:   46.70% (85/182)
 
 \Flatten::CacheHandler
   Methods:  91.67% (11/12)   Lines:  93.75% ( 30/ 32)
@@ -16,3 +16,5 @@ Code Coverage Report:
   Methods:  66.67% ( 2/ 3)   Lines:  88.89% (  8/  9)
 \Flatten::Flatten
   Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 17/ 17)
+\Flatten::Templating
+  Methods:  60.00% ( 3/ 5)   Lines:  38.89% (  7/ 18)

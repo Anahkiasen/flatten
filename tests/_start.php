@@ -37,7 +37,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
 	public function __get($key)
 	{
-		$aliases = array('cache', 'context', 'events', 'storage');
+		$aliases = array('cache', 'context', 'events', 'storage', 'templating');
 		if (in_array($key, $aliases)) {
 			$key = 'flatten.'.$key;
 		}
