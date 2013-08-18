@@ -77,7 +77,7 @@ class CacheHandler
 		}
 
 		// Add page to cached pages
-		$cached = $this->app['flatten.storage']->get('cached');
+		$cached = (array) $this->app['flatten.storage']->get('cached');
 		$this->app['flatten.storage']->set('cached', $cached + array($this->hash));
 
 		return $this->app['cache']->put(

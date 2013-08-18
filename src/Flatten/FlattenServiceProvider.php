@@ -144,8 +144,6 @@ class FlattenServiceProvider extends ServiceProvider
 			return new Setting($app['path.storage'].'/meta', 'flatten.json');
 		});
 
-		$app['flatten.storage']->set('foo', 'bar');
-
 		return $app;
 	}
 
@@ -159,15 +157,15 @@ class FlattenServiceProvider extends ServiceProvider
 		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
 		// Bind paths
-		if (!isset($app['path.storage'])) {
+		if (!$app->bound('path.storage')) {
 			$storage = __DIR__.'/../../storage';
 			$app['path.storage'] = $storage;
 		}
 
 		// Create meta directory
-		$storage .= '/meta';
+		$storage = $app['path.storage'].'/meta';
 		if (!$app['files']->isDirectory($storage)) {
-			$app['files']->makeDirectory($storage);
+			$app['files']->makeDirectory($storage, 755, true);
 		}
 
 		return $app;
