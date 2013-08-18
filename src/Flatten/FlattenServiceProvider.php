@@ -136,7 +136,7 @@ class FlattenServiceProvider extends ServiceProvider
 			return new EventHandler($app);
 		});
 
-		$app->bind('flatten.cache', function($app) {
+		$app->singleton('flatten.cache', function($app) {
 			return new CacheHandler($app, $app['flatten']->computeHash());
 		});
 
@@ -165,7 +165,7 @@ class FlattenServiceProvider extends ServiceProvider
 		// Create meta directory
 		$storage = $app['path.storage'].'/meta';
 		if (!$app['files']->isDirectory($storage)) {
-			$app['files']->makeDirectory($storage, 755, true);
+			$app['files']->makeDirectory($storage, 0755, true);
 		}
 
 		return $app;

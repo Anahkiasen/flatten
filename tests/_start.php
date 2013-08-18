@@ -6,16 +6,16 @@ use Illuminate\Container\Container;
 
 abstract class FlattenTests extends PHPUnit_Framework_TestCase
 {
-		/**
-		 * The Container
-		 *
-		 * @var Container
-		 */
-		protected $app;
+	/**
+	 * The Container
+	 *
+	 * @var Container
+	 */
+	protected $app;
 
-		/**
-		 * Set up the tests
-		 */
+	/**
+	 * Set up the tests
+	 */
 	public function setUp()
 	{
 		// Create Container
@@ -23,6 +23,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 
 		// Empty the cache
 		$this->app['cache']->flush();
+		$this->app['flatten.storage']->clear();
 	}
 
 	/**
@@ -34,16 +35,16 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
 	public function __get($key)
 	{
-			$instances = array(
-						'cache'  => 'flatten.cache',
-						'events' => 'flatten.events',
-			);
+		$instances = array(
+			'cache'  => 'flatten.cache',
+			'events' => 'flatten.events',
+		);
 
-			if (isset($instances[$key])) {
-					$key = $instances[$key];
-			}
+		if (isset($instances[$key])) {
+			$key = $instances[$key];
+		}
 
-			return $this->app[$key];
+		return $this->app[$key];
 	}
 
 	////////////////////////////////////////////////////////////////////

@@ -77,8 +77,8 @@ class CacheHandler
 		}
 
 		// Add page to cached pages
-		$cached = (array) $this->app['flatten.storage']->get('cached');
-		$this->app['flatten.storage']->set('cached', $cached + array($this->hash));
+		$cached = array_merge($this->getCachedPages(), array($this->hash));
+		$this->app['flatten.storage']->set('cached', $cached);
 
 		return $this->app['cache']->put(
 			$this->hash, $content, $this->getLifetime()
@@ -94,16 +94,31 @@ class CacheHandler
 	 *
 	 * @param  string $pattern
 	 *
-	 * @return boolean
+	 * @return void
 	 */
 	public function flushPattern($pattern)
 	{
-		dd($this->app['cache']->get('*'));
+		$pages = $this->app['flatten.storage']->get('cached');
+		foreach ($pages as $page) {
+			if (preg_match('#'.$pattern.'#', $page)) {
+				$this->app['cache']->forget($page);
+			}
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////// CACHE META ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get an array of cached pages
+	 *
+	 * @return array
+	 */
+	public function getCachedPages()
+	{
+		return (array) $this->app['flatten.storage']->get('cached');
+	}
 
 	/**
 	 * Return the configured cache lifetime
@@ -113,6 +128,16 @@ class CacheHandler
 	public function getLifetime()
 	{
 		return (int) $this->app['config']->get('flatten::lifetime');
+	}
+
+	/**
+	 * Change the hash used by the CacheHandler
+	 *
+	 * @param string $hash
+	 */
+	public function setHash($hash)
+	{
+		$this->hash = $hash;
 	}
 
 	/**
