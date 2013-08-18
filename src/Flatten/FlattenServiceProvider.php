@@ -5,8 +5,9 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Config\FileLoader as ConfigLoader;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\ServiceProvider;
+use Philf\Setting\Setting;
 
 /**
  * Register the Flatten package with the Laravel framework
@@ -89,12 +90,14 @@ class FlattenServiceProvider extends ServiceProvider
 	 */
 	public function bindCoreClasses(Container $app)
 	{
+		$app = $this->createStorageFolder($app);
+
+		// Bind request
 		$app->bindIf('request', function() {
 			return Request::createFromGlobals();
 		});
 
-		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
-
+		// Bind config
 		$app->bindIf('config', function($app) {
 			$fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
 			$config = new Repository($fileloader, 'config');
@@ -104,6 +107,7 @@ class FlattenServiceProvider extends ServiceProvider
 			return $config;
 		}, true);
 
+		// Bind cache
 		$app->bindIf('cache', function($app) {
 			return new CacheManager($app);
 		});
@@ -135,6 +139,36 @@ class FlattenServiceProvider extends ServiceProvider
 		$app->bind('flatten.cache', function($app) {
 			return new CacheHandler($app, $app['flatten']->computeHash());
 		});
+
+		$app->bind('flatten.storage', function ($app) {
+			return new Setting($app['path.storage'].'/meta', 'flatten.json');
+		});
+
+		$app['flatten.storage']->set('foo', 'bar');
+
+		return $app;
+	}
+
+	/**
+	 * Create the custom storage folder if it doesn't exist
+	 *
+	 * @return void
+	 */
+	protected function createStorageFolder(Container $app)
+	{
+		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+
+		// Bind paths
+		if (!isset($app['path.storage'])) {
+			$storage = __DIR__.'/../../storage';
+			$app['path.storage'] = $storage;
+		}
+
+		// Create meta directory
+		$storage .= '/meta';
+		if (!$app['files']->isDirectory($storage)) {
+			$app['files']->makeDirectory($storage);
+		}
 
 		return $app;
 	}
