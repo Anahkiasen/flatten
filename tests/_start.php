@@ -20,6 +20,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	{
 		// Create Container
 		$this->app = FlattenServiceProvider::make();
+		$this->app['url'] = $this->mockUrl();
 
 		// Empty the cache
 		$this->app['cache']->flush();
@@ -69,6 +70,18 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Mock the UrlGenerator component
+	 *
+	 * @return Mockery
+	 */
+	protected function mockUrl()
+	{
+		$url = Mockery::mock('UrlGenerator');
+
+		return $url;
+	}
+
+	/**
 	 * Mock the Request component
 	 *
 	 * @param  string $url          Current URL
@@ -78,8 +91,10 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	protected function mockRequest($url = null)
 	{
 		$request = Mockery::mock('Request');
+		$request->shouldReceive('root')->andReturn('http://localhost');
 		$request->shouldReceive('getMethod')->andReturn('GET');
-		$request->shouldReceive('getPathInfo')->andReturn($url);
+		$request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
+		$request->shouldReceive('path')->andReturn(ltrim($url, '/'));
 
 		return $request;
 	}

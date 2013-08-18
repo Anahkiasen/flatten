@@ -187,9 +187,9 @@ class Flatten
 	 *
 	 * @return string
 	 */
-	protected function getCurrentUrl()
+	public function getCurrentUrl()
 	{
-		return Str::finish($this->app['request']->getPathInfo(), '/');
+		return '/'.ltrim($this->app['request']->path(), '/');
 	}
 
 	/**

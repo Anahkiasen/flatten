@@ -100,10 +100,67 @@ class CacheHandler
 	{
 		$pages = $this->app['flatten.storage']->get('cached');
 		foreach ($pages as $page) {
-			if (preg_match('#'.$pattern.'#', $page)) {
+			if (preg_match($pattern, $page)) {
 				$this->app['cache']->forget($page);
 			}
 		}
+	}
+
+	/**
+	 * Flush an URL
+	 *
+	 * @param  string $url
+	 *
+	 * @return void
+	 */
+	public function flushUrl($url)
+	{
+		return $this->flushPattern($this->urlToPattern($url));
+	}
+
+	/**
+	 * Flush an action
+	 *
+	 * @param  string $action
+	 * @param  array  $parameters
+	 *
+	 * @return void
+	 */
+	public function flushAction($action, $parameters = array())
+	{
+		$url = $this->app['url']->action($action, $parameters);
+
+		return $this->flushUrl($url);
+	}
+
+	/**
+	 * Flush a route
+	 *
+	 * @param  string $route
+	 * @param  array  $parameters
+	 *
+	 * @return void
+	 */
+	public function flushRoute($route, $parameters = array())
+	{
+		$url = $this->app['url']->route($route, $parameters);
+
+		return $this->flushUrl($url);
+	}
+
+	/**
+	 * Transforms an URL into a pattern
+	 *
+	 * @param  string $url
+	 *
+	 * @return string
+	 */
+	protected function urlToPattern($url)
+	{
+		// Replace root in URL
+		$url = str_replace($this->app['request']->root().'/', null, $url);
+
+		return '#'.$url.'#';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -128,16 +185,6 @@ class CacheHandler
 	public function getLifetime()
 	{
 		return (int) $this->app['config']->get('flatten::lifetime');
-	}
-
-	/**
-	 * Change the hash used by the CacheHandler
-	 *
-	 * @param string $hash
-	 */
-	public function setHash($hash)
-	{
-		$this->hash = $hash;
 	}
 
 	/**

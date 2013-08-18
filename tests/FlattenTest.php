@@ -1,6 +1,12 @@
 <?php
 class FlattenTest extends FlattenTests
 {
+	public function testCanGetCurrentUrl()
+	{
+		$this->app['request'] = $this->mockRequest('/');
+		$this->assertEquals('/', $this->flatten->getCurrentUrl());
+	}
+
 	public function testCanComputeHash()
 	{
 		$this->assertEquals('GET-foobar', $this->flatten->computeHash('foobar'));
