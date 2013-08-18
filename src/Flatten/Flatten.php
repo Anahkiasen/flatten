@@ -119,9 +119,9 @@ class Flatten
 
 		// Get allowed environments
 		$allowedEnvs = (array) $this->app['config']->get('flatten::environments');
-		$inConsole = $disallowCli ? php_sapi_name() == 'cli' : true;
+		$inConsole = $disallowCli ? php_sapi_name() == 'cli' : false;
 
-		return $inConsole and !in_array($this->app['env'], $allowedEnvs);
+		return !$inConsole and !in_array($this->app['env'], $allowedEnvs);
 	}
 
 	/**
