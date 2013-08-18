@@ -1,5 +1,9 @@
 # Flatten
 
+## 0.2.2 (stable)
+
+- Fix inverted inConsole variable
+
 ## 0.2.1 (stable)
 
 - Small bugfixes
