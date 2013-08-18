@@ -27,6 +27,19 @@ class Flatten
 		$this->app = $app;
 	}
 
+	/**
+	 * Delegate flushing actions to CacheHandler
+	 *
+	 * @param  string $method
+	 * @param  array $arguments
+	 *
+	 * @return mixed
+	 */
+	public function __call($method, $arguments)
+	{
+		return call_user_func_array(array($this->app['flatten.cache'], $method), $arguments);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	///////////////////////// CACHING PROCESS //////////////////////////
 	////////////////////////////////////////////////////////////////////

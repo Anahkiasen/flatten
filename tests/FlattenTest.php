@@ -1,4 +1,6 @@
 <?php
+use Flatten\Facades\Flatten;
+
 class FlattenTest extends FlattenTests
 {
 	public function testCanComputeHash()
@@ -24,5 +26,17 @@ class FlattenTest extends FlattenTests
 		$response = $this->flatten->getResponse();
 		$this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals('', $response->getContent());
+	}
+
+	public function testFacadeCanDelegateCallsToFlush()
+	{
+		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->cache->storeCache('anahkiasen');
+
+		Flatten::setFacadeApplication($this->app);
+
+		$this->assertTrue($this->app['cache']->has('GET-/maintainer/anahkiasen'));
+		Flatten::flushPattern('#maintainer/.+#');
+		$this->assertFalse($this->app['cache']->has('GET-/maintainer/anahkiasen'));
 	}
 }
