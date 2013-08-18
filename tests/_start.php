@@ -25,6 +25,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 		// Empty the cache
 		$this->app['cache']->flush();
 		$this->app['flatten.storage']->clear();
+		$this->app['flatten']->inConsole(false);
 	}
 
 	/**

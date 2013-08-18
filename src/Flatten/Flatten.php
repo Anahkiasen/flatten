@@ -20,13 +20,21 @@ class Flatten
 	protected $app;
 
 	/**
+	 * Whether Flatten is run in CLI
+	 *
+	 * @var boolean
+	 */
+	protected $inConsole = false;
+
+	/**
 	 * Setup Flatten and hook it to the application
 	 *
 	 * @param Container $app
 	 */
 	public function __construct(Container $app)
 	{
-		$this->app = $app;
+		$this->app       = $app;
+		$this->inConsole = php_sapi_name() !== 'cli';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -107,11 +115,9 @@ class Flatten
 	/**
 	 * Check if the current environment is allowed to be cached
 	 *
-	 * @param boolean $disallowCli Whether CLI should prevent Flatten from running
-	 *
 	 * @return boolean
 	 */
-	public function isInAllowedEnvironment($disallowCli = true)
+	public function isInAllowedEnvironment()
 	{
 		if (!$this->app->bound('env')) {
 			return true;
@@ -119,9 +125,8 @@ class Flatten
 
 		// Get allowed environments
 		$allowedEnvs = (array) $this->app['config']->get('flatten::environments');
-		$inConsole = $disallowCli ? php_sapi_name() == 'cli' : false;
 
-		return !$inConsole and !in_array($this->app['env'], $allowedEnvs);
+		return !$this->inConsole and !in_array($this->app['env'], $allowedEnvs);
 	}
 
 	/**
@@ -183,6 +188,18 @@ class Flatten
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Change the inConsole variable
+	 *
+	 * @param  boolean $inConsole
+	 *
+	 * @return void
+	 */
+	public function inConsole($inConsole = false)
+	{
+		$this->inConsole = $inConsole;
+	}
 
 	/**
 	 * Get the current page URL

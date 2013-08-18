@@ -61,13 +61,13 @@ class FlattenTest extends FlattenTests
 		$this->app['config'] = $this->mockConfig();
 		$this->app['config']->shouldReceive('get')->with('flatten::environments')->andReturn(array('local'));
 
-		$this->assertTrue($this->flatten->isInAllowedEnvironment(false));
+		$this->assertTrue($this->flatten->isInAllowedEnvironment());
 
 		$this->app['env'] = 'production';
-		$this->assertTrue($this->flatten->isInAllowedEnvironment(false));
+		$this->assertTrue($this->flatten->isInAllowedEnvironment());
 
 		$this->app['env'] = 'local';
-		$this->assertFalse($this->flatten->isInAllowedEnvironment(false));
+		$this->assertFalse($this->flatten->isInAllowedEnvironment());
 	}
 
 	public function testCanCheckIfShouldRun()

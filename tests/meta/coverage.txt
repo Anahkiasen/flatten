@@ -1,16 +1,16 @@
 
 
 Code Coverage Report:     
-  2013-08-18 16:13:43     
+  2013-08-18 17:42:51     
                           
  Summary:                 
   Classes: 25.00% (1/4)   
-  Methods: 65.62% (21/32) 
-  Lines:   45.91% (73/159)
+  Methods: 66.67% (22/33) 
+  Lines:   46.91% (76/162)
 
 \Flatten::CacheHandler
   Methods:  91.67% (11/12)   Lines:  93.75% ( 30/ 32)
 \Flatten::EventHandler
   Methods:  66.67% ( 2/ 3)   Lines:  88.89% (  8/  9)
 \Flatten::Flatten
-  Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 35/ 35)
+  Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 38/ 38)
