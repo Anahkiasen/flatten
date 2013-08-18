@@ -19,10 +19,11 @@
 		"illuminate/cache": "~4",
 		"illuminate/config": "~4",
 		"illuminate/http": "~4",
-		"philf/setting": "dev-develop"
+		"philf/setting": "dev-master"
 	},
 	"require-dev": {
-		"mockery/mockery": "dev-master"
+		"mockery/mockery": "dev-master",
+		"illuminate/view": "~4"
 	},
 	"autoload": {
 		"psr-0": {

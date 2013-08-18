@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "10bedf2588c76f54fa0d29f6f392e758",
+    "hash": "d62ea1eb808fda40b892e4d58ebd65c0",
     "packages": [
         {
             "name": "illuminate/cache",
@@ -450,19 +450,20 @@
         },
         {
             "name": "philf/setting",
-            "version": "dev-develop",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-F/Setting.git",
-                "reference": "4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489"
+                "reference": "2fa11fc48b5ed799597c91b79bb093f6626a6ab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489",
-                "reference": "4a9f5c69486ba5a7e4f18baf1fd31fef90a9d489",
+                "url": "https://api.github.com/repos/Phil-F/Setting/zipball/2fa11fc48b5ed799597c91b79bb093f6626a6ab7",
+                "reference": "2fa11fc48b5ed799597c91b79bb093f6626a6ab7",
                 "shasum": ""
             },
             "require": {
+                "illuminate/support": "dev-master",
                 "php": ">=5.3.0"
             },
             "require-dev": {
@@ -489,7 +490,7 @@
                 "config",
                 "laravel"
             ],
-            "time": "2013-08-18 15:14:55"
+            "time": "2013-08-18 17:57:24"
         },
         {
             "name": "symfony/finder",
@@ -590,6 +591,106 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "illuminate/events",
+            "version": "dev-master",
+            "target-dir": "Illuminate/Events",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/events.git",
+                "reference": "40f23627706e874b03fb0ce77d8ac1ffef9230ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/40f23627706e874b03fb0ce77d8ac1ffef9230ce",
+                "reference": "40f23627706e874b03fb0ce77d8ac1ffef9230ce",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "4.1.x",
+                "illuminate/support": "4.1.x",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.7.2",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Illuminate\\Events": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
+                }
+            ],
+            "time": "2013-08-05 13:28:56"
+        },
+        {
+            "name": "illuminate/view",
+            "version": "dev-master",
+            "target-dir": "Illuminate/View",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/view.git",
+                "reference": "6b54d11aa0efb1b654854ff64810dfca9e91503b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/view/zipball/6b54d11aa0efb1b654854ff64810dfca9e91503b",
+                "reference": "6b54d11aa0efb1b654854ff64810dfca9e91503b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "4.1.x",
+                "illuminate/events": "4.1.x",
+                "illuminate/filesystem": "4.1.x",
+                "illuminate/support": "4.1.x",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.7.2",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Illuminate\\View": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com",
+                    "homepage": "https://github.com/taylorotwell",
+                    "role": "Developer"
+                }
+            ],
+            "time": "2013-08-08 01:24:29"
+        },
         {
             "name": "mockery/mockery",
             "version": "dev-master",

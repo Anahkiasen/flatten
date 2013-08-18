@@ -1,4 +1,6 @@
 <?php
+use Illuminate\View\ViewServiceProvider;
+
 class TemplatingTest extends FlattenTests
 {
 	public function testCanCacheSections()
@@ -18,5 +20,23 @@ class TemplatingTest extends FlattenTests
 			?><h1>NewHeader</h1><?php
 		});
 		$this->assertEquals('<h1>NewHeader</h1>', $section);
+	}
+
+	public function testCanCompileBladeTags()
+	{
+		// Bind ViewProvider
+		$this->app['events'] = Mockery::mock('Illuminate\Events\Dispatcher');
+		$this->app['config']->set('view.paths', array('views'));
+		$viewProvider = new ViewServiceProvider($this->app);
+		$viewProvider->registerEngineResolver();
+		$viewProvider->registerViewFinder();
+		$viewProvider->registerEnvironment();
+
+		// Register tags
+		$this->app['flatten.templating']->registerTags();
+
+		$blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
+		$this->assertEquals("<?php echo Flatten\Facades\Template::section('', function() { ?>", $blade->compileString("@cache('section')"));
+		$this->assertEquals("<?php }); ?>", $blade->compileString("@endcache"));
 	}
 }
