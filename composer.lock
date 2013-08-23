@@ -351,12 +351,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
-                "reference": "b9746023b51add02c86aba3eab6b6f330db8f863"
+                "reference": "76557b5446ee1cac0cace99da531d3a5d1ca359f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/session/zipball/b9746023b51add02c86aba3eab6b6f330db8f863",
-                "reference": "b9746023b51add02c86aba3eab6b6f330db8f863",
+                "url": "https://api.github.com/repos/illuminate/session/zipball/76557b5446ee1cac0cace99da531d3a5d1ca359f",
+                "reference": "76557b5446ee1cac0cace99da531d3a5d1ca359f",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +395,7 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-07-19 10:47:48"
+            "time": "2013-08-23 03:27:47"
         },
         {
             "name": "illuminate/support",
@@ -546,12 +546,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/HttpFoundation.git",
-                "reference": "d5a7516f7351d13d5d7700265b44a8ba6578d5f4"
+                "reference": "6518848c01bd4ef0c71463afdc284dfb1d71f63a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/d5a7516f7351d13d5d7700265b44a8ba6578d5f4",
-                "reference": "d5a7516f7351d13d5d7700265b44a8ba6578d5f4",
+                "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/6518848c01bd4ef0c71463afdc284dfb1d71f63a",
+                "reference": "6518848c01bd4ef0c71463afdc284dfb1d71f63a",
                 "shasum": ""
             },
             "require": {
@@ -587,7 +587,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-21 10:06:02"
+            "time": "2013-08-23 15:31:47"
         }
     ],
     "packages-dev": [

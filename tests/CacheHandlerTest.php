@@ -37,6 +37,23 @@ class CacheHandlerTest extends FlattenTests
 		$this->assertTrue($this->app['cache']->has('GET-/maintainers'));
 	}
 
+	public function testCanFlushEverythingIfNoPatternProvided()
+	{
+		$this->app['request'] = $this->mockRequest('/maintainers');
+		$this->cache->storeCache('foobar');
+
+		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->cache->storeCache('anahkiasen');
+
+		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->cache->storeCache('jasonlewis');
+
+		$this->cache->flushAll();
+		$this->assertFalse($this->app['cache']->has('GET-/maintainer/anahkiasen'));
+		$this->assertFalse($this->app['cache']->has('GET-/maintainer/jasonlewis'));
+		$this->assertFalse($this->app['cache']->has('GET-/maintainers'));
+	}
+
 	public function testCanFlushUrl()
 	{
 		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
