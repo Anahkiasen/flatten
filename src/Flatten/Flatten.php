@@ -86,6 +86,39 @@ class Flatten
 		}
 	}
 
+	/**
+	 * Kickstart a raw version of Flatten
+	 *
+	 * @return string|void
+	 */
+	public static function kickstart()
+	{
+		// Get the salts
+		$salts = func_get_args();
+		$salts = $salts ? join('-', $salts).'-' : null;
+
+		// Get storage path
+		$paths   = __DIR__.'/../../../../../bootstrap/paths.php';
+		if (file_exists($paths)) {
+			$storage = include $paths;
+			$storage = $storage['storage'];
+		} else {
+			$storage =__DIR__.'/../../storage';
+		}
+
+		// Compute the cache path and display it if it exists
+		if(isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_METHOD'] === 'GET') {
+			$key      = $salts.'GET-'.$_SERVER['REQUEST_URI'];
+			$parts    = array_slice(str_split($hash = md5($key), 2), 0, 2);
+			$filename = $storage.'/cache/'.join('/', $parts).'/'.$hash;
+
+			if(file_exists($filename)) {
+				$contents = file_get_contents($filename);
+				exit(unserialize(substr($contents, 10)));
+			}
+		}
+	}
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// RENDERING ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -104,12 +137,7 @@ class Flatten
 			$content = $this->app['flatten.cache']->getCache();
 		}
 
-		// Else, send the response with the content
-		if ($content) {
-			return new Response($content, 200);
-		}
-
-		return new Response;
+		return new Response($content);
 	}
 
 	/**

@@ -124,3 +124,22 @@ Flatten also hooks into the Blade templating engine for a leaner syntax. Let's r
 	@endforeach
 @endcache
 ```
+
+### Kickstarting
+
+You can speed up Flatten even more by using the `Flatten::kickstart` method. It requires a little more boilerplate code but can enhance performances dramatically.
+Basically you want to call that before _everything else_ (ie. before even loading Composer). You use it like that :
+
+```php
+require __DIR__.'/../vendor/anahkiasen/flatten/src/Flatten/Flatten.php';
+Flatten\Flatten::kickstart();
+```
+
+If you have things in your saltshaker, you'll need to find faster raw methods to get these and pass the salts as arguments :
+
+```php
+require __DIR__.'/../vendor/anahkiasen/flatten/src/Flatten/Flatten.php';
+
+$query = isset($_GET['q']) ? $_GET['q'] : null;
+Flatten\Flatten::kickstart($query);
+```
