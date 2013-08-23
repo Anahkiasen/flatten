@@ -18,7 +18,7 @@ class CacheHandlerTest extends FlattenTests
 	{
 		$this->cache->storeCache('foobar');
 
-		$this->assertEquals('foobar', $this->cache->getCache());
+		$this->assertContains('foobar', $this->cache->getCache());
 	}
 
 	public function testCanFlushSpecificPatterns()

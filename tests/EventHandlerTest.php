@@ -18,6 +18,6 @@ class EventHandlerTest extends FlattenTests
 
 		// Assert response
 		$response = $this->flatten->getResponse();
-		$this->assertEquals('foobar', $response->getContent());
+		$this->assertContains('foobar', $response->getContent());
 	}
 }
