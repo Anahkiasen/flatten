@@ -3,6 +3,7 @@
 ## 0.3.0 (develop)
 
 - Added support for caching sections of pages
+- Fix 0 lifetime not being considered infinite
 
 ## 0.2.2 (stable)
 
