@@ -3,16 +3,16 @@ class ContextTest extends FlattenTests
 {
 	public function testCanGetCurrentUrl()
 	{
-		$this->app['request'] = $this->mockRequest('/');
+		$this->mockRequest('/');
 		$this->assertEquals('/', $this->context->getCurrentUrl());
 	}
 
 	public function testCanCheckIfPageMatchesPattern()
 	{
-		$this->app['request'] = $this->mockRequest('/');
+		$this->mockRequest('/');
 		$this->assertTrue($this->context->matches(array('^/$')));
 
-		$this->app['request'] = $this->mockRequest('/maintainer/foobar');
+		$this->mockRequest('/maintainer/foobar');
 		$this->assertFalse($this->context->matches(array('^/$')));
 		$this->assertTrue($this->context->matches(array('maintainer/.+')));
 	}
@@ -24,16 +24,16 @@ class ContextTest extends FlattenTests
 			'flatten::only'   => array('^/maintainers/.+', 'package/.+'),
 		));
 
-		$this->app['request'] = $this->mockRequest('/');
+		$this->mockRequest('/');
 		$this->assertTrue($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertTrue($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
+		$this->mockRequest('/admin/maintainers/5/edit');
 		$this->assertFalse($this->context->shouldCachePage());
 
 		$this->app['config'] = $this->mockConfig()->shouldReceive('get')->andReturn(null)->mock();
@@ -47,16 +47,16 @@ class ContextTest extends FlattenTests
 			'flatten::ignore' => array(),
 		));
 
-		$this->app['request'] = $this->mockRequest('/');
+		$this->mockRequest('/');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
+		$this->mockRequest('/admin/maintainers/5/edit');
 		$this->assertFalse($this->context->shouldCachePage());
 	}
 
@@ -67,16 +67,16 @@ class ContextTest extends FlattenTests
 			'flatten::ignore' => array('.+'),
 		));
 
-		$this->app['request'] = $this->mockRequest('/');
+		$this->mockRequest('/');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->assertFalse($this->context->shouldCachePage());
 
-		$this->app['request'] = $this->mockRequest('/admin/maintainers/5/edit');
+		$this->mockRequest('/admin/maintainers/5/edit');
 		$this->assertFalse($this->context->shouldCachePage());
 	}
 
@@ -103,11 +103,11 @@ class ContextTest extends FlattenTests
 		));
 
 		$this->app['env'] = 'local';
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertFalse($this->context->shouldRun());
 
 		$this->app['env'] = 'production';
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertTrue($this->context->shouldRun());
 	}
 }

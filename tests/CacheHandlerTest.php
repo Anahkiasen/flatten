@@ -23,13 +23,13 @@ class CacheHandlerTest extends FlattenTests
 
 	public function testCanFlushSpecificPatterns()
 	{
-		$this->app['request'] = $this->mockRequest('/maintainers');
+		$this->mockRequest('/maintainers');
 		$this->cache->storeCache('foobar');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('anahkiasen');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->cache->storeCache('jasonlewis');
 
 		$this->cache->flushUrl('maintainer/.+');
@@ -37,15 +37,35 @@ class CacheHandlerTest extends FlattenTests
 		$this->assertTrue($this->app['cache']->has('GET-/maintainers'));
 	}
 
-	public function testCanFlushEverythingIfNoPatternProvided()
+	public function testFlushingRemoveEntriesFromCachedPages()
 	{
-		$this->app['request'] = $this->mockRequest('/maintainers');
+		$this->mockRequest('/maintainers');
 		$this->cache->storeCache('foobar');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('anahkiasen');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/jasonlewis');
+		$this->mockRequest('/maintainer/jasonlewis');
+		$this->cache->storeCache('jasonlewis');
+
+		$this->assertEquals(array(
+			'GET-/maintainers',
+			'GET-/maintainer/anahkiasen',
+			'GET-/maintainer/jasonlewis',
+		), $this->cache->getCachedPages());
+		$this->cache->flushUrl('maintainer/.+');
+		$this->assertEquals(array('GET-/maintainers'), $this->cache->getCachedPages());
+	}
+
+	public function testCanFlushEverythingIfNoPatternProvided()
+	{
+		$this->mockRequest('/maintainers');
+		$this->cache->storeCache('foobar');
+
+		$this->mockRequest('/maintainer/anahkiasen');
+		$this->cache->storeCache('anahkiasen');
+
+		$this->mockRequest('/maintainer/jasonlewis');
 		$this->cache->storeCache('jasonlewis');
 
 		$this->cache->flushAll();
@@ -56,7 +76,7 @@ class CacheHandlerTest extends FlattenTests
 
 	public function testCanFlushUrl()
 	{
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('foobar');
 
 		$this->assertTrue($this->app['cache']->has('GET-/maintainer/anahkiasen'));
@@ -68,7 +88,7 @@ class CacheHandlerTest extends FlattenTests
 	{
 		$this->app['url']->shouldReceive('route')->with('maintainer', 'anahkiasen')->once()->andReturn('http://localhost/maintainer/anahkiasen');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('foobar');
 
 		$this->assertTrue($this->app['cache']->has('GET-/maintainer/anahkiasen'));
@@ -80,7 +100,7 @@ class CacheHandlerTest extends FlattenTests
 	{
 		$this->app['url']->shouldReceive('action')->with('MaintainersController@maintainer', 'anahkiasen')->once()->andReturn('http://localhost/maintainer/anahkiasen');
 
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('foobar');
 
 		$this->assertTrue($this->app['cache']->has('GET-/maintainer/anahkiasen'));

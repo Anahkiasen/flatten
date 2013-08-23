@@ -24,6 +24,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 
 		// Empty the cache
 		$this->app['cache']->flush();
+		$this->cache->flushAll();
 		$this->storage->clear();
 		$this->context->inConsole(false);
 	}
@@ -58,7 +59,10 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function mockConfig($options = array())
 	{
-		$config = Mockery::mock('Config');
+		$config   = Mockery::mock('Config');
+		$defaults = array('flatten::saltshaker' => array());
+		$options  = array_merge($defaults, $options);
+
 		foreach ($options as $option => $value) {
 			$config->shouldReceive('get')->with($option)->andReturn($value);
 		}
@@ -92,6 +96,9 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 		$request->shouldReceive('getMethod')->andReturn('GET');
 		$request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
 		$request->shouldReceive('path')->andReturn(ltrim($url, '/'));
+
+		$this->app['request'] = $request;
+		$this->app['flatten.cache'] = new Flatten\CacheHandler($this->app, $this->flatten->computeHash());
 
 		return $request;
 	}

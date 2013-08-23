@@ -30,7 +30,7 @@ class FlattenTest extends FlattenTests
 
 	public function testFacadeCanDelegateCallsToFlush()
 	{
-		$this->app['request'] = $this->mockRequest('/maintainer/anahkiasen');
+		$this->mockRequest('/maintainer/anahkiasen');
 		$this->cache->storeCache('anahkiasen');
 
 		Flatten::setFacadeApplication($this->app);

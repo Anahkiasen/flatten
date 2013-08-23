@@ -90,16 +90,6 @@ class CacheHandler
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Flush all pages
-	 *
-	 * @return void
-	 */
-	public function flushAll()
-	{
-		return $this->flushPattern();
-	}
-
-	/**
 	 * Flush a specific pattern
 	 *
 	 * @param  string $pattern
@@ -108,12 +98,28 @@ class CacheHandler
 	 */
 	public function flushPattern($pattern = null)
 	{
-		$pages = $this->app['flatten.storage']->get('cached');
-		foreach ($pages as $page) {
+		// Get pages in cache
+		$pages = $cached = (array) $this->app['flatten.storage']->get('cached');
+
+		// Flush them if they match
+		foreach ($pages as $key => $page) {
 			if (!$pattern or preg_match($pattern, $page)) {
 				$this->app['cache']->forget($page);
+				unset($cached[$key]);
 			}
 		}
+
+		$this->app['flatten.storage']->set('cached', $cached);
+	}
+
+	/**
+	 * Flush all pages
+	 *
+	 * @return void
+	 */
+	public function flushAll()
+	{
+		return $this->flushPattern();
 	}
 
 	/**
