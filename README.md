@@ -67,6 +67,7 @@ You can do so via the following methods :
 
 ```php
 // Manual flushing
+Flatten::flushAll();
 Flatten::flushPattern('users/.+');
 Flatten::flushUrl('http://localhost/users/taylorotwell');
 
@@ -142,4 +143,23 @@ require __DIR__.'/../vendor/anahkiasen/flatten/src/Flatten/Flatten.php';
 
 $query = isset($_GET['q']) ? $_GET['q'] : null;
 Flatten\Flatten::kickstart($query);
+```
+
+## Using outside of Laravel
+
+Flatten can easily be used outside of Laravel, for this you'll basically only ever use two methods. What you basically want to do is call `Flatten::start` at the top of the page, and `Flatten::end` at the bottom.
+
+```php
+<?php
+require 'vendor/autoload.php';
+
+use Flatten\Facades\Flatten;
+?>
+
+<?php Flatten::start() ?>
+<!DOCTYPE html>
+	<head></head>
+	<body></body>
+</html>
+<?php Flatten::end() ?>
 ```
