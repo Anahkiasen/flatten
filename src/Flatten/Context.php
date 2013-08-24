@@ -49,6 +49,12 @@ class Context
 			return false;
 		}
 
+		// If any of the blockers are active, cancel
+		$blockers = $this->app['config']->get('flatten::blockers');
+		if (sizeof($blockers) !== sizeof(array_filter($blockers))) {
+			return false;
+		}
+
 		return $this->shouldCachePage();
 	}
 

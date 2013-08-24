@@ -19,7 +19,7 @@ class ContextTest extends FlattenTests
 
 	public function testCanCheckIfPageShouldBeCached()
 	{
-		$this->app['config']  = $this->mockConfig(array(
+		$this->app['config'] = $this->mockConfig(array(
 			'flatten::ignore' => array('^/maintainer/anahkiasen', 'admin/.+'),
 			'flatten::only'   => array('^/maintainers/.+', 'package/.+'),
 		));
@@ -42,7 +42,7 @@ class ContextTest extends FlattenTests
 
 	public function testCanUncacheAllPagesWithOnly()
 	{
-		$this->app['config']  = $this->mockConfig(array(
+		$this->app['config'] = $this->mockConfig(array(
 			'flatten::only'   => array('foobar'),
 			'flatten::ignore' => array(),
 		));
@@ -62,7 +62,7 @@ class ContextTest extends FlattenTests
 
 	public function testCanUncacheAllPagesWithIgnore()
 	{
-		$this->app['config']  = $this->mockConfig(array(
+		$this->app['config'] = $this->mockConfig(array(
 			'flatten::only'   => array(),
 			'flatten::ignore' => array('.+'),
 		));
@@ -96,7 +96,7 @@ class ContextTest extends FlattenTests
 
 	public function testCanCheckIfShouldRun()
 	{
-		$this->app['config']  = $this->mockConfig(array(
+		$this->app['config'] = $this->mockConfig(array(
 			'flatten::environments' => array('local'),
 			'flatten::ignore'       => array('^/maintainer/anahkiasen', 'admin/.+'),
 			'flatten::only'         => array('^/maintainers/.+', 'package/.+'),
@@ -109,5 +109,20 @@ class ContextTest extends FlattenTests
 		$this->app['env'] = 'production';
 		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertTrue($this->context->shouldRun());
+	}
+
+	public function testCanUseBlockers()
+	{
+		$_GET['foo'] = 'bar';
+		$this->app['config'] = $this->mockConfig(array(
+			'flatten::blockers' => array($_GET['foo'] === 'bar'),
+		));
+		$this->assertTrue($this->context->shouldRun());
+
+		$_GET['foo'] = 'baz';
+		$this->app['config'] = $this->mockConfig(array(
+			'flatten::blockers' => array($_GET['foo'] === 'bar'),
+		));
+		$this->assertFalse($this->context->shouldRun());
 	}
 }

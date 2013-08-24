@@ -60,9 +60,15 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	protected function mockConfig($options = array())
 	{
 		$config   = Mockery::mock('Config');
-		$defaults = array('flatten::saltshaker' => array());
-		$options  = array_merge($defaults, $options);
+		$defaults = array(
+			'flatten::saltshaker' => array(),
+			'flatten::only'       => array(),
+			'flatten::ignore'     => array(),
+			'flatten::blockers'   => array(),
+		);
 
+		// Merge defaults and set expectations
+		$options = array_merge($defaults, $options);
 		foreach ($options as $option => $value) {
 			$config->shouldReceive('get')->with($option)->andReturn($value);
 		}
