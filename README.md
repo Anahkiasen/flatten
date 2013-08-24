@@ -129,10 +129,13 @@ Flatten also hooks into the Blade templating engine for a leaner syntax. Let's r
 ### Kickstarting
 
 You can speed up Flatten even more by using the `Flatten::kickstart` method. It requires a little more boilerplate code but can enhance performances dramatically.
-Basically you want to call that before _everything else_ (ie. before even loading Composer). You use it like that :
+Basically you want to call that before _everything else_ (ie. before even loading Composer). On Laravel you'd put that code at the top of `bootstrap/autoload.php`.
+
+You use it like that :
 
 ```php
 require __DIR__.'/../vendor/anahkiasen/flatten/src/Flatten/Flatten.php';
+
 Flatten\Flatten::kickstart();
 ```
 
