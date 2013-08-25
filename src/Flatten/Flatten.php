@@ -86,6 +86,10 @@ class Flatten
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////// KICKSTART ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Kickstart a raw version of Flatten
 	 *
@@ -93,30 +97,50 @@ class Flatten
 	 */
 	public static function kickstart()
 	{
+		$filename = static::getKickstartPath(func_get_args());
+
+		// If we have a cache for it, unserialize it and output it
+		if(file_exists($filename)) {
+			$contents = file_get_contents($filename);
+			exit(unserialize(substr($contents, 10)));
+		}
+	}
+
+	/**
+	 * Get the path to the current page for kickstart
+	 *
+	 * @param array $salts
+	 *
+	 * @return string
+	 */
+	public static function getKickstartPath($salts = array())
+	{
 		// Get the salts
-		$salts = func_get_args();
 		$salts = $salts ? join('-', $salts).'-' : null;
 
 		// Get storage path
-		$paths   = __DIR__.'/../../../../../bootstrap/paths.php';
+		$paths = __DIR__.'/../../../../../bootstrap/paths.php';
 		if (file_exists($paths)) {
 			$storage = include $paths;
 			$storage = $storage['storage'];
 		} else {
-			$storage =__DIR__.'/../../storage';
+			$storage = __DIR__.'/../../storage';
 		}
 
-		// Compute the cache path and display it if it exists
 		if(isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_METHOD'] === 'GET') {
+			// Compute cache path
+			$query    = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
 			$key      = $salts.'GET-'.$_SERVER['REQUEST_URI'];
+			$key      = $query ? $key.'?'.$query : $key;
+
+			// Hash and get path
 			$parts    = array_slice(str_split($hash = md5($key), 2), 0, 2);
 			$filename = $storage.'/cache/'.join('/', $parts).'/'.$hash;
 
-			if(file_exists($filename)) {
-				$contents = file_get_contents($filename);
-				exit(unserialize(substr($contents, 10)));
-			}
+			return $filename;
 		}
+
+		return;
 	}
 
 	////////////////////////////////////////////////////////////////////
