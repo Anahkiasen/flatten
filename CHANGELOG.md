@@ -1,12 +1,12 @@
 # Flatten
 
-## 0.4.0
+## 0.4.0 (stable)
 
 - **Added `Flatten::kickstart` method**
 - Query strings are now taken into account by default
 - Added ability to disable Flatten on certain conditions (see `blockers` in config)
 
-## 0.3.0 (stable)
+## 0.3.0
 
 - **Added support for caching sections of pages**
 - Fix 0 lifetime not being considered infinite
