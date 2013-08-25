@@ -136,6 +136,9 @@ class Context
 	 */
 	public function getCurrentUrl()
 	{
-		return '/'.ltrim($this->app['request']->path(), '/');
+		$path  = '/'.ltrim($this->app['request']->path(), '/');
+		$query = $this->app['request']->getQueryString();
+
+		return $query ? $path.'?'.$query : $path;
 	}
 }

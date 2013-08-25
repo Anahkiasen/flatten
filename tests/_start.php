@@ -97,11 +97,16 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 */
 	protected function mockRequest($url = null)
 	{
+		$url   = explode('?', $url);
+		$query = array_get($url, 1);
+		$url   = $url[0];
+
 		$request = Mockery::mock('Request');
 		$request->shouldReceive('root')->andReturn('http://localhost');
 		$request->shouldReceive('getMethod')->andReturn('GET');
 		$request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
 		$request->shouldReceive('path')->andReturn(ltrim($url, '/'));
+		$request->shouldReceive('getQueryString')->andReturn($query);
 
 		$this->app['request'] = $request;
 		$this->app['flatten.cache'] = new Flatten\CacheHandler($this->app, $this->flatten->computeHash());

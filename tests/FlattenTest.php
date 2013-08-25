@@ -17,6 +17,12 @@ class FlattenTest extends FlattenTests
 		$this->assertEquals('fr-GET-foobar', $this->flatten->computeHash('foobar'));
 	}
 
+	public function testCanComputeHashWithQueryStrings()
+	{
+		$this->mockRequest('foobar?foo=bar');
+		$this->assertEquals('GET-/foobar?foo=bar', $this->flatten->computeHash());
+	}
+
 	public function testCanRenderResponses()
 	{
 		$response = $this->flatten->getResponse('foobar');

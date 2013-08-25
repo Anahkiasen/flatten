@@ -7,6 +7,12 @@ class ContextTest extends FlattenTests
 		$this->assertEquals('/', $this->context->getCurrentUrl());
 	}
 
+	public function testCanGetCurrentUrlWithQueryString()
+	{
+		$this->mockRequest('/?q=foo');
+		$this->assertEquals('/?q=foo', $this->context->getCurrentUrl());
+	}
+
 	public function testCanCheckIfPageMatchesPattern()
 	{
 		$this->mockRequest('/');

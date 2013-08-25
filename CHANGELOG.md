@@ -2,7 +2,8 @@
 
 ## 0.4.0
 
-- Added `Flatten::kickstart` method
+- **Added `Flatten::kickstart` method**
+- Query strings are now taken into account by default
 - Added ability to disable Flatten on certain conditions (see `blockers` in config)
 
 ## 0.3.0 (stable)
