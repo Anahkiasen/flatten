@@ -54,6 +54,7 @@ Here is a preview of the configuration options available in said file :
 
 The pages are cached according to two parameters : their path and their method. Only GET requests get cached as all the other methods are dynamic by nature.
 All of the calls you'll make, will be to the `Flatten\Facades\Flatten` facade.
+Query strings are taken into account in the cache and pages will different query strings will have different caches.
 
 ### Building
 
@@ -144,8 +145,8 @@ If you have things in your saltshaker, you'll need to find faster raw methods to
 ```php
 require __DIR__.'/../vendor/anahkiasen/flatten/src/Flatten/Flatten.php';
 
-$query = isset($_GET['q']) ? $_GET['q'] : null;
-Flatten\Flatten::kickstart($query);
+$salt = mysql_query('SOMETHING');
+Flatten\Flatten::kickstart($salt);
 ```
 
 ## Using outside of Laravel
