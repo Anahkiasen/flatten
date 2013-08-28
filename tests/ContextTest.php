@@ -46,6 +46,12 @@ class ContextTest extends FlattenTests
 		$this->assertTrue($this->context->shouldCachePage());
 	}
 
+	public function testDoesntCacheAjaxRequests()
+	{
+		$this->mockRequest('/', true);
+		$this->assertFalse($this->context->shouldCachePage());
+	}
+
 	public function testCanUncacheAllPagesWithOnly()
 	{
 		$this->app['config'] = $this->mockConfig(array(
