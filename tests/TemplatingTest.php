@@ -23,6 +23,28 @@ class TemplatingTest extends FlattenTests
 		$this->assertTrue($this->app['cache']->has('flatten-section-foobar'));
 	}
 
+	public function testCanCacheSectionsWithVariables()
+	{
+		$title = 'Header';
+		$section = $this->templating->section('foobar', function() use ($title) {
+			?><h1><?= $title ?></h1><?php
+		});
+		$this->assertEquals('<h1>Header</h1>', $section);
+
+		$title = 'NewHeader';
+		$section = $this->templating->section('foobar', function() use ($title) {
+			?><h1><?= $title ?></h1><?php
+		});
+		$this->assertEquals('<h1>Header</h1>', $section);
+
+		$this->app['cache']->flush();
+		$section = $this->templating->section('foobar', function() use ($title) {
+			?><h1><?= $title ?></h1><?php
+		});
+		$this->assertEquals('<h1>NewHeader</h1>', $section);
+		$this->assertTrue($this->app['cache']->has('flatten-section-foobar'));
+	}
+
 	public function testCanFlushSection()
 	{
 		$section = $this->templating->section('foo', function() {
