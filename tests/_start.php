@@ -95,7 +95,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return Mockery
 	 */
-	protected function mockRequest($url = null, $ajax = false)
+	protected function mockRequest($url = null, $ajax = false, $method = 'GET')
 	{
 		$url   = explode('?', $url);
 		$query = array_get($url, 1);
@@ -103,7 +103,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 
 		$request = Mockery::mock('Request');
 		$request->shouldReceive('root')->andReturn('http://localhost');
-		$request->shouldReceive('getMethod')->andReturn('GET');
+		$request->shouldReceive('getMethod')->andReturn($method);
 		$request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
 		$request->shouldReceive('path')->andReturn(ltrim($url, '/'));
 		$request->shouldReceive('getQueryString')->andReturn($query);
