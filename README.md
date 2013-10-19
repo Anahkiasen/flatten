@@ -93,7 +93,7 @@ In PHP you'd do it like this :
 <?php endforeach; ?>
 
 <h1>This will not</h1>
-<?php Flatten::section('articles', function () { ?>
+<?php Flatten::section('articles', function () use ($articles) { ?>
 	<?php foreach ($articles as $article): ?>
 		<?= $article->name ?>
 	<?php endforeach; ?>
@@ -104,7 +104,7 @@ You can also specify for how long you want that section to be cached by adding a
 
 ```php
 <!-- This section will be cached for 10 minutes -->
-<?php Flatten::section('articles', 10, function () { ?>
+<?php Flatten::section('articles', 10, function () use ($articles) { ?>
 	<?php foreach ($articles as $article): ?>
 		<?= $article->name ?>
 	<?php endforeach; ?>
@@ -115,7 +115,7 @@ Flatten also hooks into the Blade templating engine for a leaner syntax. Let's r
 
 ```html
 <h1>This will always be dynamic</h1>
-@foreach($articles as $article)
+@foreach($articles as $articles)
 	{{ $article->name }}
 @endforeach
 
