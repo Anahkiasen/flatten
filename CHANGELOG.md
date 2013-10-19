@@ -1,6 +1,10 @@
 # Flatten
 
-## 0.4.0 (stable)
+## 0.4.1 (stable)
+
+- Disabled cache on various instances
+
+## 0.4.0
 
 - **Added `Flatten::kickstart` method**
 - Query strings are now taken into account by default

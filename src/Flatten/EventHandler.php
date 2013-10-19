@@ -50,11 +50,11 @@ class EventHandler
 	 */
 	public function onApplicationDone(Response $response = null)
 	{
-		// Do not cache a redirect Responses
-		if(!is_null($response) && $response->isRedirection()){
-			return;
+		// Do not cache a Redirect Response
+		if(!is_null($response) and $response->isRedirection()) {
+			return false;
 		}
-		
+
 		// Get the Response's or the buffer's contents
 		$content = $response ? $response->getContent() : ob_end_flush();
 

@@ -65,6 +65,11 @@ class Context
 	 */
 	public function shouldCachePage()
 	{
+		// Check if the content type of the page is allowed to be cached
+		if ($this->app['request']->isXmlHttpRequest() or $this->app['request']->getMethod() !== 'GET') {
+			return false;
+		}
+
 		// Get pages to cache
 		$only    = (array) $this->app['config']->get('flatten::only');
 		$ignored = (array) $this->app['config']->get('flatten::ignore');
