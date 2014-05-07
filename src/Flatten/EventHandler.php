@@ -52,13 +52,13 @@ class EventHandler
 	{
 		// Do not cache a Redirect Response or error pages
 		if(
-            !is_null($response) && (
-                $response->isRedirection() ||
-                $response->isNotFound() ||
-                $response->isServerError() ||
-                $response->isForbidden()
-            )
-        ) {
+			!is_null($response) && (
+				$response->isRedirection() ||
+				$response->isNotFound() ||
+				$response->isServerError() ||
+				$response->isForbidden()
+			)
+		) {
 			return false;
 		}
 
