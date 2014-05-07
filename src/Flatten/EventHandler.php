@@ -55,6 +55,21 @@ class EventHandler
 			return false;
 		}
 
+	        // Do not cache 404 error pages
+	        if(!is_null($response) and $response->isNotFound()) {
+	            return false;
+	        }
+
+	        // Do not cache server errors
+	        if(!is_null($response) and $response->isServerError()) {
+	            return false;
+	        }
+
+	        // Do not cache forbidden pages
+	        if(!is_null($response) and $response->isForbidden()) {
+	            return false;
+	        }
+
 		// Get the Response's or the buffer's contents
 		$content = $response ? $response->getContent() : ob_end_flush();
 
