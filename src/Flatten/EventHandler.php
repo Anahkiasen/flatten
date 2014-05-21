@@ -50,8 +50,15 @@ class EventHandler
 	 */
 	public function onApplicationDone(Response $response = null)
 	{
-		// Do not cache a Redirect Response
-		if(!is_null($response) and $response->isRedirection()) {
+		// Do not cache a Redirect Response or error pages
+		if(
+			!is_null($response) && (
+				$response->isRedirection() ||
+				$response->isNotFound() ||
+				$response->isServerError() ||
+				$response->isForbidden()
+			)
+		) {
 			return false;
 		}
 
