@@ -1,6 +1,10 @@
 # Flatten
 
-## 0.4.1 (stable)
+## 0.4.2
+
+- Do not cache error pages
+
+## 0.4.1
 
 - Disabled cache on various instances
 
