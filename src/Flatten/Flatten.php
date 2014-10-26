@@ -29,8 +29,8 @@ class Flatten
 	/**
 	 * Delegate flushing actions to CacheHandler
 	 *
-	 * @param  string $method
-	 * @param  array  $arguments
+	 * @param string $method
+	 * @param array  $arguments
 	 *
 	 * @return mixed
 	 */
@@ -48,7 +48,7 @@ class Flatten
 			}
 		}
 
-		return call_user_func_array(array($decorator, $method), $arguments);
+		return call_user_func_array(array($class, $method), $arguments);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ class Flatten
 	/**
 	 * Stops the caching system
 	 *
-	 * @param Response $response A response to render on end
+	 * @param \Illuminate\Http\Response|null $response A response to render on end
 	 *
 	 * @return boolean
 	 * @codeCoverageIgnore
@@ -108,7 +108,7 @@ class Flatten
 	 *
 	 * @param array $salts
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public static function getKickstartPath($salts = array())
 	{
@@ -124,7 +124,7 @@ class Flatten
 			$storage = __DIR__.'/../../storage';
 		}
 
-		if (isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_METHOD'] === 'GET') {
+		if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
 			// Compute cache path
 			$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
 			$key   = $salts.'GET-'.$_SERVER['REQUEST_URI'];
@@ -147,7 +147,7 @@ class Flatten
 	/**
 	 * Create a response to send from content
 	 *
-	 * @param  string $content
+	 * @param string|null $content
 	 *
 	 * @return Response
 	 */
@@ -164,7 +164,7 @@ class Flatten
 	/**
 	 * Render a content
 	 *
-	 * @param  string $content A content to render
+	 * @param string|null $content A content to render
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -181,6 +181,8 @@ class Flatten
 
 	/**
 	 * Get the current page's hash
+	 *
+	 * @param string|null $page
 	 *
 	 * @return string A page hash
 	 */

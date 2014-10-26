@@ -81,7 +81,7 @@ class CacheHandler
 		$this->app['flatten.storage']->set('cached', $cached);
 
 		// Add timestamp to cache
-		$content .= PHP_EOL.'<!-- cached on '.date("Y-m-d H:i:s").' -->';
+		$content .= PHP_EOL.'<!-- cached on '.date('Y-m-d H:i:s').' -->';
 
 		return $this->app['cache']->put(
 			$this->hash, $content, $this->getLifetime()
@@ -106,7 +106,7 @@ class CacheHandler
 
 		// Flush them if they match
 		foreach ($pages as $key => $page) {
-			if (!$pattern or preg_match($pattern, $page)) {
+			if (!$pattern || preg_match($pattern, $page)) {
 				$this->app['cache']->forget($page);
 				unset($cached[$key]);
 			}

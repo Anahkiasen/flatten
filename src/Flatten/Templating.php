@@ -53,7 +53,7 @@ class Templating
 
 			// Replace opener
 			$pattern = $blade->createOpenMatcher('cache');
-			$replace = "<?php echo Flatten\Facades\Flatten::section$2, function() { ?>";
+			$replace = '<?php echo Flatten\Facades\Flatten::section$2, function() { ?>';
 			$view    = preg_replace($pattern, $replace, $view);
 
 			// Replace closing tag

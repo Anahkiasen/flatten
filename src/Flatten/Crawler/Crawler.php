@@ -27,6 +27,11 @@ class Crawler
 	protected $client;
 
 	/**
+	 * @type OutputInterface
+	 */
+	protected $output;
+
+	/**
 	 * An array of the application's pages
 	 *
 	 * @var array
@@ -83,7 +88,7 @@ class Crawler
 	/**
 	 * Crawl the pages in the queue
 	 *
-	 * @return  void
+	 * @return integer
 	 */
 	public function crawlPages()
 	{
@@ -105,7 +110,7 @@ class Crawler
 			$this->crawlPages();
 		}
 
-		return sizeof($this->queue);
+		return count($this->queue);
 	}
 
 	/**

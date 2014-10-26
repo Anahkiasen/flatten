@@ -30,7 +30,7 @@ class Context
 	public function __construct(Container $app)
 	{
 		$this->app       = $app;
-		$this->inConsole = php_sapi_name() == 'cli';
+		$this->inConsole = PHP_SAPI == 'cli';
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ class Context
 	public function shouldCachePage()
 	{
 		// Check if the content type of the page is allowed to be cached
-		if ($this->app['request']->isXmlHttpRequest() or $this->app['request']->getMethod() !== 'GET') {
+		if ($this->app['request']->isXmlHttpRequest() || $this->app['request']->getMethod() !== 'GET') {
 			return false;
 		}
 
@@ -76,13 +76,13 @@ class Context
 		$cache   = false;
 
 		// Ignore and only
-		if (empty($ignored) and empty($only)) {
+		if (empty($ignored) && empty($only)) {
 			$cache = true;
 		} else {
-			if (!empty($only) and $this->matches($only)) {
+			if (!empty($only) && $this->matches($only)) {
 				$cache = true;
 			}
-			if (!empty($ignored) and !$this->matches($ignored)) {
+			if (!empty($ignored) && !$this->matches($ignored)) {
 				$cache = true;
 			}
 		}
@@ -104,7 +104,7 @@ class Context
 		// Get allowed environments
 		$allowedEnvs = (array) $this->app['config']->get('flatten::environments');
 
-		return !$this->inConsole and !in_array($this->app['env'], $allowedEnvs);
+		return !$this->inConsole && !in_array($this->app['env'], $allowedEnvs);
 	}
 
 	/**
