@@ -112,6 +112,8 @@ class Crawler
 	 * Crawl an URL and extract its links
 	 *
 	 * @param string $page The page's URL
+	 *
+	 * @return boolean|void
 	 */
 	protected function crawlPage($page)
 	{
@@ -178,7 +180,7 @@ class Crawler
 	/**
 	 * Check if a Link is external
 	 *
-	 * @param DomElement $link
+	 * @param DOMElement $link
 	 *
 	 * @return boolean
 	 */
@@ -190,9 +192,7 @@ class Crawler
 	/**
 	 * Call the given URI and return the Response.
 	 *
-	 * @param  string $method
-	 * @param  string $uri
-	 * @param  array  $parameters
+	 * @param string $url
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -239,8 +239,6 @@ class Crawler
 	 * Write a string as error output.
 	 *
 	 * @param  string $string
-	 *
-	 * @return void
 	 */
 	protected function error($string)
 	{

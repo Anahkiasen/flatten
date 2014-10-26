@@ -4,7 +4,6 @@ namespace Flatten;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Config\FileLoader as ConfigLoader;
 use Illuminate\Config\Repository;
-use Illuminate\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Philf\Setting\Setting;
@@ -19,12 +18,17 @@ class FlattenServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+		// Bind core classes
+		$this->createStorageFolder();
+		$this->bindCoreClasses();
+
+		// Regisger package
 		$this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
+		$this->bindFlattenClasses();
 
-		// Bind the classes
-		$this->app = static::make($this->app);
-
-		$this->commands('flatten.commands.build');
+		if ($this->app->bound('artisan')) {
+			$this->commands('flatten.commands.build');
+		}
 	}
 
 	/**
@@ -53,7 +57,7 @@ class FlattenServiceProvider extends ServiceProvider
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function provides()
 	{
@@ -65,43 +69,17 @@ class FlattenServiceProvider extends ServiceProvider
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Create the Flatten Container
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
-	 */
-	public static function make(Container $app = null)
-	{
-		if (!$app) {
-			$app = new Container();
-		}
-
-		$provider = new static($app);
-		$app      = $provider->bindCoreClasses($app);
-		$app      = $provider->bindFlattenClasses($app);
-
-		return $app;
-	}
-
-	/**
 	 * Bind the core classes to the container
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindCoreClasses(Container $app)
+	protected function bindCoreClasses()
 	{
-		$app = $this->createStorageFolder($app);
-
 		// Bind request
-		$app->bindIf('request', function () {
+		$this->app->bindIf('request', function () {
 			return Request::createFromGlobals();
 		});
 
 		// Bind config
-		$app->bindIf('config', function ($app) {
+		$this->app->bindIf('config', function ($app) {
 			$fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
 			$config     = new Repository($fileloader, 'config');
 			$config->set('cache.driver', 'file');
@@ -111,51 +89,43 @@ class FlattenServiceProvider extends ServiceProvider
 		}, true);
 
 		// Bind cache
-		$app->bindIf('cache', function ($app) {
+		$this->app->bindIf('cache', function ($app) {
 			return new CacheManager($app);
 		});
-
-		return $app;
 	}
 
 	/**
 	 * Bind Flatten's classes to the container
-	 *
-	 * @param  Container $app
-	 *
-	 * @return Container
 	 */
-	public function bindFlattenClasses(Container $app)
+	protected function bindFlattenClasses()
 	{
-		$app->bind('flatten', function ($app) {
+		$this->app->bind('flatten', function ($app) {
 			return new Flatten($app);
 		});
 
-		$app->bind('flatten.commands.build', function ($app) {
+		$this->app->bind('flatten.commands.build', function ($app) {
 			return new Crawler\BuildCommand();
 		});
 
-		$app->singleton('flatten.context', function ($app) {
+		$this->app->singleton('flatten.context', function ($app) {
 			return new Context($app);
 		});
 
-		$app->bind('flatten.events', function ($app) {
+		$this->app->bind('flatten.events', function ($app) {
 			return new EventHandler($app);
 		});
 
-		$app->bind('flatten.templating', function ($app) {
+		$this->app->bind('flatten.templating', function ($app) {
 			return new Templating($app);
 		});
 
-		$app->singleton('flatten.cache', function ($app) {
+		$this->app->singleton('flatten.cache', function ($app) {
 			return new CacheHandler($app, $app['flatten']->computeHash());
 		});
 
-		$app->bind('flatten.storage', function ($app) {
+		$this->app->bind('flatten.storage', function ($app) {
 			return new Setting($app['path.storage'].'/meta', 'flatten.json');
 		});
-
-		return $app;
 	}
 
 	/**
@@ -163,16 +133,14 @@ class FlattenServiceProvider extends ServiceProvider
 	 *
 	 * @return void
 	 */
-	protected function createStorageFolder(Container $app)
+	protected function createStorageFolder()
 	{
-		$app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
+		$this->app->bindIf('files', 'Illuminate\Filesystem\Filesystem');
 
 		// Bind paths
-		if (!$app->bound('path.storage')) {
-			$storage             = __DIR__.'/../../storage';
-			$app['path.storage'] = $storage;
+		if (!$this->app->bound('path.storage')) {
+			$storage                   = __DIR__.'/../../storage';
+			$this->app['path.storage'] = $storage;
 		}
-
-		return $app;
 	}
 }

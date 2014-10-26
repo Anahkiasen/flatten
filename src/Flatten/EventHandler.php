@@ -46,7 +46,7 @@ class EventHandler
 	 *
 	 * @param Response $response
 	 *
-	 * @return void
+	 * @return false|null
 	 */
 	public function onApplicationDone(Response $response = null)
 	{

@@ -25,7 +25,10 @@ abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		// Create Container
-		$this->app        = FlattenServiceProvider::make();
+		$this->app = new Container();
+		$provider  = new FlattenServiceProvider($this->app);
+		$provider->register();
+
 		$this->app['url'] = $this->mockUrl();
 
 		// Empty the cache

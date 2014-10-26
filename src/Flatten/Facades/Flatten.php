@@ -2,6 +2,7 @@
 namespace Flatten\Facades;
 
 use Flatten\FlattenServiceProvider;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -12,12 +13,14 @@ class Flatten extends Facade
 	/**
 	 * Get the registered component.
 	 *
-	 * @return object
+	 * @return string
 	 */
 	protected static function getFacadeAccessor()
 	{
 		if (!static::$app) {
-			static::$app = FlattenServiceProvider::make();
+			static::$app = new Container();
+			$provider = new FlattenServiceProvider(static::$app);
+			$provider->register();
 		}
 
 		return 'flatten';
