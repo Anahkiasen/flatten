@@ -8,6 +8,14 @@ This will provide an essential boost to your application's speed, as your page's
 
 ### Installation
 
+[![Build Status](http://img.shields.io/travis/anahkiasen/flatten.svg?style=flat)](https://travis-ci.org/anahkiasen/flatten)
+[![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
+[![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
+[![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/anahkiasen/flatten.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/flatten/)
+[![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/anahkiasen/flatten.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/flatten/)
+[![Dependency Status](https://www.versioneye.com/user/projects/544d46789fc4d555ff000071/badge.svg?style=flat)](https://www.versioneye.com/user/projects/544d46789fc4d555ff000071)
+[![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat)](https://www.gittip.com/Anahkiasen/)
+
 Flatten installs just like any other package, via Composer : `composer require anahkiasen/flatten`.
 
 Then if you're using Laravel, add Flatten's Service Provider to you `config/app.php` file :
@@ -59,7 +67,6 @@ Query strings are taken into account in the cache and pages will different query
 ### Building
 
 Flatten can cache all authorized pages in your application via the `artisan flatten:build` command. It will crawl your application and go from page to page, caching all the pages you allowed him to.
-
 
 ### Flushing
 
