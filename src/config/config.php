@@ -1,12 +1,12 @@
 <?php return array(
 
+	// Whether Flatten should be enabled in this environment
+	'enabled' => true,
+
 	// Cache checks
 	//
 	// Various checks that are used to see if Flatten should run
 	////////////////////////////////////////////////////////////////////
-
-	// The environments in which Flatten should not run
-	'environments' => array(),
 
 	// The different pages to be ignored when caching
 	// They're all regexes so go crazy
