@@ -1,6 +1,6 @@
 # Flatten
 
-[![Build Status](https://travis-ci.org/Anahkiasen/flatten.svg?branch=develop)](https://travis-ci.org/Anahkiasen/flatten)
+[![Build Status](http://img.shields.io/travis/Anahkiasen/flatten.svg?style=flat)](https://travis-ci.org/Anahkiasen/flatten)
 [![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
 [![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
 [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/anahkiasen/flatten.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/flatten/)
