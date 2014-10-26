@@ -5,18 +5,18 @@ class TemplatingTest extends FlattenTests
 {
 	public function testCanCacheSections()
 	{
-		$section = $this->templating->section('foobar', function() {
+		$section = $this->templating->section('foobar', function () {
 			?><h1>Header</h1><?php
 		});
 		$this->assertEquals('<h1>Header</h1>', $section);
 
-		$section = $this->templating->section('foobar', function() {
+		$section = $this->templating->section('foobar', function () {
 			?><h1>NewHeader</h1><?php
 		});
 		$this->assertEquals('<h1>Header</h1>', $section);
 
 		$this->app['cache']->flush();
-		$section = $this->templating->section('foobar', function() {
+		$section = $this->templating->section('foobar', function () {
 			?><h1>NewHeader</h1><?php
 		});
 		$this->assertEquals('<h1>NewHeader</h1>', $section);
@@ -25,20 +25,20 @@ class TemplatingTest extends FlattenTests
 
 	public function testCanCacheSectionsWithVariables()
 	{
-		$title = 'Header';
-		$section = $this->templating->section('foobar', function() use ($title) {
+		$title   = 'Header';
+		$section = $this->templating->section('foobar', function () use ($title) {
 			?><h1><?= $title ?></h1><?php
 		});
 		$this->assertEquals('<h1>Header</h1>', $section);
 
-		$title = 'NewHeader';
-		$section = $this->templating->section('foobar', function() use ($title) {
+		$title   = 'NewHeader';
+		$section = $this->templating->section('foobar', function () use ($title) {
 			?><h1><?= $title ?></h1><?php
 		});
 		$this->assertEquals('<h1>Header</h1>', $section);
 
 		$this->app['cache']->flush();
-		$section = $this->templating->section('foobar', function() use ($title) {
+		$section = $this->templating->section('foobar', function () use ($title) {
 			?><h1><?= $title ?></h1><?php
 		});
 		$this->assertEquals('<h1>NewHeader</h1>', $section);
@@ -47,11 +47,11 @@ class TemplatingTest extends FlattenTests
 
 	public function testCanFlushSection()
 	{
-		$section = $this->templating->section('foo', function() {
+		$section = $this->templating->section('foo', function () {
 			?><h1>foo</h1><?php
 		});
 
-		$section = $this->templating->section('bar', function() {
+		$section = $this->templating->section('bar', function () {
 			?><h1>bar</h1><?php
 		});
 

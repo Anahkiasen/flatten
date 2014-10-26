@@ -19,7 +19,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		// Create Container
-		$this->app = FlattenServiceProvider::make();
+		$this->app        = FlattenServiceProvider::make();
 		$this->app['url'] = $this->mockUrl();
 
 		// Empty the cache
@@ -91,7 +91,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Request component
 	 *
-	 * @param  string $url          Current URL
+	 * @param  string $url Current URL
 	 *
 	 * @return Mockery
 	 */
@@ -109,7 +109,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 		$request->shouldReceive('getQueryString')->andReturn($query);
 		$request->shouldReceive('isXmlHttpRequest')->andReturn($ajax);
 
-		$this->app['request'] = $request;
+		$this->app['request']       = $request;
 		$this->app['flatten.cache'] = new Flatten\CacheHandler($this->app, $this->flatten->computeHash());
 
 		return $request;

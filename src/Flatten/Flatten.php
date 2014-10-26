@@ -2,7 +2,6 @@
 namespace Flatten;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,7 +30,7 @@ class Flatten
 	 * Delegate flushing actions to CacheHandler
 	 *
 	 * @param  string $method
-	 * @param  array $arguments
+	 * @param  array  $arguments
 	 *
 	 * @return mixed
 	 */
@@ -60,7 +59,6 @@ class Flatten
 	 * Starts the caching system
 	 *
 	 * @return boolean
-	 *
 	 * @codeCoverageIgnore
 	 */
 	public function start()
@@ -76,7 +74,6 @@ class Flatten
 	 * @param Response $response A response to render on end
 	 *
 	 * @return boolean
-	 *
 	 * @codeCoverageIgnore
 	 */
 	public function end($response = null)
@@ -100,7 +97,7 @@ class Flatten
 		$filename = static::getKickstartPath(func_get_args());
 
 		// If we have a cache for it, unserialize it and output it
-		if(file_exists($filename)) {
+		if (file_exists($filename)) {
 			$contents = file_get_contents($filename);
 			exit(unserialize(substr($contents, 10)));
 		}
@@ -127,11 +124,11 @@ class Flatten
 			$storage = __DIR__.'/../../storage';
 		}
 
-		if(isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_METHOD'] === 'GET') {
+		if (isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_METHOD'] === 'GET') {
 			// Compute cache path
-			$query    = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
-			$key      = $salts.'GET-'.$_SERVER['REQUEST_URI'];
-			$key      = $query ? $key.'?'.$query : $key;
+			$query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
+			$key   = $salts.'GET-'.$_SERVER['REQUEST_URI'];
+			$key   = $query ? $key.'?'.$query : $key;
 
 			// Hash and get path
 			$parts    = array_slice(str_split($hash = md5($key), 2), 0, 2);

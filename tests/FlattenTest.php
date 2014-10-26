@@ -52,8 +52,8 @@ class FlattenTest extends FlattenTests
 		$this->cache->storeCache('foobar');
 
 		$_SERVER['REQUEST_METHOD'] = 'GET';
-		$_SERVER['REQUEST_URI'] = '/foobar';
-		$filename = \Flatten\Flatten::getKickstartPath();
+		$_SERVER['REQUEST_URI']    = '/foobar';
+		$filename                  = \Flatten\Flatten::getKickstartPath();
 
 		$this->assertContains('cache/69/cc/69ccdba817c2fb3cdade9450a36b273e', $filename);
 	}
@@ -66,7 +66,7 @@ class FlattenTest extends FlattenTests
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['REQUEST_URI']    = '/foobar';
 		$_SERVER['QUERY_STRING']   = 'foo=bar';
-		$filename = \Flatten\Flatten::getKickstartPath();
+		$filename                  = \Flatten\Flatten::getKickstartPath();
 
 		$this->assertContains('cache/13/1c/131cc1c3ea11da7e1643b2aaac262a6b', $filename);
 	}

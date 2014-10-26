@@ -45,7 +45,7 @@ class FlattenServiceProvider extends ServiceProvider
 
 		// Bind closing event
 		$app = $this->app;
-		$this->app->finish(function($request, $response) use ($app) {
+		$this->app->finish(function ($request, $response) use ($app) {
 			return $app['flatten']->end($response);
 		});
 	}
@@ -74,12 +74,12 @@ class FlattenServiceProvider extends ServiceProvider
 	public static function make(Container $app = null)
 	{
 		if (!$app) {
-			$app = new Container;
+			$app = new Container();
 		}
 
 		$provider = new static($app);
-		$app = $provider->bindCoreClasses($app);
-		$app = $provider->bindFlattenClasses($app);
+		$app      = $provider->bindCoreClasses($app);
+		$app      = $provider->bindFlattenClasses($app);
 
 		return $app;
 	}
@@ -96,14 +96,14 @@ class FlattenServiceProvider extends ServiceProvider
 		$app = $this->createStorageFolder($app);
 
 		// Bind request
-		$app->bindIf('request', function() {
+		$app->bindIf('request', function () {
 			return Request::createFromGlobals();
 		});
 
 		// Bind config
-		$app->bindIf('config', function($app) {
+		$app->bindIf('config', function ($app) {
 			$fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
-			$config = new Repository($fileloader, 'config');
+			$config     = new Repository($fileloader, 'config');
 			$config->set('cache.driver', 'file');
 			$config->set('cache.path', __DIR__.'/../../cache');
 
@@ -111,7 +111,7 @@ class FlattenServiceProvider extends ServiceProvider
 		}, true);
 
 		// Bind cache
-		$app->bindIf('cache', function($app) {
+		$app->bindIf('cache', function ($app) {
 			return new CacheManager($app);
 		});
 
@@ -127,27 +127,27 @@ class FlattenServiceProvider extends ServiceProvider
 	 */
 	public function bindFlattenClasses(Container $app)
 	{
-		$app->bind('flatten', function($app) {
-			 return new Flatten($app);
+		$app->bind('flatten', function ($app) {
+			return new Flatten($app);
 		});
 
-		$app->bind('flatten.commands.build', function($app) {
-			return new Crawler\BuildCommand;
+		$app->bind('flatten.commands.build', function ($app) {
+			return new Crawler\BuildCommand();
 		});
 
-		$app->singleton('flatten.context', function($app) {
+		$app->singleton('flatten.context', function ($app) {
 			return new Context($app);
 		});
 
-		$app->bind('flatten.events', function($app) {
+		$app->bind('flatten.events', function ($app) {
 			return new EventHandler($app);
 		});
 
-		$app->bind('flatten.templating', function($app) {
+		$app->bind('flatten.templating', function ($app) {
 			return new Templating($app);
 		});
 
-		$app->singleton('flatten.cache', function($app) {
+		$app->singleton('flatten.cache', function ($app) {
 			return new CacheHandler($app, $app['flatten']->computeHash());
 		});
 
@@ -169,7 +169,7 @@ class FlattenServiceProvider extends ServiceProvider
 
 		// Bind paths
 		if (!$app->bound('path.storage')) {
-			$storage = __DIR__.'/../../storage';
+			$storage             = __DIR__.'/../../storage';
 			$app['path.storage'] = $storage;
 		}
 

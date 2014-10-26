@@ -29,7 +29,7 @@ class Context
 	 */
 	public function __construct(Container $app)
 	{
-		$this->app = $app;
+		$this->app       = $app;
 		$this->inConsole = php_sapi_name() == 'cli';
 	}
 
@@ -76,10 +76,15 @@ class Context
 		$cache   = false;
 
 		// Ignore and only
-		if (empty($ignored) and empty($only)) $cache = true;
-		else {
-			if (!empty($only)    and  $this->matches($only))    $cache = true;
-			if (!empty($ignored) and !$this->matches($ignored)) $cache = true;
+		if (empty($ignored) and empty($only)) {
+			$cache = true;
+		} else {
+			if (!empty($only) and $this->matches($only)) {
+				$cache = true;
+			}
+			if (!empty($ignored) and !$this->matches($ignored)) {
+				$cache = true;
+			}
 		}
 
 		return (bool) $cache;
@@ -113,7 +118,7 @@ class Context
 	{
 		// Implode all pages into one single pattern
 		$page    = $this->getCurrentUrl();
-		$pattern = '#' .implode('|', $pages). '#';
+		$pattern = '#'.implode('|', $pages).'#';
 
 		return (bool) preg_match($pattern, $page);
 	}

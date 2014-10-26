@@ -41,7 +41,7 @@ class BuildCommand extends Command
 		$crawler = new Crawler($this->laravel, $this->laravel, $this->output, $this->option('root'));
 		$crawled = $crawler->crawlPages();
 
-		$this->info('Successfully built '.$crawled. ' pages');
+		$this->info('Successfully built '.$crawled.' pages');
 	}
 
 	/**
@@ -52,9 +52,8 @@ class BuildCommand extends Command
 	protected function getOptions()
 	{
 		return array(
-			array('clear', 'c', InputOption::VALUE_NONE,     'Clear the cache before building'),
-			array('root',  'r', InputOption::VALUE_REQUIRED, 'A root URL to be used when visiting'),
+			array('clear', 'c', InputOption::VALUE_NONE, 'Clear the cache before building'),
+			array('root', 'r', InputOption::VALUE_REQUIRED, 'A root URL to be used when visiting'),
 		);
 	}
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 class CacheHandlerTest extends FlattenTests
 {
 	public function testCanGetHash()

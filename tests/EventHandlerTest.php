@@ -1,4 +1,5 @@
 <?php
+
 class EventHandlerTest extends FlattenTests
 {
 	public function testReturnsNothingIfNoCache()
@@ -31,7 +32,8 @@ class EventHandlerTest extends FlattenTests
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
-	public function testCancelIfNotFound() {
+	public function testCancelIfNotFound()
+	{
 		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
 		$response->shouldReceive('isNotFound')->once()->andReturn(true);
 		$response->shouldReceive('getContent')->once()->andReturn('foobar');
@@ -39,7 +41,8 @@ class EventHandlerTest extends FlattenTests
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
-	public function testCancelIfServerError() {
+	public function testCancelIfServerError()
+	{
 		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
 		$response->shouldReceive('isServerError')->once()->andReturn(true);
 		$response->shouldReceive('getContent')->once()->andReturn('foobar');
@@ -47,12 +50,12 @@ class EventHandlerTest extends FlattenTests
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
-	public function testCancelIfForbidden() {
+	public function testCancelIfForbidden()
+	{
 		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
 		$response->shouldReceive('isForbidden')->once()->andReturn(true);
 		$response->shouldReceive('getContent')->once()->andReturn('foobar');
 
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
-
 }

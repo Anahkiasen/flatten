@@ -4,10 +4,10 @@ namespace Flatten\Crawler;
 use DOMElement;
 use Exception;
 use Illuminate\Container\Container;
+use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
-use Illuminate\Foundation\Testing\Client;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Crawler
@@ -123,7 +123,7 @@ class Crawler
 				return false;
 			}
 		} catch (Exception $e) {
-			return $this->error('Page "' .$page. '" errored : '.$e->getMessage());
+			return $this->error('Page "'.$page.'" errored : '.$e->getMessage());
 		}
 
 		// Extract new links
@@ -190,9 +190,9 @@ class Crawler
 	/**
 	 * Call the given URI and return the Response.
 	 *
-	 * @param  string  $method
-	 * @param  string  $uri
-	 * @param  array   $parameters
+	 * @param  string $method
+	 * @param  string $uri
+	 * @param  array  $parameters
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -205,7 +205,7 @@ class Crawler
 		$response = $this->client->getResponse();
 
 		if (!$response->isOk()) {
-			return $this->error('Page at "' .$url. '" could not be reached');
+			return $this->error('Page at "'.$url.'" could not be reached');
 		}
 
 		// Format content
@@ -238,7 +238,8 @@ class Crawler
 	/**
 	 * Write a string as error output.
 	 *
-	 * @param  string  $string
+	 * @param  string $string
+	 *
 	 * @return void
 	 */
 	protected function error($string)

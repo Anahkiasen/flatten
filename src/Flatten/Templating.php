@@ -49,7 +49,7 @@ class Templating
 	{
 		// Extend Blade
 		$blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
-		$blade->extend(function($view, $blade) {
+		$blade->extend(function ($view, $blade) {
 
 			// Replace opener
 			$pattern = $blade->createOpenMatcher('cache');
@@ -84,9 +84,10 @@ class Templating
 			$lifetime = $this->app['flatten.cache']->getLifetime();
 		}
 
-		return $this->app['cache']->remember($this->formatSectionName($name), $lifetime, function() use ($contents) {
+		return $this->app['cache']->remember($this->formatSectionName($name), $lifetime, function () use ($contents) {
 			ob_start();
-				print $contents();
+			print $contents();
+
 			return ob_get_clean();
 		});
 	}

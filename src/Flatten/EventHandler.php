@@ -51,7 +51,7 @@ class EventHandler
 	public function onApplicationDone(Response $response = null)
 	{
 		// Do not cache a Redirect Response or error pages
-		if(
+		if (
 			!is_null($response) && (
 				$response->isRedirection() ||
 				$response->isNotFound() ||

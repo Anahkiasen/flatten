@@ -1,4 +1,5 @@
 <?php
+
 class ContextTest extends FlattenTests
 {
 	public function testCanGetCurrentUrl()
@@ -131,13 +132,13 @@ class ContextTest extends FlattenTests
 
 	public function testCanUseBlockers()
 	{
-		$_GET['foo'] = 'bar';
+		$_GET['foo']         = 'bar';
 		$this->app['config'] = $this->mockConfig(array(
 			'flatten::blockers' => array($_GET['foo'] === 'bar'),
 		));
 		$this->assertTrue($this->context->shouldRun());
 
-		$_GET['foo'] = 'baz';
+		$_GET['foo']         = 'baz';
 		$this->app['config'] = $this->mockConfig(array(
 			'flatten::blockers' => array($_GET['foo'] === 'bar'),
 		));
