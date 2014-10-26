@@ -62,8 +62,6 @@ class CacheHandler
 	 * Store contents in the cache
 	 *
 	 * @param string $content The content to store
-	 *
-	 * @return void
 	 */
 	public function storeCache($content)
 	{
@@ -95,9 +93,7 @@ class CacheHandler
 	/**
 	 * Flush a specific pattern
 	 *
-	 * @param  string $pattern
-	 *
-	 * @return void
+	 * @param string|null $pattern
 	 */
 	public function flushPattern($pattern = null)
 	{
@@ -117,8 +113,6 @@ class CacheHandler
 
 	/**
 	 * Flush all pages
-	 *
-	 * @return void
 	 */
 	public function flushAll()
 	{
@@ -128,9 +122,7 @@ class CacheHandler
 	/**
 	 * Flush an URL
 	 *
-	 * @param  string $url
-	 *
-	 * @return void
+	 * @param string $url
 	 */
 	public function flushUrl($url)
 	{
@@ -140,10 +132,8 @@ class CacheHandler
 	/**
 	 * Flush an action
 	 *
-	 * @param  string $action
-	 * @param  array  $parameters
-	 *
-	 * @return void
+	 * @param string $action
+	 * @param array  $parameters
 	 */
 	public function flushAction($action, $parameters = array())
 	{
@@ -155,10 +145,8 @@ class CacheHandler
 	/**
 	 * Flush a route
 	 *
-	 * @param  string $route
-	 * @param  array  $parameters
-	 *
-	 * @return void
+	 * @param string $route
+	 * @param array  $parameters
 	 */
 	public function flushRoute($route, $parameters = array())
 	{
@@ -170,7 +158,7 @@ class CacheHandler
 	/**
 	 * Transforms an URL into a pattern
 	 *
-	 * @param  string $url
+	 * @param string $url
 	 *
 	 * @return string
 	 */

@@ -67,7 +67,7 @@ class Crawler
 	 * @param Container           $app
 	 * @param HttpKernelInterface $kernel
 	 * @param OutputInterface     $output
-	 * @param string              $root
+	 * @param string|null         $root
 	 */
 	public function __construct(Container $app, HttpKernelInterface $kernel, OutputInterface $output, $root = null)
 	{
@@ -118,7 +118,7 @@ class Crawler
 	 *
 	 * @param string $page The page's URL
 	 *
-	 * @return boolean|void
+	 * @return false|null
 	 */
 	protected function crawlPage($page)
 	{
@@ -155,8 +155,6 @@ class Crawler
 	 * Extract the various links from a page
 	 *
 	 * @param DomCrawler $crawler
-	 *
-	 * @return array An array of links
 	 */
 	protected function extractLinks(DomCrawler $crawler)
 	{
@@ -199,7 +197,7 @@ class Crawler
 	 *
 	 * @param string $url
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return null|DomCrawler
 	 */
 	protected function getPage($url)
 	{
@@ -221,7 +219,7 @@ class Crawler
 
 		// Build message
 		$status  = $this->app['flatten.context']->shouldCachePage() ? 'Cached' : 'Left uncached';
-		$current = (sizeof($this->queue) - $this->current);
+		$current = (count($this->queue) - $this->current);
 		$padding = str_repeat(' ', 70 - strlen($url) - strlen($status));
 
 		// Display message
@@ -243,10 +241,10 @@ class Crawler
 	/**
 	 * Write a string as error output.
 	 *
-	 * @param  string $string
+	 * @param string $string
 	 */
 	protected function error($string)
 	{
-		$this->output->writeln("<error>$string</error>");
+		$this->output->writeln('<error>' .$string. '</error>');
 	}
 }

@@ -41,7 +41,7 @@ abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Get an instance from the Container
 	 *
-	 * @param  string $key
+	 * @param string $key
 	 *
 	 * @return object
 	 */

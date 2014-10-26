@@ -44,7 +44,7 @@ class EventHandler
 	/**
 	 * Save the current page in the cache
 	 *
-	 * @param Response $response
+	 * @param Response|null $response
 	 *
 	 * @return false|null
 	 */

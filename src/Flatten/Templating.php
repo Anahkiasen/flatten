@@ -32,8 +32,6 @@ class Templating
 
 	/**
 	 * Register the templating tags with the various engines
-	 *
-	 * @return void
 	 */
 	public function registerTags()
 	{
@@ -42,8 +40,6 @@ class Templating
 
 	/**
 	 * Register the Flatten tags with Blade
-	 *
-	 * @return void
 	 */
 	public function registerBlade()
 	{
@@ -70,11 +66,9 @@ class Templating
 	/**
 	 * Register a section to cache with Flatten
 	 *
-	 * @param  string  $name
-	 * @param  integer $lifetime
-	 * @param  Closure $contents
-	 *
-	 * @return void
+	 * @param string       $name
+	 * @param integer      $lifetime
+	 * @param Closure|null $contents
 	 */
 	public function section($name, $lifetime, $contents = null)
 	{
@@ -86,7 +80,7 @@ class Templating
 
 		return $this->app['cache']->remember($this->formatSectionName($name), $lifetime, function () use ($contents) {
 			ob_start();
-			print $contents();
+			echo $contents();
 
 			return ob_get_clean();
 		});
@@ -95,9 +89,7 @@ class Templating
 	/**
 	 * Flush a section in particular
 	 *
-	 * @param  string $name
-	 *
-	 * @return void
+	 * @param string $name
 	 */
 	public function flushSection($name)
 	{
@@ -111,7 +103,7 @@ class Templating
 	/**
 	 * Format a section name
 	 *
-	 * @param  string $name
+	 * @param string $name
 	 *
 	 * @return string
 	 */

@@ -103,7 +103,7 @@ class FlattenServiceProvider extends ServiceProvider
 			return new Flatten($app);
 		});
 
-		$this->app->bind('flatten.commands.build', function ($app) {
+		$this->app->bind('flatten.commands.build', function () {
 			return new Crawler\BuildCommand();
 		});
 
@@ -130,8 +130,6 @@ class FlattenServiceProvider extends ServiceProvider
 
 	/**
 	 * Create the custom storage folder if it doesn't exist
-	 *
-	 * @return void
 	 */
 	protected function createStorageFolder()
 	{

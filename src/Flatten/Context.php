@@ -51,7 +51,7 @@ class Context
 
 		// If any of the blockers are active, cancel
 		$blockers = $this->app['config']->get('flatten::blockers');
-		if (sizeof($blockers) !== sizeof(array_filter($blockers))) {
+		if (count($blockers) !== count(array_filter($blockers))) {
 			return false;
 		}
 
@@ -130,9 +130,7 @@ class Context
 	/**
 	 * Change the inConsole variable
 	 *
-	 * @param  boolean $inConsole
-	 *
-	 * @return void
+	 * @param boolean $inConsole
 	 */
 	public function inConsole($inConsole = false)
 	{
