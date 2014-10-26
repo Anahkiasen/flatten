@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.5.0
+## 0.5.0 - 2014-10-26
 
 ### Changed
 - Environment managing is now done via an `enabled` option
