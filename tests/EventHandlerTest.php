@@ -9,15 +9,14 @@ class EventHandlerTest extends FlattenTestCase
 	public function testReturnsNothingIfNoCache()
 	{
 		$empty = $this->events->onApplicationBoot();
+		ob_end_clean();
 
 		$this->assertNull($empty);
 	}
 
 	public function testCanStoreCache()
 	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isRedirection')->once()->andReturn(false);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+		$response = $this->mockResponse();
 
 		// Pass the response
 		$this->events->onApplicationDone($response);
@@ -29,37 +28,49 @@ class EventHandlerTest extends FlattenTestCase
 
 	public function testCancelIfRedirect()
 	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isRedirection')->once()->andReturn(true);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+		$response = $this->mockResponse(false, true);
 
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
 	public function testCancelIfNotFound()
 	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isNotFound')->once()->andReturn(true);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+		$response = $this->mockResponse(true);
 
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
 	public function testCancelIfServerError()
 	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isServerError')->once()->andReturn(true);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+		$response = $this->mockResponse(false, false, true);
 
 		$this->assertFalse($this->events->onApplicationDone($response));
 	}
 
 	public function testCancelIfForbidden()
 	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isForbidden')->once()->andReturn(true);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+		$response = $this->mockResponse(false, false, false, true);
 
 		$this->assertFalse($this->events->onApplicationDone($response));
+	}
+
+	/**
+	 * @param boolean $found
+	 * @param boolean $redirection
+	 * @param boolean $error
+	 * @param boolean $fobidden
+	 *
+	 * @return Mockery\MockInterface
+	 */
+	protected function mockResponse($found = false, $redirection = false, $error = false, $fobidden = false)
+	{
+		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
+		$response->shouldReceive('isNotFound')->once()->andReturn($found);
+		$response->shouldReceive('isRedirection')->once()->andReturn($redirection);
+		$response->shouldReceive('isServerError')->once()->andReturn($error);
+		$response->shouldReceive('isForbidden')->once()->andReturn($fobidden);
+		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+
+		return $response;
 	}
 }

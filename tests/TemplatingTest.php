@@ -3,6 +3,7 @@ namespace Flatten;
 
 use Flatten\TestCases\FlattenTestCase;
 use Illuminate\View\ViewServiceProvider;
+use Mockery;
 
 class TemplatingTest extends FlattenTestCase
 {
@@ -73,7 +74,11 @@ class TemplatingTest extends FlattenTestCase
 		$viewProvider = new ViewServiceProvider($this->app);
 		$viewProvider->registerEngineResolver();
 		$viewProvider->registerViewFinder();
-		$viewProvider->registerEnvironment();
+		if (method_exists($viewProvider, 'registerEnvironment')) {
+			$viewProvider->registerEnvironment();
+		} else {
+			$viewProvider->registerFactory();
+		}
 
 		// Register tags
 		$this->app['flatten.templating']->registerTags();

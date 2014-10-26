@@ -3,10 +3,13 @@ namespace Flatten\TestCases;
 
 use Flatten\CacheHandler;
 use Flatten\FlattenServiceProvider;
+use Illuminate\Container\Container;
 use Mockery;
 use PHPUnit_Framework_TestCase;
-use Illuminate\Container\Container;
 
+/**
+ * @property \Flatten\EventHandler events
+ */
 abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
@@ -94,7 +97,9 @@ abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Mock the Request component
 	 *
-	 * @param  string $url Current URL
+	 * @param string  $url Current URL
+	 * @param boolean $ajax
+	 * @param string  $method
 	 *
 	 * @return Mockery
 	 */
