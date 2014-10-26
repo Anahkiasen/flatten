@@ -245,6 +245,6 @@ class Crawler
 	 */
 	protected function error($string)
 	{
-		$this->output->writeln('<error>' .$string. '</error>');
+		$this->output->writeln('<error>'.$string.'</error>');
 	}
 }

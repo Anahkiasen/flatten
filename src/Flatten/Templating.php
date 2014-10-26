@@ -69,6 +69,8 @@ class Templating
 	 * @param string       $name
 	 * @param integer      $lifetime
 	 * @param Closure|null $contents
+	 *
+	 * @return string
 	 */
 	public function section($name, $lifetime, $contents = null)
 	{

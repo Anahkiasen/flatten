@@ -62,6 +62,8 @@ class CacheHandler
 	 * Store contents in the cache
 	 *
 	 * @param string $content The content to store
+	 *
+	 * @return boolean
 	 */
 	public function storeCache($content)
 	{
