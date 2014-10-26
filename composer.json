@@ -1,37 +1,33 @@
 {
-	"name": "anahkiasen/flatten",
-	"description": "A package for the Illuminate framework that flattens pages to plain HTML",
-	"license": "MIT",
-	"keywords": [
-		"cache",
-		"performance",
-		"laravel"
-	],
-	"authors": [
-		{
-			"name": "Maxime Fabre",
-			"email": "ehtnam6@gmail.com"
-		}
-	],
-	"require": {
-		"illuminate/container": "~4",
-		"illuminate/support": "~4",
-		"illuminate/cache": "~4",
-		"illuminate/config": "~4",
-		"illuminate/http": "~4",
-		"philf/setting": "dev-master"
-	},
-	"require-dev": {
-		"mockery/mockery": "dev-master",
-		"illuminate/view": "~4"
-	},
-	"autoload": {
-		"psr-0": {
-			"Flatten": "src"
-		}
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev"
+  "name": "anahkiasen/flatten",
+  "description": "A package for the Illuminate framework that flattens pages to plain HTML",
+  "license": "MIT",
+  "keywords": [
+    "cache",
+    "performance",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
+  ],
+  "require": {
+    "illuminate/container": "~4",
+    "illuminate/support": "~4",
+    "illuminate/cache": "~4",
+    "illuminate/config": "~4",
+    "illuminate/http": "~4",
+    "philf/setting": "~1.0.1"
+  },
+  "require-dev": {
+    "mockery/mockery": "~0.9.2",
+    "illuminate/view": "~4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Flatten\\": "src/Flatten"
+    }
+  }
 }
