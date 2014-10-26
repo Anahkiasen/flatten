@@ -29,5 +29,10 @@
     "psr-4": {
       "Flatten\\": "src/Flatten"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Flatten\\": "tests"
+    }
   }
 }

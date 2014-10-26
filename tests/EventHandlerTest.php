@@ -1,6 +1,10 @@
 <?php
+namespace Flatten;
 
-class EventHandlerTest extends FlattenTests
+use Flatten\TestCases\FlattenTestCase;
+use Mockery;
+
+class EventHandlerTest extends FlattenTestCase
 {
 	public function testReturnsNothingIfNoCache()
 	{

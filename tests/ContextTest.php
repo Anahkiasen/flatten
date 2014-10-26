@@ -1,6 +1,9 @@
 <?php
+namespace Flatten;
 
-class ContextTest extends FlattenTests
+use Flatten\TestCases\FlattenTestCase;
+
+class ContextTest extends FlattenTestCase
 {
 	public function testCanGetCurrentUrl()
 	{

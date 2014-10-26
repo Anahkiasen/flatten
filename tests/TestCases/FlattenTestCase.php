@@ -1,10 +1,13 @@
 <?php
-require __DIR__.'/../vendor/autoload.php';
+namespace Flatten\TestCases;
 
+use Flatten\CacheHandler;
 use Flatten\FlattenServiceProvider;
+use Mockery;
+use PHPUnit_Framework_TestCase;
 use Illuminate\Container\Container;
 
-abstract class FlattenTests extends PHPUnit_Framework_TestCase
+abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * The Container
@@ -110,7 +113,7 @@ abstract class FlattenTests extends PHPUnit_Framework_TestCase
 		$request->shouldReceive('isXmlHttpRequest')->andReturn($ajax);
 
 		$this->app['request']       = $request;
-		$this->app['flatten.cache'] = new Flatten\CacheHandler($this->app, $this->flatten->computeHash());
+		$this->app['flatten.cache'] = new CacheHandler($this->app, $this->flatten->computeHash());
 
 		return $request;
 	}

@@ -1,7 +1,10 @@
 <?php
+namespace Flatten;
+
+use Flatten\TestCases\FlattenTestCase;
 use Illuminate\View\ViewServiceProvider;
 
-class TemplatingTest extends FlattenTests
+class TemplatingTest extends FlattenTestCase
 {
 	public function testCanCacheSections()
 	{

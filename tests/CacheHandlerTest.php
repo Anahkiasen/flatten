@@ -1,6 +1,9 @@
 <?php
+namespace Flatten;
 
-class CacheHandlerTest extends FlattenTests
+use Flatten\TestCases\FlattenTestCase;
+
+class CacheHandlerTest extends FlattenTestCase
 {
 	public function testCanGetHash()
 	{

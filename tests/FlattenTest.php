@@ -1,7 +1,10 @@
 <?php
-use Flatten\Facades\Flatten;
+namespace Flatten;
 
-class FlattenTest extends FlattenTests
+use Flatten\Facades\Flatten;
+use Flatten\TestCases\FlattenTestCase;
+
+class FlattenTest extends FlattenTestCase
 {
 	public function testCanComputeHash()
 	{

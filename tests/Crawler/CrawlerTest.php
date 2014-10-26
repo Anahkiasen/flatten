@@ -1,7 +1,11 @@
 <?php
-use Flatten\Crawler\Crawler;
+namespace Flatten\Crawler;
 
-class CrawlerTest extends FlattenTests
+use Flatten\FlattenTests;
+use Flatten\TestCases\FlattenTestCase;
+use Mockery;
+
+class CrawlerTest extends FlattenTestCase
 {
 	public function testCanCreateCrawler()
 	{
