@@ -1,3 +1,7 @@
+# Dependencies
+composer.lock
 vendor
+
+# Testing
 storage
 tests/coverage
