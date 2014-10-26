@@ -1,13 +1,5 @@
 # Flatten
 
-Flatten is a powerful cache system for caching pages at runtime.
-What it does is quite simple : you tell him which page are to be cached, when the cache is to be flushed, and from there Flatten handles it all. It will quietly flatten your pages to plain HTML and store them. That whay if an user visit a page that has already been flattened, all the PHP is highjacked to instead display a simple HTML page.
-This will provide an essential boost to your application's speed, as your page's cache only gets refreshed when a change is made to the data it displays.
-
-## Setup
-
-### Installation
-
 [![Build Status](http://img.shields.io/travis/anahkiasen/flatten.svg?style=flat)](https://travis-ci.org/anahkiasen/flatten)
 [![Latest Stable Version](http://img.shields.io/packagist/v/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
 [![Total Downloads](http://img.shields.io/packagist/dt/anahkiasen/flatten.svg?style=flat)](https://packagist.org/packages/anahkiasen/flatten)
@@ -15,6 +7,14 @@ This will provide an essential boost to your application's speed, as your page's
 [![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/anahkiasen/flatten.svg?style=flat)](https://scrutinizer-ci.com/g/anahkiasen/flatten/)
 [![Dependency Status](https://www.versioneye.com/user/projects/544d46789fc4d555ff000071/badge.svg?style=flat)](https://www.versioneye.com/user/projects/544d46789fc4d555ff000071)
 [![Support via Gittip](http://img.shields.io/gittip/Anahkiasen.svg?style=flat)](https://www.gittip.com/Anahkiasen/)
+
+Flatten is a powerful cache system for caching pages at runtime.
+What it does is quite simple : you tell him which page are to be cached, when the cache is to be flushed, and from there Flatten handles it all. It will quietly flatten your pages to plain HTML and store them. That whay if an user visit a page that has already been flattened, all the PHP is highjacked to instead display a simple HTML page.
+This will provide an essential boost to your application's speed, as your page's cache only gets refreshed when a change is made to the data it displays.
+
+## Setup
+
+### Installation
 
 Flatten installs just like any other package, via Composer : `composer require anahkiasen/flatten`.
 
