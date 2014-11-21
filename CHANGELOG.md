@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.1 - 2014-11-21
+
+### Fixed
+- Fixed `enabled` option
+
 ## 0.5.0 - 2014-10-26
 
 ### Changed
