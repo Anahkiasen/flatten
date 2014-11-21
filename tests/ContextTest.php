@@ -116,14 +116,20 @@ class ContextTest extends FlattenTestCase
 	public function testCanCheckIfShouldRun()
 	{
 		$this->app['config'] = $this->mockConfig(array(
-			'flatten::environments' => array('local'),
-			'flatten::ignore'       => array('^/maintainer/anahkiasen', 'admin/.+'),
-			'flatten::only'         => array('^/maintainers/.+', 'package/.+'),
+			'flatten::enabled' => false,
+			'flatten::ignore'  => array('^/maintainer/anahkiasen', 'admin/.+'),
+			'flatten::only'    => array('^/maintainers/.+', 'package/.+'),
 		));
 
 		$this->app['env'] = 'local';
 		$this->mockRequest('/maintainer/jasonlewis');
 		$this->assertFalse($this->context->shouldRun());
+
+		$this->app['config'] = $this->mockConfig(array(
+			'flatten::enabled' => true,
+			'flatten::ignore'  => array('^/maintainer/anahkiasen', 'admin/.+'),
+			'flatten::only'    => array('^/maintainers/.+', 'package/.+'),
+		));
 
 		$this->app['env'] = 'production';
 		$this->mockRequest('/maintainer/jasonlewis');
@@ -134,12 +140,14 @@ class ContextTest extends FlattenTestCase
 	{
 		$_GET['foo']         = 'bar';
 		$this->app['config'] = $this->mockConfig(array(
+			'flatten::enabled'  => true,
 			'flatten::blockers' => array($_GET['foo'] === 'bar'),
 		));
 		$this->assertTrue($this->context->shouldRun());
 
 		$_GET['foo']         = 'baz';
 		$this->app['config'] = $this->mockConfig(array(
+			'flatten::enabled'  => true,
 			'flatten::blockers' => array($_GET['foo'] === 'bar'),
 		));
 		$this->assertFalse($this->context->shouldRun());
