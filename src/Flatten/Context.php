@@ -97,14 +97,10 @@ class Context
 	 */
 	public function isInAllowedEnvironment()
 	{
-		if (!$this->app->bound('env')) {
-			return true;
-		}
-
 		// Get allowed environments
-		$allowedEnvs = (array) $this->app['config']->get('flatten::environments');
+		$allowed = (boolean) $this->app['config']->get('flatten::enabled');
 
-		return !$this->inConsole && !in_array($this->app['env'], $allowedEnvs);
+		return !$this->inConsole && $allowed;
 	}
 
 	/**

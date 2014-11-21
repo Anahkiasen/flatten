@@ -105,14 +105,11 @@ class ContextTest extends FlattenTestCase
 	public function testCanCheckIfInAllowedEnvironment()
 	{
 		$this->app['config'] = $this->mockConfig();
-		$this->app['config']->shouldReceive('get')->with('flatten::environments')->andReturn(array('local'));
-
+		$this->app['config']->shouldReceive('get')->with('flatten::enabled')->andReturn(true);
 		$this->assertTrue($this->context->isInAllowedEnvironment());
 
-		$this->app['env'] = 'production';
-		$this->assertTrue($this->context->isInAllowedEnvironment());
-
-		$this->app['env'] = 'local';
+		$this->app['config'] = $this->mockConfig();
+		$this->app['config']->shouldReceive('get')->with('flatten::enabled')->andReturn(false);
 		$this->assertFalse($this->context->isInAllowedEnvironment());
 	}
 
