@@ -35,5 +35,10 @@
     "psr-4": {
       "Flatten\\": "tests"
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.0-dev"
+    }
   }
 }
