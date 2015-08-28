@@ -1,4 +1,5 @@
 <?php
+
 namespace Flatten\TestCases;
 
 use Flatten\CacheHandler;
@@ -12,117 +13,117 @@ use PHPUnit_Framework_TestCase;
  */
 abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * The Container
-	 *
-	 * @var Container
-	 */
-	protected $app;
+    /**
+     * The Container.
+     *
+     * @var Container
+     */
+    protected $app;
 
-	/**
-	 * Set up the tests
-	 */
-	public function setUp()
-	{
-		// Create Container
-		$this->app = new Container();
-		$provider  = new FlattenServiceProvider($this->app);
-		$provider->register();
+    /**
+     * Set up the tests.
+     */
+    public function setUp()
+    {
+        // Create Container
+        $this->app = new Container();
+        $provider = new FlattenServiceProvider($this->app);
+        $provider->register();
 
-		$this->app['url'] = $this->mockUrl();
+        $this->app['url'] = $this->mockUrl();
 
-		// Empty the cache
-		$this->app['cache']->flush();
-		$this->cache->flushAll();
-		$this->storage->clear();
-		$this->context->inConsole(false);
-	}
+        // Empty the cache
+        $this->app['cache']->flush();
+        $this->cache->flushAll();
+        $this->storage->clear();
+        $this->context->inConsole(false);
+    }
 
-	/**
-	 * Get an instance from the Container
-	 *
-	 * @param string $key
-	 *
-	 * @return object
-	 */
-	public function __get($key)
-	{
-		$aliases = array('cache', 'context', 'events', 'storage', 'templating');
-		if (in_array($key, $aliases)) {
-			$key = 'flatten.'.$key;
-		}
+    /**
+     * Get an instance from the Container.
+     *
+     * @param string $key
+     *
+     * @return object
+     */
+    public function __get($key)
+    {
+        $aliases = ['cache', 'context', 'events', 'storage', 'templating'];
+        if (in_array($key, $aliases, true)) {
+            $key = 'flatten.'.$key;
+        }
 
-		return $this->app[$key];
-	}
+        return $this->app[$key];
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////// MOCKED INSTANCES ///////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////// MOCKED INSTANCES ///////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Mock the Config repository
-	 *
-	 * @param array $options
-	 *
-	 * @return Mockery
-	 */
-	protected function mockConfig($options = array())
-	{
-		$config   = Mockery::mock('Config');
-		$defaults = array(
-			'flatten::saltshaker' => array(),
-			'flatten::only'       => array(),
-			'flatten::ignore'     => array(),
-			'flatten::blockers'   => array(),
-		);
+    /**
+     * Mock the Config repository.
+     *
+     * @param array $options
+     *
+     * @return Mockery
+     */
+    protected function mockConfig($options = [])
+    {
+        $config = Mockery::mock('Config');
+        $defaults = [
+            'flatten::saltshaker' => [],
+            'flatten::only' => [],
+            'flatten::ignore' => [],
+            'flatten::blockers' => [],
+        ];
 
-		// Merge defaults and set expectations
-		$options = array_merge($defaults, $options);
-		foreach ($options as $option => $value) {
-			$config->shouldReceive('get')->with($option)->andReturn($value);
-		}
+        // Merge defaults and set expectations
+        $options = array_merge($defaults, $options);
+        foreach ($options as $option => $value) {
+            $config->shouldReceive('get')->with($option)->andReturn($value);
+        }
 
-		return $config;
-	}
+        return $config;
+    }
 
-	/**
-	 * Mock the UrlGenerator component
-	 *
-	 * @return Mockery
-	 */
-	protected function mockUrl()
-	{
-		$url = Mockery::mock('UrlGenerator');
+    /**
+     * Mock the UrlGenerator component.
+     *
+     * @return Mockery
+     */
+    protected function mockUrl()
+    {
+        $url = Mockery::mock('UrlGenerator');
 
-		return $url;
-	}
+        return $url;
+    }
 
-	/**
-	 * Mock the Request component
-	 *
-	 * @param string  $url Current URL
-	 * @param boolean $ajax
-	 * @param string  $method
-	 *
-	 * @return Mockery
-	 */
-	protected function mockRequest($url = null, $ajax = false, $method = 'GET')
-	{
-		$url   = explode('?', $url);
-		$query = array_get($url, 1);
-		$url   = $url[0];
+    /**
+     * Mock the Request component.
+     *
+     * @param string $url    Current URL
+     * @param bool   $ajax
+     * @param string $method
+     *
+     * @return Mockery
+     */
+    protected function mockRequest($url = null, $ajax = false, $method = 'GET')
+    {
+        $url = explode('?', $url);
+        $query = array_get($url, 1);
+        $url = $url[0];
 
-		$request = Mockery::mock('Request');
-		$request->shouldReceive('root')->andReturn('http://localhost');
-		$request->shouldReceive('getMethod')->andReturn($method);
-		$request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
-		$request->shouldReceive('path')->andReturn(ltrim($url, '/'));
-		$request->shouldReceive('getQueryString')->andReturn($query);
-		$request->shouldReceive('isXmlHttpRequest')->andReturn($ajax);
+        $request = Mockery::mock('Request');
+        $request->shouldReceive('root')->andReturn('http://localhost');
+        $request->shouldReceive('getMethod')->andReturn($method);
+        $request->shouldReceive('getPathInfo')->andReturn('http://localhost'.$url);
+        $request->shouldReceive('path')->andReturn(ltrim($url, '/'));
+        $request->shouldReceive('getQueryString')->andReturn($query);
+        $request->shouldReceive('isXmlHttpRequest')->andReturn($ajax);
 
-		$this->app['request']       = $request;
-		$this->app['flatten.cache'] = new CacheHandler($this->app, $this->flatten->computeHash());
+        $this->app['request'] = $request;
+        $this->app['flatten.cache'] = new CacheHandler($this->app, $this->flatten->computeHash());
 
-		return $request;
-	}
+        return $request;
+    }
 }

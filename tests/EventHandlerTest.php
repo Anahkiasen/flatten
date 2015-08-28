@@ -1,4 +1,5 @@
 <?php
+
 namespace Flatten;
 
 use Flatten\TestCases\FlattenTestCase;
@@ -6,71 +7,71 @@ use Mockery;
 
 class EventHandlerTest extends FlattenTestCase
 {
-	public function testReturnsNothingIfNoCache()
-	{
-		$empty = $this->events->onApplicationBoot();
-		ob_end_clean();
+    public function testReturnsNothingIfNoCache()
+    {
+        $empty = $this->events->onApplicationBoot();
+        ob_end_clean();
 
-		$this->assertNull($empty);
-	}
+        $this->assertNull($empty);
+    }
 
-	public function testCanStoreCache()
-	{
-		$response = $this->mockResponse();
+    public function testCanStoreCache()
+    {
+        $response = $this->mockResponse();
 
-		// Pass the response
-		$this->events->onApplicationDone($response);
+        // Pass the response
+        $this->events->onApplicationDone($response);
 
-		// Assert response
-		$response = $this->flatten->getResponse();
-		$this->assertContains('foobar', $response->getContent());
-	}
+        // Assert response
+        $response = $this->flatten->getResponse();
+        $this->assertContains('foobar', $response->getContent());
+    }
 
-	public function testCancelIfRedirect()
-	{
-		$response = $this->mockResponse(false, true);
+    public function testCancelIfRedirect()
+    {
+        $response = $this->mockResponse(false, true);
 
-		$this->assertFalse($this->events->onApplicationDone($response));
-	}
+        $this->assertFalse($this->events->onApplicationDone($response));
+    }
 
-	public function testCancelIfNotFound()
-	{
-		$response = $this->mockResponse(true);
+    public function testCancelIfNotFound()
+    {
+        $response = $this->mockResponse(true);
 
-		$this->assertFalse($this->events->onApplicationDone($response));
-	}
+        $this->assertFalse($this->events->onApplicationDone($response));
+    }
 
-	public function testCancelIfServerError()
-	{
-		$response = $this->mockResponse(false, false, true);
+    public function testCancelIfServerError()
+    {
+        $response = $this->mockResponse(false, false, true);
 
-		$this->assertFalse($this->events->onApplicationDone($response));
-	}
+        $this->assertFalse($this->events->onApplicationDone($response));
+    }
 
-	public function testCancelIfForbidden()
-	{
-		$response = $this->mockResponse(false, false, false, true);
+    public function testCancelIfForbidden()
+    {
+        $response = $this->mockResponse(false, false, false, true);
 
-		$this->assertFalse($this->events->onApplicationDone($response));
-	}
+        $this->assertFalse($this->events->onApplicationDone($response));
+    }
 
-	/**
-	 * @param boolean $found
-	 * @param boolean $redirection
-	 * @param boolean $error
-	 * @param boolean $fobidden
-	 *
-	 * @return Mockery\MockInterface
-	 */
-	protected function mockResponse($found = false, $redirection = false, $error = false, $fobidden = false)
-	{
-		$response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
-		$response->shouldReceive('isNotFound')->once()->andReturn($found);
-		$response->shouldReceive('isRedirection')->once()->andReturn($redirection);
-		$response->shouldReceive('isServerError')->once()->andReturn($error);
-		$response->shouldReceive('isForbidden')->once()->andReturn($fobidden);
-		$response->shouldReceive('getContent')->once()->andReturn('foobar');
+    /**
+     * @param bool $found
+     * @param bool $redirection
+     * @param bool $error
+     * @param bool $fobidden
+     *
+     * @return Mockery\MockInterface
+     */
+    protected function mockResponse($found = false, $redirection = false, $error = false, $fobidden = false)
+    {
+        $response = Mockery::mock('Symfony\Component\HttpFoundation\Response');
+        $response->shouldReceive('isNotFound')->once()->andReturn($found);
+        $response->shouldReceive('isRedirection')->once()->andReturn($redirection);
+        $response->shouldReceive('isServerError')->once()->andReturn($error);
+        $response->shouldReceive('isForbidden')->once()->andReturn($fobidden);
+        $response->shouldReceive('getContent')->once()->andReturn('foobar');
 
-		return $response;
-	}
+        return $response;
+    }
 }
