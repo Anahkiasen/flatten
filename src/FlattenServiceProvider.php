@@ -3,11 +3,9 @@
 namespace Flatten;
 
 use Illuminate\Cache\CacheManager;
-use Illuminate\Config\FileLoader as ConfigLoader;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use Philf\Setting\Setting;
 
 /**
  * Register the Flatten package with the Laravel framework.
@@ -24,11 +22,11 @@ class FlattenServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom($this->configPath, 'flatten');
-
         // Bind core classes
         $this->createStorageFolder();
         $this->bindCoreClasses();
+
+        $this->mergeConfigFrom($this->configPath, 'flatten');
 
         // Regisger package
         $this->bindFlattenClasses();
@@ -43,15 +41,7 @@ class FlattenServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        return;
-        // Register templating methods
         $this->app['flatten.templating']->registerTags();
-
-        // Bind closing event
-        $app = $this->app;
-        $this->app->finish(function ($request, $response) use ($app) {
-            return $app['flatten']->end($response);
-        });
     }
 
     /**
@@ -80,12 +70,17 @@ class FlattenServiceProvider extends ServiceProvider
 
         // Bind config
         $this->app->bindIf('config', function ($app) {
-            $fileloader = new ConfigLoader($app['files'], __DIR__.'/../');
-            $config = new Repository($fileloader, 'config');
-            $config->set('cache.driver', 'file');
-            $config->set('cache.path', __DIR__.'/../../cache');
-
-            return $config;
+            return new Repository([
+                'cache' => [
+                    'default' => 'file',
+                    'stores'  => [
+                        'file' => [
+                            'driver' => 'file',
+                            'path'   => $app['path.storage'],
+                        ],
+                    ],
+                ],
+            ]);
         }, true);
 
         // Bind cache
@@ -137,7 +132,7 @@ class FlattenServiceProvider extends ServiceProvider
 
         // Bind paths
         if (!$this->app->bound('path.storage')) {
-            $storage = __DIR__.'/../../storage';
+            $storage                   = __DIR__.'/../cache';
             $this->app['path.storage'] = $storage;
         }
     }

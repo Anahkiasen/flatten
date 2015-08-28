@@ -31,8 +31,8 @@ class ContextTest extends FlattenTestCase
     public function testCanCheckIfPageShouldBeCached()
     {
         $this->app['config'] = $this->mockConfig([
-            'flatten::ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
-            'flatten::only' => ['^/maintainers/.+', 'package/.+'],
+            'flatten.ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
+            'flatten.only' => ['^/maintainers/.+', 'package/.+'],
         ]);
 
         $this->mockRequest('/');
@@ -66,8 +66,8 @@ class ContextTest extends FlattenTestCase
     public function testCanUncacheAllPagesWithOnly()
     {
         $this->app['config'] = $this->mockConfig([
-            'flatten::only' => ['foobar'],
-            'flatten::ignore' => [],
+            'flatten.only' => ['foobar'],
+            'flatten.ignore' => [],
         ]);
 
         $this->mockRequest('/');
@@ -86,8 +86,8 @@ class ContextTest extends FlattenTestCase
     public function testCanUncacheAllPagesWithIgnore()
     {
         $this->app['config'] = $this->mockConfig([
-            'flatten::only' => [],
-            'flatten::ignore' => ['.+'],
+            'flatten.only' => [],
+            'flatten.ignore' => ['.+'],
         ]);
 
         $this->mockRequest('/');
@@ -106,20 +106,20 @@ class ContextTest extends FlattenTestCase
     public function testCanCheckIfInAllowedEnvironment()
     {
         $this->app['config'] = $this->mockConfig();
-        $this->app['config']->shouldReceive('get')->with('flatten::enabled')->andReturn(true);
+        $this->app['config']->shouldReceive('get')->with('flatten.enabled')->andReturn(true);
         $this->assertTrue($this->context->isInAllowedEnvironment());
 
         $this->app['config'] = $this->mockConfig();
-        $this->app['config']->shouldReceive('get')->with('flatten::enabled')->andReturn(false);
+        $this->app['config']->shouldReceive('get')->with('flatten.enabled')->andReturn(false);
         $this->assertFalse($this->context->isInAllowedEnvironment());
     }
 
     public function testCanCheckIfShouldRun()
     {
         $this->app['config'] = $this->mockConfig([
-            'flatten::enabled' => false,
-            'flatten::ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
-            'flatten::only' => ['^/maintainers/.+', 'package/.+'],
+            'flatten.enabled' => false,
+            'flatten.ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
+            'flatten.only' => ['^/maintainers/.+', 'package/.+'],
         ]);
 
         $this->app['env'] = 'local';
@@ -127,9 +127,9 @@ class ContextTest extends FlattenTestCase
         $this->assertFalse($this->context->shouldRun());
 
         $this->app['config'] = $this->mockConfig([
-            'flatten::enabled' => true,
-            'flatten::ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
-            'flatten::only' => ['^/maintainers/.+', 'package/.+'],
+            'flatten.enabled' => true,
+            'flatten.ignore' => ['^/maintainer/anahkiasen', 'admin/.+'],
+            'flatten.only' => ['^/maintainers/.+', 'package/.+'],
         ]);
 
         $this->app['env'] = 'production';
@@ -141,15 +141,15 @@ class ContextTest extends FlattenTestCase
     {
         $_GET['foo'] = 'bar';
         $this->app['config'] = $this->mockConfig([
-            'flatten::enabled' => true,
-            'flatten::blockers' => [$_GET['foo'] === 'bar'],
+            'flatten.enabled' => true,
+            'flatten.blockers' => [$_GET['foo'] === 'bar'],
         ]);
         $this->assertTrue($this->context->shouldRun());
 
         $_GET['foo'] = 'baz';
         $this->app['config'] = $this->mockConfig([
-            'flatten::enabled' => true,
-            'flatten::blockers' => [$_GET['foo'] === 'bar'],
+            'flatten.enabled' => true,
+            'flatten.blockers' => [$_GET['foo'] === 'bar'],
         ]);
         $this->assertFalse($this->context->shouldRun());
     }

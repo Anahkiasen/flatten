@@ -2,7 +2,8 @@
 
 namespace Flatten;
 
-use Flatten\Facades\Flatten;
+use Flatten\Facades\Flatten as FlattenFacade;
+use Flatten\Flatten;
 use Flatten\TestCases\FlattenTestCase;
 
 class FlattenTest extends FlattenTestCase
@@ -15,7 +16,7 @@ class FlattenTest extends FlattenTestCase
     public function testCanComputeHashWithAdditionalSalts()
     {
         $this->app['config'] = $this->mockConfig([
-            'flatten::saltshaker' => ['fr'],
+            'flatten.saltshaker' => ['fr'],
         ]);
 
         $this->assertEquals('fr-GET-foobar', $this->flatten->computeHash('foobar'));
@@ -43,10 +44,10 @@ class FlattenTest extends FlattenTestCase
         $this->mockRequest('/maintainer/anahkiasen');
         $this->cache->storeCache('anahkiasen');
 
-        Flatten::setFacadeApplication($this->app);
+        FlattenFacade::setFacadeApplication($this->app);
 
         $this->assertTrue($this->app['cache']->has('GET-/maintainer/anahkiasen'));
-        Flatten::flushPattern('#maintainer/.+#');
+        FlattenFacade::flushPattern('#maintainer/.+#');
         $this->assertFalse($this->app['cache']->has('GET-/maintainer/anahkiasen'));
     }
 
@@ -57,7 +58,7 @@ class FlattenTest extends FlattenTestCase
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/foobar';
-        $filename = \Flatten\Flatten::getKickstartPath();
+        $filename = Flatten::getKickstartPath();
 
         $this->assertContains('cache/69/cc/69ccdba817c2fb3cdade9450a36b273e', $filename);
     }
@@ -70,7 +71,7 @@ class FlattenTest extends FlattenTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/foobar';
         $_SERVER['QUERY_STRING'] = 'foo=bar';
-        $filename = \Flatten\Flatten::getKickstartPath();
+        $filename = Flatten::getKickstartPath();
 
         $this->assertContains('cache/13/1c/131cc1c3ea11da7e1643b2aaac262a6b', $filename);
     }

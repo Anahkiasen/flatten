@@ -71,10 +71,10 @@ abstract class FlattenTestCase extends PHPUnit_Framework_TestCase
     {
         $config = Mockery::mock('Config');
         $defaults = [
-            'flatten::saltshaker' => [],
-            'flatten::only' => [],
-            'flatten::ignore' => [],
-            'flatten::blockers' => [],
+            'flatten.saltshaker' => [],
+            'flatten.only' => [],
+            'flatten.ignore' => [],
+            'flatten.blockers' => [],
         ];
 
         // Merge defaults and set expectations

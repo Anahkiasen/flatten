@@ -43,15 +43,19 @@ class Metadata
     }
 
     /**
+     * Clear the metadata cache
+     */
+    public function clear()
+    {
+        file_put_contents($this->getFilepath(), '{}');
+    }
+
+    /**
      * @return array|string
      */
     protected function getMetadata()
     {
         $filepath = $this->getFilepath();
-        if (!file_exists($filepath)) {
-            file_put_contents($filepath, '{}');
-        }
-
         $contents = file_get_contents($filepath);
         $contents = json_decode($contents, true) ?: [];
 
@@ -73,6 +77,13 @@ class Metadata
     protected function getFilepath()
     {
         $filepath = $this->directory.DIRECTORY_SEPARATOR.'flatten.json';
+        if (!is_dir($filepath)) {
+
+        }
+
+        if (!file_exists($filepath)) {
+            file_put_contents($filepath, '{}');
+        }
 
         return $filepath;
     }

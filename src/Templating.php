@@ -36,7 +36,7 @@ class Templating
      */
     public function registerTags()
     {
-        //$this->registerBlade();
+        $this->registerBlade();
     }
 
     /**
@@ -46,17 +46,15 @@ class Templating
     {
         // Extend Blade
         $blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
-        $blade->extend(function ($view, $blade) {
 
-            // Replace opener
-            $pattern = $blade->createOpenMatcher('cache');
-            $replace = '<?php echo Flatten\Facades\flatten.section$2, function() { ?>';
-            $view = preg_replace($pattern, $replace, $view);
+        $blade->directive('cache', function($expression) {
+            $expression = rtrim($expression, ')');
+            
+           return '<?php echo Flatten\\Facades\\Flatten::section' .$expression. ', function() { ?>';
+        });
 
-            // Replace closing tag
-            $view = str_replace('@endcache', '<?php }); ?>', $view);
-
-            return $view;
+        $blade->directive('endcache', function() {
+            return '<?php }); ?>';
         });
     }
 
