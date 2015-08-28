@@ -49,7 +49,7 @@ class Templating
 
         $blade->directive('cache', function($expression) {
             $expression = rtrim($expression, ')');
-            
+
            return '<?php echo Flatten\\Facades\\Flatten::section' .$expression. ', function() { ?>';
         });
 

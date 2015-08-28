@@ -13,11 +13,6 @@ use Illuminate\Support\ServiceProvider;
 class FlattenServiceProvider extends ServiceProvider
 {
     /**
-     * @var string
-     */
-    protected $configPath = __DIR__.'/../config/flatten.php';
-
-    /**
      * Register Flatten's classes with Laravel.
      */
     public function register()
@@ -26,7 +21,7 @@ class FlattenServiceProvider extends ServiceProvider
         $this->createStorageFolder();
         $this->bindCoreClasses();
 
-        $this->mergeConfigFrom($this->configPath, 'flatten');
+        $this->mergeConfigFrom(__DIR__.'/../config/flatten.php', 'flatten');
 
         // Regisger package
         $this->bindFlattenClasses();
