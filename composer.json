@@ -1,44 +1,48 @@
 {
-  "name": "anahkiasen/flatten",
-  "description": "A package for the Illuminate framework that flattens pages to plain HTML",
-  "license": "MIT",
-  "keywords": [
-    "cache",
-    "performance",
-    "laravel"
-  ],
-  "authors": [
-    {
-      "name": "Maxime Fabre",
-      "email": "ehtnam6@gmail.com"
+    "name": "anahkiasen/flatten",
+    "description": "A package for the Illuminate framework that flattens pages to plain HTML",
+    "license": "MIT",
+    "keywords": [
+        "cache",
+        "performance",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "Maxime Fabre",
+            "email": "ehtnam6@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/container": "5.*",
+        "illuminate/support": "5.*",
+        "illuminate/cache": "5.*",
+        "illuminate/config": "5.*",
+        "illuminate/http": "5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "mockery/mockery": "^0.9.4",
+        "illuminate/view": "5.*",
+        "fabpot/php-cs-fixer": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flatten\\": "src/Flatten"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flatten\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "php-cs-fixer fix"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.0-dev"
+        }
     }
-  ],
-  "require": {
-    "illuminate/container": "5.*",
-    "illuminate/support": "5.*",
-    "illuminate/cache": "5.*",
-    "illuminate/config": "5.*",
-    "illuminate/http": "5.*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^4.8",
-    "mockery/mockery": "^0.9.4",
-    "illuminate/view": "5.*",
-    "fabpot/php-cs-fixer": "^1.10"
-  },
-  "autoload": {
-    "psr-4": {
-      "Flatten\\": "src/Flatten"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Flatten\\": "tests"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "1.0-dev"
-    }
-  }
 }
