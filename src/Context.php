@@ -51,7 +51,7 @@ class Context
         }
 
         // If any of the blockers are active, cancel
-        $blockers = $this->app['config']->get('flatten::blockers');
+        $blockers = $this->app['config']->get('flatten.blockers');
         if (count($blockers) !== count(array_filter($blockers))) {
             return false;
         }
@@ -72,8 +72,8 @@ class Context
         }
 
         // Get pages to cache
-        $only = (array) $this->app['config']->get('flatten::only');
-        $ignored = (array) $this->app['config']->get('flatten::ignore');
+        $only = (array) $this->app['config']->get('flatten.only');
+        $ignored = (array) $this->app['config']->get('flatten.ignore');
         $cache = false;
 
         // Ignore and only
@@ -99,7 +99,7 @@ class Context
     public function isInAllowedEnvironment()
     {
         // Get allowed environments
-        $allowed = (boolean) $this->app['config']->get('flatten::enabled');
+        $allowed = (boolean) $this->app['config']->get('flatten.enabled');
 
         return !$this->inConsole && $allowed;
     }

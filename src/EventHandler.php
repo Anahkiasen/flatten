@@ -2,6 +2,7 @@
 
 namespace Flatten;
 
+use Illuminate\Contracts\Container\Container;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -21,7 +22,7 @@ class EventHandler
      *
      * @param Container $app
      */
-    public function __construct($app)
+    public function __construct(Container $app)
     {
         $this->app = $app;
     }

@@ -15,16 +15,22 @@ use Philf\Setting\Setting;
 class FlattenServiceProvider extends ServiceProvider
 {
     /**
+     * @var string
+     */
+    protected $configPath = __DIR__.'/../config/flatten.php';
+
+    /**
      * Register Flatten's classes with Laravel.
      */
     public function register()
     {
+        $this->mergeConfigFrom($this->configPath, 'flatten');
+
         // Bind core classes
         $this->createStorageFolder();
         $this->bindCoreClasses();
 
         // Regisger package
-        $this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
         $this->bindFlattenClasses();
 
         if ($this->app->bound('artisan')) {
@@ -37,16 +43,9 @@ class FlattenServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        return;
         // Register templating methods
         $this->app['flatten.templating']->registerTags();
-
-        // Cancel if Flatten shouldn't run here
-        if (!$this->app['flatten.context']->shouldRun()) {
-            return false;
-        }
-
-        // Launch startup event
-        $this->app['flatten']->start();
 
         // Bind closing event
         $app = $this->app;
@@ -125,7 +124,7 @@ class FlattenServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('flatten.storage', function ($app) {
-            return new Setting($app['path.storage'].'/meta', 'flatten.json');
+            return new Metadata($app['path.storage']);
         });
     }
 

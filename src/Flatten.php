@@ -39,7 +39,7 @@ class Flatten
     {
         $class = $this;
 
-        // Go through the class Flatten decorates
+        // Go through the classes Flatten decorates
         $decorators = ['cache', 'templating'];
         foreach ($decorators as $decorator) {
             $decorator = $this->app['flatten.'.$decorator];
@@ -64,9 +64,7 @@ class Flatten
      */
     public function start()
     {
-        if ($this->app['flatten.context']->shouldRun()) {
-            return $this->app['flatten.events']->onApplicationBoot();
-        }
+        return $this->app['flatten.events']->onApplicationBoot();
     }
 
     /**
@@ -195,7 +193,7 @@ class Flatten
         }
 
         // Add additional salts
-        $salts = $this->app['config']->get('flatten::saltshaker');
+        $salts = $this->app['config']->get('flatten.saltshaker');
 
         // Add method and page
         $salts[] = $this->app['request']->getMethod();
