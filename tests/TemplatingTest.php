@@ -69,7 +69,7 @@ class TemplatingTest extends FlattenTestCase
     public function testCanCompileBladeTags()
     {
         // Bind ViewProvider
-        $this->app['events'] = Mockery::mock('Illuminate\Events\Dispatcher');
+        $this->app['events'] = Mockery::mock('Illuminate\Contracts\Events\Dispatcher');
         $this->app['config']->set('view.paths', ['views']);
         $viewProvider = new ViewServiceProvider($this->app);
         $viewProvider->registerEngineResolver();
