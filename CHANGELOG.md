@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.0 - 2015-09-09
+
+### Changed
+- Updated for Laravel 5.0 and 5.1
+
 ## 0.5.1 - 2014-11-21
 
 ### Fixed
@@ -22,7 +27,7 @@
 
 ## 0.4.0 - 2013-08-25
 
-## Added
+### Added
 - Added `Flatten::kickstart` method
 - Added ability to disable Flatten on certain conditions (see `blockers` in config)
 
