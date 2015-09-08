@@ -3,8 +3,9 @@ namespace Flatten;
 
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
+use Illuminate\Contracts\Routing\TerminableMiddleware;
 
-class FlattenMiddleware implements Middleware
+class FlattenMiddleware implements TerminableMiddleware
 {
     /**
      * @var Context
@@ -42,7 +43,9 @@ class FlattenMiddleware implements Middleware
         }
 
         // Launch startup event
-        $this->events->onApplicationBoot();
+        if ($response = $this->events->onApplicationBoot()) {
+            return $response;
+        }
 
         return $next($request);
     }
