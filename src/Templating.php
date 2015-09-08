@@ -46,6 +46,9 @@ class Templating
     {
         // Extend Blade
         $blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
+        if (!method_exists($blade, 'directive')) {
+            return;
+        }
 
         $blade->directive('cache', function($expression) {
             $expression = rtrim($expression, ')');
