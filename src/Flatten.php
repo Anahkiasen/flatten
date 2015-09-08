@@ -96,7 +96,7 @@ class Flatten
         $filename = static::getKickstartPath(func_get_args());
 
         // If we have a cache for it, unserialize it and output it
-        if (file_exists($filename)) {
+        if ($filename && file_exists($filename)) {
             $contents = file_get_contents($filename);
             exit(unserialize(substr($contents, 10)));
         }
@@ -141,7 +141,7 @@ class Flatten
             return $filename;
         }
 
-        return [];
+        return;
     }
 
     ////////////////////////////////////////////////////////////////////
