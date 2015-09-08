@@ -81,7 +81,9 @@ class TemplatingTest extends FlattenTestCase
         }
 
         // Register tags
-        $this->app['flatten.templating']->registerTags();
+        if (!$this->app['flatten.templating']->registerTags()) {
+            $this->markTestSkipped('Blade directives not supported on 5.0');
+        }
 
         $blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
         $this->assertEquals("<?php echo Flatten\Facades\\Flatten::section('section', 512, function() { ?>", $blade->compileString("@cache('section', 512)"));
