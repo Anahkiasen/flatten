@@ -101,7 +101,8 @@ class FlattenServiceProvider extends ServiceProvider
      */
     protected function bindFlattenClasses()
     {
-        $this->app->bind('flatten', function ($app) {
+        $this->app->alias('Flatten\Flatten', 'flatten');
+        $this->app->bind('Flatten\Flatten', function ($app) {
             return new Flatten($app);
         });
 
@@ -121,7 +122,8 @@ class FlattenServiceProvider extends ServiceProvider
             return new Templating($app);
         });
 
-        $this->app->singleton('flatten.cache', function ($app) {
+        $this->app->alias('Flatten\CacheHandler', 'flatten.cache');
+        $this->app->singleton('Flatten\CacheHandler', function ($app) {
             return new CacheHandler($app, $app['flatten']->computeHash());
         });
 
