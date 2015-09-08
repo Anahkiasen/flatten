@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## 0.1.0 - 2015-09-09
+## 1.0.1 - 2015-09-09
+
+### Fixed
+- Fixed issue with Kickstart in CLI context
+
+## 1.0.0 - 2015-09-09
 
 ### Changed
 - Updated for Laravel 5.0 and 5.1
