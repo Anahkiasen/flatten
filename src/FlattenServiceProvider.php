@@ -126,7 +126,11 @@ class FlattenServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('flatten.storage', function ($app) {
-            return new Metadata($app['path.storage'].DIRECTORY_SEPARATOR.'app');
+            $storage = $app['path.storage'];
+            $frameworkPath = $storage.DIRECTORY_SEPARATOR.'app';
+            $path = is_dir($frameworkPath) ? $frameworkPath : $storage;
+
+            return new Metadata($path);
         });
     }
 
