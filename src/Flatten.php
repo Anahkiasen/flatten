@@ -118,6 +118,7 @@ class Flatten
         $possible = [
             __DIR__.'/../../../../storage/framework/cache',
             __DIR__.'/../../storage/cache',
+            __DIR__.'/../cache',
         ];
 
         $storage = null;
@@ -140,7 +141,7 @@ class Flatten
             return $filename;
         }
 
-        return;
+        return [];
     }
 
     ////////////////////////////////////////////////////////////////////
