@@ -112,18 +112,22 @@ class Flatten
     public static function getKickstartPath($salts = [])
     {
         // Get the salts
-        $salts = $salts ? implode('-', $salts).'-' : null;
+        $salts = $salts ? implode('-', $salts) : null;
 
         // Get storage path
-        $paths = __DIR__.'/../../../../../bootstrap/paths.php';
-        if (file_exists($paths)) {
-            $storage = include $paths;
-            $storage = $storage['storage'];
-        } else {
-            $storage = __DIR__.'/../../storage';
+        $possible = [
+            __DIR__.'/../../../../storage/framework/cache',
+            __DIR__.'/../../storage/cache',
+        ];
+
+        $storage = null;
+        foreach ($possible as $path) {
+            if (is_dir($path)) {
+                $storage = realpath($path);
+            }
         }
 
-        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($storage && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
             // Compute cache path
             $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
             $key = $salts.'GET-'.$_SERVER['REQUEST_URI'];
@@ -131,7 +135,7 @@ class Flatten
 
             // Hash and get path
             $parts = array_slice(str_split($hash = md5($key), 2), 0, 2);
-            $filename = $storage.'/cache/'.implode('/', $parts).'/'.$hash;
+            $filename = $storage.'/'.implode('/', $parts).'/'.$hash;
 
             return $filename;
         }
