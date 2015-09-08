@@ -26,7 +26,7 @@ class FlattenServiceProvider extends ServiceProvider
         // Regisger package
         $this->bindFlattenClasses();
 
-        if ($this->app->bound('artisan')) {
+        if ($this->app->bound('events')) {
             $this->commands('flatten.commands.build');
         }
     }

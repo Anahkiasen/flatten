@@ -5,8 +5,9 @@ namespace Flatten\Crawler;
 use DOMElement;
 use Exception;
 use Illuminate\Container\Container;
-use Illuminate\Foundation\Testing\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -21,13 +22,6 @@ class Crawler
     protected $app;
 
     /**
-     * The HttpKernel client instance.
-     *
-     * @var Client
-     */
-    protected $client;
-
-    /**
      * @var OutputInterface
      */
     protected $output;
@@ -38,7 +32,7 @@ class Crawler
      * @var array
      */
     protected $queue = [
-        '/' => false,
+        '/' => true,
     ];
 
     /**
@@ -75,10 +69,9 @@ class Crawler
         $this->app = $app;
 
         // Prepare output
-        $this->output = $output;
+        $this->output = $output ?: new NullOutput();
 
         // Create Client
-        $this->client = new Client($kernel);
         $this->root = $root ?: $this->app['config']->get('app.url');
     }
 
@@ -93,7 +86,7 @@ class Crawler
      */
     public function crawlPages()
     {
-        $pages = array_keys($this->queue);
+        $pages = array_keys(array_filter($this->queue));
 
         foreach ($pages as $key => $page) {
             if (in_array($page, $this->crawled, true)) {
@@ -125,6 +118,7 @@ class Crawler
     {
         // Mark page as crawled
         $this->crawled[] = $page;
+        $this->queue[$page] = false;
 
         try {
             if (!$crawler = $this->getPage($page)) {
@@ -145,7 +139,7 @@ class Crawler
      */
     protected function hasPagesToCrawl()
     {
-        return !empty($this->queue);
+        return !empty(array_filter($this->queue));
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -177,7 +171,7 @@ class Crawler
 
         // If the page wasn't crawled yet, crawl it
         if (!in_array($link, $this->crawled, true)) {
-            $this->queue[$link] = false;
+            $this->queue[$link] = true;
         }
     }
 
@@ -205,8 +199,8 @@ class Crawler
         $url = str_replace($this->root, null, $url);
 
         // Call page
-        $this->client->request('GET', $url);
-        $response = $this->client->getResponse();
+        $request = Request::create($url, 'GET');
+        $response = $this->app->make('Illuminate\Contracts\Http\Kernel')->handle($request);
 
         if (!$response->isOk()) {
             return $this->error('Page at "'.$url.'" could not be reached');
@@ -218,14 +212,9 @@ class Crawler
         $content = str_replace($this->app['url']->to('/'), $this->root, $content);
         $content = utf8_decode($content);
 
-        // Build message
-        $status = $this->app['flatten.context']->shouldCachePage() ? 'Cached' : 'Left uncached';
-        $current = (count($this->queue) - $this->current);
-        $padding = str_repeat(' ', 70 - strlen($url) - strlen($status));
-
         // Display message
-        $message = $status.' <info>%s</info>%s<comment>(%s in queue)</comment>';
-        $this->output->writeln(sprintf($message, $url, $padding, $current));
+        $status = $this->app['flatten.context']->shouldCachePage() ? 'Cached' : 'Left uncached';
+        $this->output->writeln($status.' <info>' .$url. '</info>');
 
         // Cache page
         if ($this->app['flatten.context']->shouldCachePage()) {
