@@ -21,39 +21,18 @@ Flatten installs just like any other package, via Composer : `composer require a
 Then if you're using Laravel, add Flatten's Service Provider to you `config/app.php` file :
 
 ```php
-'Flatten\FlattenServiceProvider',
+Flatten\FlattenServiceProvider::class,
 ```
 
 And its facade :
 
 ```php
-'Flatten' => 'Flatten\Facades\Flatten',
+'Flatten' => Flatten\Facades\Flatten::class,
 ```
 
 ### Configuration
 
-All the options are explained in the **config.php** configuration file. You can publish it via `artisan config:publish anahkiasen/flatten`.
-
-Here is a preview of the configuration options available in said file :
-
-```php
-// The default period during which a cached page should be kept (in minutes)
-// 0 means the page never gets refreshed by itself
-'lifetime'     => 0,
-
-// The different pages to be ignored when caching
-// They're all regexes so go crazy
-'ignore'       => array(),
-
-// List only specific pages to cache, useful if you have a lot of
-// pages you don't want to see cached
-// The ignored pages will still be substracted from this array
-'only'         => array(),
-
-// An array of string or variables to add to the salt being used
-// to differentiate pages
-'saltshaker'   => array(),
-```
+All the options are explained in the **config.php** configuration file. You can publish it via `artisan vendor:publish`.
 
 ## Usage
 
@@ -82,6 +61,27 @@ Flatten::flushAction('UsersController@user', 'taylorotwell');
 
 // Flushing template sections (see below)
 Flatten::flushSection('articles');
+```
+
+You can also directly inject the responsible class, in a model observer class per example:
+
+```php
+use Flatten\CacheHandler;
+
+class UserObserver
+{
+    protected $cache;
+
+    public function __construct(CacheHandler $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    public function saved(User $user)
+    {
+        $this->cache->flushRoute('users.show', $user->id);
+    }
+}
 ```
 
 ### Runtime caching
