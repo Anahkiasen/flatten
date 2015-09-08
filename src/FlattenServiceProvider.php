@@ -21,7 +21,7 @@ class FlattenServiceProvider extends ServiceProvider
         $this->createStorageFolder();
         $this->bindCoreClasses();
 
-        $this->mergeConfigFrom(__DIR__.'/../config/flatten.php', 'flatten');
+        $this->mergeConfigFrom($this->getConfigurationPath(), 'flatten');
 
         // Regisger package
         $this->bindFlattenClasses();
@@ -36,7 +36,19 @@ class FlattenServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+           $this->getConfigurationPath() => config_path('flatten.php')
+        ]);
+
         $this->app['flatten.templating']->registerTags();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getConfigurationPath()
+    {
+        return  __DIR__.'/../config/flatten.php';
     }
 
     /**
