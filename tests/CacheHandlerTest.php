@@ -121,4 +121,49 @@ class CacheHandlerTest extends FlattenTestCase
         $this->cache->flushAction('MaintainersController@maintainer', 'anahkiasen');
         $this->assertFalse($this->app['cache']->has('GET-/maintainer/anahkiasen'));
     }
+
+    public function testCanMinifyHtmlContent()
+    {
+        $this->app['config']->set('flatten.minify', true);
+
+        $content = <<<EOF
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .foo {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <pre>
+            var foo = '
+                bar';
+        </pre>
+    </main>
+
+    <script>
+        var foo = 'foo';
+        var bar = 'bar';
+    </script>
+</body>
+</html>
+EOF;
+
+        $expected =
+            '<!doctype html><html
+lang="en"><head><meta
+charset="UTF-8"><title>Document</title><style>.foo{background:red}</style></head><body>
+<main><pre>
+            var foo = \'
+                bar\';
+        </pre></main> <script>var foo=\'foo\',bar=\'bar\'</script> </body></html>';
+
+        $this->cache->storeCache($content);
+        $this->assertEquals($expected, $this->cache->getCache());
+    }
 }

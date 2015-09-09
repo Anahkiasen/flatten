@@ -7,6 +7,7 @@ CHANGELOG
 ### Added
 
 - Added ability to disable cache timestamp
+- Added ability to minify output before caching it
 
 1.0.2 - 2015-09-09
 ------------------

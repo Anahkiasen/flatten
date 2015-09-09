@@ -3,6 +3,7 @@
 namespace Flatten;
 
 use Illuminate\Container\Container;
+use Minify_HTML;
 
 /**
  * Handles the caches of the various pages.
@@ -81,14 +82,31 @@ class CacheHandler
         $cached = array_merge($this->getCachedPages(), [$this->hash]);
         $this->app['flatten.storage']->set('cached', $cached);
 
+        return $this->app['cache']->put(
+            $this->hash, $this->formatContent($content), $this->getLifetime()
+        );
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return string
+     */
+    protected function formatContent($content)
+    {
         // Add timestamp to cache
         if ($this->app['config']->get('flatten.timestamp')) {
             $content .= PHP_EOL.'<!-- cached on '.date('Y-m-d H:i:s').' -->';
         }
 
-        return $this->app['cache']->put(
-            $this->hash, $content, $this->getLifetime()
-        );
+        if ($this->app['config']->get('flatten.minify')) {
+            $content = Minify_HTML::minify($content, [
+                'jsMinifier' => ['JSMinPlus', 'minify'],
+                'cssMinifier' => ['Minify_CSS', 'minify'],
+            ]);
+        }
+
+        return $content;
     }
 
     ////////////////////////////////////////////////////////////////////
