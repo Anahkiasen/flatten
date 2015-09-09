@@ -26,6 +26,15 @@ class CacheHandlerTest extends FlattenTestCase
         $this->assertContains('foobar', $this->cache->getCache());
     }
 
+    public function testCanDisableTimestamp()
+    {
+        $this->config->set('flatten.timestamp', false);
+
+        $this->cache->storeCache('foobar');
+
+        $this->assertEquals('foobar', $this->app['cache']->get($this->cache->getHash()));
+    }
+
     public function testCanFlushSpecificPatterns()
     {
         $this->mockRequest('/maintainers');

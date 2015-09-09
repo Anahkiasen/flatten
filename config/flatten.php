@@ -27,6 +27,10 @@ return [
     // Cache variables
     ////////////////////////////////////////////////////////////////////
 
+    // Whether to append a timestamp comment on cached pages
+    // eg. <!-- Cached on 2015-09-09 01:01:01 -->
+    'timestamp' => true,
+
     // The default period during which a cached page should be kept (in minutes)
     // 0 means the page never gets refreshed by itself
     'lifetime' => 0,

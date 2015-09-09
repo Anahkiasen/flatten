@@ -82,7 +82,9 @@ class CacheHandler
         $this->app['flatten.storage']->set('cached', $cached);
 
         // Add timestamp to cache
-        $content .= PHP_EOL.'<!-- cached on '.date('Y-m-d H:i:s').' -->';
+        if ($this->app['config']->get('flatten.timestamp')) {
+            $content .= PHP_EOL.'<!-- cached on '.date('Y-m-d H:i:s').' -->';
+        }
 
         return $this->app['cache']->put(
             $this->hash, $content, $this->getLifetime()

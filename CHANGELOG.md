@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.1.0 - 2015-XX-XX
+------------------
+
+### Added
+
+- Added ability to disable cache timestamp
+
 1.0.2 - 2015-09-09
 ------------------
 
