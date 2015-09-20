@@ -1,13 +1,17 @@
 CHANGELOG
 =========
 
-1.1.0 - 2015-XX-XX
+1.1.0 - 2015-09-20
 ------------------
 
 ### Added
 
-- Added ability to disable cache timestamp
-- Added ability to minify output before caching it
+-	Added ability to disable cache timestamp
+-	Added ability to minify output before caching it
+
+### Fixed
+
+-	Fixed issue with Kickstart continuing to look for path even when found
 
 1.0.2 - 2015-09-09
 ------------------
