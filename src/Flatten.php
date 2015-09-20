@@ -125,6 +125,7 @@ class Flatten
         foreach ($possible as $path) {
             if (is_dir($path)) {
                 $storage = realpath($path);
+                break;
             }
         }
 
