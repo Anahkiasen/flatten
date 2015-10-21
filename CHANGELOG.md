@@ -1,114 +1,121 @@
 CHANGELOG
 =========
 
+1.1.1 - 2015-10-21
+------------------
+
+### Fixed
+
+- Fixed issue with `enabled` option not working in some contexts
+
 1.1.0 - 2015-09-20
 ------------------
 
 ### Added
 
--	Added ability to disable cache timestamp
--	Added ability to minify output before caching it
+- Added ability to disable cache timestamp
+- Added ability to minify output before caching it
 
 ### Fixed
 
--	Fixed issue with Kickstart continuing to look for path even when found
+- Fixed issue with Kickstart continuing to look for path even when found
 
 1.0.2 - 2015-09-09
 ------------------
 
 ### Fixed
 
--	Fixed invalid `illuminate/contracts` constraint for Laravel 5.0
+- Fixed invalid `illuminate/contracts` constraint for Laravel 5.0
 
 1.0.1 - 2015-09-09
 ------------------
 
 ### Fixed
 
--	Fixed issue with Kickstart in CLI context
+- Fixed issue with Kickstart in CLI context
 
 1.0.0 - 2015-09-09
 ------------------
 
 ### Changed
 
--	Updated for Laravel 5.0 and 5.1
+- Updated for Laravel 5.0 and 5.1
 
 0.5.1 - 2014-11-21
 ------------------
 
 ### Fixed
 
--	Fixed `enabled` option
+- Fixed `enabled` option
 
 0.5.0 - 2014-10-26
 ------------------
 
 ### Changed
 
--	Environment managing is now done via an `enabled` option
+- Environment managing is now done via an `enabled` option
 
 0.4.2 - 2014-09-15
 ------------------
 
 ### Fixed
 
--	Do not cache error pages
+- Do not cache error pages
 
 0.4.1 - 2013-10-19
 ------------------
 
 ### Fixed
 
--	Disabled cache on various instances
+- Disabled cache on various instances
 
 0.4.0 - 2013-08-25
 ------------------
 
 ### Added
 
--	Added `Flatten::kickstart` method
--	Added ability to disable Flatten on certain conditions (see `blockers` in config)
+- Added `Flatten::kickstart` method
+- Added ability to disable Flatten on certain conditions (see `blockers` in config)
 
 ### Changed
 
--	Query strings are now taken into account by default
+- Query strings are now taken into account by default
 
 0.3.0 - 2013-08-23
 ------------------
 
 ### Added
 
--	Added support for caching sections of pages
+- Added support for caching sections of pages
 
 ### Fixed
 
--	Fix 0 lifetime not being considered infinite
+- Fix 0 lifetime not being considered infinite
 
 0.2.2 - 2013-08-18
 ------------------
 
 ### Fixed
 
--	Fix inverted `inConsole` variable
+- Fix inverted `inConsole` variable
 
 0.2.1 - 2013-08-18
 ------------------
 
 ### Fixed
 
--	Small bugfixes
+- Small bugfixes
 
 0.2.0 - 2013-08-18
 ------------------
 
 ### Added
 
--	Allow the flushing of specific patterns, URLs, routes and actions
+- Allow the flushing of specific patterns, URLs, routes and actions
 
 0.1.0 - 2013-08-18
 ------------------
 
 ### Added
 
--	Initial release
+- Initial release

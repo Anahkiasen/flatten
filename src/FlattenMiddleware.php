@@ -56,7 +56,9 @@ class FlattenMiddleware implements TerminableMiddleware
      */
     public function terminate($request, $response)
     {
-        $this->events->onApplicationDone($response);
+        if ($this->context->shouldRun()) {
+            $this->events->onApplicationDone($response);
+        }
     }
 }
 
