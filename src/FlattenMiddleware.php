@@ -2,8 +2,6 @@
 namespace Flatten;
 
 use Closure;
-use Illuminate\Contracts\Routing\Middleware;
-use Illuminate\Contracts\Routing\TerminableMiddleware;
 
 class FlattenMiddleware
 {
